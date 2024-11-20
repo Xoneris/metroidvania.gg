@@ -8,21 +8,20 @@ export default function Home({ auth }: PageProps) {
             <Head title="Home" />
 
             <Layout>
-                <div className="bg-[#111111]">
-                    Banner
-                </div>
-                
-                <div>
-                    <h1>Coming Soon</h1>
-                    <hr/>
+                <div className="max-w-[1920px] m-auto flex flex-col">
+                    <div className="bg-[#111111]">
+                        Banner
+                    </div>
+                    
                     <div>
-                        Thumbnail Carousel
+                        <h1>Coming Soon</h1>
+                        <hr/>
+                        <div>
+                            Thumbnail Carousel
+                        </div>
                     </div>
                 </div>
-                
             </Layout>
-
-
         </>
     );
 }

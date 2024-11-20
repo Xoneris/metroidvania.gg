@@ -1,21 +1,17 @@
 import { PropsWithChildren } from "react";
 
+import Footer from "./Components/Footer";
+import Header from "./Components/Header";
 
 export default function Layout({children}: PropsWithChildren) {
 
     return (
         <div className="flex flex-col min-h-screen">
-            <header className="bg-mainDark border-b border-mainOrange">
-                Navigation
-            </header>
-
+            <Header/>
             <main className="grow bg-[#eeeeee]">
                 {children}
             </main>
-
-            <footer className="bg-mainDark">
-                Footer
-            </footer>
+            <Footer/>
         </div>
     )
 }
