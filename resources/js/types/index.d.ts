@@ -12,17 +12,17 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
 };
 
 
-export interface Game {
+export interface GameData {
     id: number,
     name: string,
     slug: string,
     developer: string,
     publisher: string,
     release_window: string|null,
-    release_date: string|null,
+    release_date: string,
     description: string,
-    demo: boolean,
-    early_access: boolean,
+    demo: boolean|number,
+    early_access: boolean|number,
     kickstarter_page: string|null,
     kickstarter_status: string|null,
     trailer: string,

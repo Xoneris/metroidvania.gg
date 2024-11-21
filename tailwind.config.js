@@ -19,6 +19,10 @@ export default {
                 mainOrange: "#dd8500",
                 mainDark: "#0b0b0b",
                 secondaryDark: "#111111",
+            },
+            boxShadow: {
+                gameThumbnailShadow: "5px 5px 5px black",
+                homePageHeroShadow: "0 0 5px 1px #dd8500",
             }
         },
     },

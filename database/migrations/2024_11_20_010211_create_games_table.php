@@ -37,7 +37,7 @@ return new class extends Migration
             $table->string('youtube')->nullable();
             $table->string('kickstarter_page')->nullable();
             $table->string('discord')->nullable();
-            $table->date('release_date')->nullable()->default(NULL);
+            $table->date('release_date')->nullable();
             $table->string('kickstarter_status')->nullable();
         });
     }

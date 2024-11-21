@@ -20,3 +20,6 @@ yarn-error.log
 
 #thumbnails
 /public/assets/thumbnails
+
+#db insert
+insert.sql

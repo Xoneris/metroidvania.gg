@@ -6,6 +6,7 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
+import Layout from '@/Layouts/Layout';
 
 export default function Login({ status, canResetPassword }: { status?: string, canResetPassword: boolean }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -27,7 +28,7 @@ export default function Login({ status, canResetPassword }: { status?: string, c
     };
 
     return (
-        <GuestLayout>
+        <Layout>
             <Head title="Log in" />
 
             {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
@@ -92,6 +93,6 @@ export default function Login({ status, canResetPassword }: { status?: string, c
                     </PrimaryButton>
                 </div>
             </form>
-        </GuestLayout>
+        </Layout>
     );
 }
