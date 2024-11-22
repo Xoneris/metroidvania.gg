@@ -16,7 +16,6 @@ export default function Home(
         releasingIn2025,
         releasingInTBD,
         lastAddedGames,
-        kelyDEV,
     }
     :
     { 
@@ -30,7 +29,6 @@ export default function Home(
         releasingIn2025: GameData[],
         releasingInTBD: GameData[],
         lastAddedGames: GameData[],
-        kelyDEV: string,
     }
 
 ) {

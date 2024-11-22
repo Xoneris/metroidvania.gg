@@ -3,7 +3,7 @@ import Logo from "../../../assets/Logo.png"
 export default function Footer() {
 
     return (
-        <footer className="bg-secondaryDark text-white ">
+        <footer className="bg-secondaryDark text-white border-t border-mainOrange">
             <div className="max-w-[1920px] m-auto flex flex-row flex-wrap py-3">
                 <div className="w-full md:w-1/2 lg:w-1/4 flex justify-center">
                     {/* <Image src="../../assets/Logo.png" alt="Logo" width={100} heigth={100} />  */}

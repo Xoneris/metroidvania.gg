@@ -9,6 +9,7 @@ import { Head, Link, useForm } from '@inertiajs/react';
 import Layout from '@/Layouts/Layout';
 
 export default function Login({ status, canResetPassword }: { status?: string, canResetPassword: boolean }) {
+    
     const { data, setData, post, processing, errors, reset } = useForm({
         email: '',
         password: '',
@@ -24,7 +25,7 @@ export default function Login({ status, canResetPassword }: { status?: string, c
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        post(route('login'));
+        post(route('Login'));
     };
 
     return (

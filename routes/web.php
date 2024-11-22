@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Games;
+use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -226,7 +229,6 @@ Route::get('/Released', function () {
 
     return Inertia::render('Released', [
         'games' => $releasedGames,
-        'title' => 'Change this',
     ]);
 });
 
@@ -242,15 +244,26 @@ Route::get('/Login', function () {
     return Inertia::render('Auth/Login', []);
 })->name('Login');
 
-Route::get('/Dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
-// Route::middleware('auth')->group(function () {
-//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-// });
+Route::post('/Login', [AuthenticatedSessionController::class, 'store'])->name('Login');
+
+Route::middleware(['auth'])->prefix('Dashboard')->group(function () {
+// Route::prefix('Dashboard')->group(function () {
+
+    Route::get('/', function () {
+        return Inertia::render('Dashboard/DashboardHome');
+    });
+    
+    Route::get('/EditGames', function () {
+        
+        $allGames = Games::orderBy('name','ASC')
+        ->get();
+        return Inertia::render('Dashboard/EditGames', [
+            'games' => $allGames,
+        ]);
+    }); 
+});
+
 
 Route::get('/{slug}', function ($slug) {
     

@@ -1,7 +1,6 @@
 import { GameData } from "@/types";
 import { useState } from "react";
 
-
 export default function HomePageBanner({games}:{games:GameData[]}) {
 
     const [heroTrailer, setHeroTrailer] = useState<string>(games[0].trailer)
@@ -50,7 +49,7 @@ export default function HomePageBanner({games}:{games:GameData[]}) {
                             <img 
                                 className={`rounded-r-2xl transition-all duration-500  ${heroTrailer !== games[2].trailer ? "-translate-x-12 opacity-30 group-hover:-translate-x-0 group-hover:opacity-100" : null}`}
                                 src={"/assets/thumbnails/"+games[2].slug+".jpg"} 
-                                />
+                            />
                         </div>
 
                         : <div className="relative group" onClick={() => {setHeroTrailer(games[3].trailer)}}>
@@ -60,7 +59,7 @@ export default function HomePageBanner({games}:{games:GameData[]}) {
                             <img 
                                 className={`rounded-r-2xl transition-all duration-500  ${heroTrailer !== games[3].trailer ? "-translate-x-12 opacity-30 group-hover:-translate-x-0 group-hover:opacity-100" : null}`}
                                 src={"/assets/thumbnails/"+games[3].slug+".jpg"} 
-                                />
+                            />
                         </div>
                     }
                 </div>
