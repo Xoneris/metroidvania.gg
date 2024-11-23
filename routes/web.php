@@ -197,7 +197,7 @@ Route::get('/EarlyAccess', function () {
     ]);
 });
 
-Route::get('/UpcomingKickstarter', function () {
+Route::get('/UpcomingKickstarters', function () {
 
     $upcomingKickstarters = Games::where('kickstarter_status', 'Upcoming')
         ->inRandomOrder()
@@ -232,6 +232,73 @@ Route::get('/Released', function () {
     ]);
 });
 
+Route::get('/Steam', function () {
+    $steamGames = Games::where('steam', '!=', '')
+        ->inRandomOrder() 
+        ->get();
+
+    return Inertia::render('SinglePage', [
+        'games' => $steamGames,
+        'title' => 'Games on Steam',
+    ]);
+    
+});
+
+Route::get('/Epic', function () {
+    $epicGames = Games::where('epic', '!=', '')
+        ->inRandomOrder() 
+        ->get();
+
+    return Inertia::render('SinglePage', [
+        'games' => $epicGames,
+        'title' => 'Games on Epic Games',
+    ]);
+});
+
+Route::get('/GoG', function () {
+    $gogGames = Games::where('gog', '!=', '')
+        ->inRandomOrder() 
+        ->get();
+
+    return Inertia::render('SinglePage', [
+        'games' => $gogGames,
+        'title' => 'Games on GoG',
+    ]);
+});
+
+Route::get('/Playstation', function () {
+    $playstationGames = Games::where('playstation', '!=', '')
+        ->inRandomOrder() 
+        ->get();
+
+    return Inertia::render('SinglePage', [
+        'games' => $playstationGames,
+        'title' => 'Games on Playstation',
+    ]);
+});
+
+Route::get('/Xbox', function () {
+    $xboxGames = Games::where('xbox', '!=', '')
+        ->inRandomOrder() 
+        ->get();
+
+    return Inertia::render('SinglePage', [
+        'games' => $xboxGames,
+        'title' => 'Games on Xbox',
+    ]);
+});
+
+Route::get('/Nintendo', function () {
+    $nintendoGames = Games::where('nintendo', '!=', '')
+        ->inRandomOrder() 
+        ->get();
+
+    return Inertia::render('SinglePage', [
+        'games' => $nintendoGames,
+        'title' => 'Games on Nintendo Switch',
+    ]);
+});
+
 Route::get('/AllGames', function () {
     $allGames = Games::all();
 
@@ -245,7 +312,7 @@ Route::get('/Login', function () {
 })->name('Login');
 
 
-Route::post('/Login', [AuthenticatedSessionController::class, 'store'])->name('Login');
+// Route::post('/Login', [AuthenticatedSessionController::class, 'store'])->name('Login');
 
 Route::middleware(['auth'])->prefix('Dashboard')->group(function () {
 // Route::prefix('Dashboard')->group(function () {

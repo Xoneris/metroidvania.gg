@@ -1,5 +1,6 @@
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { GameData } from "@/types";
+import { replaceMonthWithName } from "@/Utils/replaceMonthWithName";
 import { Head } from "@inertiajs/react";
 import { useState } from "react";
 
@@ -7,6 +8,7 @@ import { useState } from "react";
 export default function EditGames({games}:{games:GameData[]}) {
 
     const [search, setSearch] = useState<string>("")
+    const [editGame, setEditGame] = useState<number|undefined>(undefined)
 
     return (
         <DashboardLayout>
@@ -14,11 +16,11 @@ export default function EditGames({games}:{games:GameData[]}) {
             <Head title="Edit Games"/>
 
             <h1 className="text-3xl">Edit Games - {games.length}</h1>
-
+        
             <input type="text" placeholder="Search game..."
                 className="w-1/2 rounded-lg"
                 onChange={(e) => setSearch(e.target.value)}
-                // onClick={() => setEditGame(null)}
+                onClick={() => setEditGame(undefined)}
             />
 
             <table className="w-full">
@@ -34,31 +36,67 @@ export default function EditGames({games}:{games:GameData[]}) {
                 </thead>
                 {
                     games.filter(game => game.name.toLowerCase().includes(search)).map((game:GameData) => (
-                        <tbody className="odd:bg-[#CCCCCC] [&>td]:p-2">
-                            <td>
-                                {game.name}
-                            </td>
-                            <td>
-                                {game.release_window}
-                            </td>
+                        <tbody className="odd:bg-[#CCCCCC] [&>td]:p-2" onClick={() => {setEditGame(game.id)}}>
                             <td>
                                 {
-                                    game.release_date !== "0000-00-00"
-                                    ? game.release_date
-                                    : null
+                                    editGame === game.id
+                                    ? <input type="text" value={game.name} className="w-full rounded-lg" />
+                                    : game.name
                                 }
                             </td>
                             <td>
-                                {game.demo}
+                                {
+                                    editGame === game.id
+                                    ? <input type="text" value={game.release_window} placeholder="Release Window" className="w-full rounded-lg" />
+                                    : game.release_window
+                                }
                             </td>
                             <td>
-                                {game.early_access}
+                                {
+                                    editGame === game.id
+                                    ? <input type="date" value={game.release_date} className="w-full rounded-lg" />
+                                    : game.release_date !== "0000-00-00"
+                                        ? replaceMonthWithName(game.release_date)
+                                        : null
+                                }
                             </td>
                             <td>
-                                {game.kickstarter_status}
+                                {
+                                    editGame === game.id
+                                    ? <select className="w-full rounded-lg">
+                                        <option value={game.demo ? "yes" : "no"}>{game.demo ? "Yes" : "No"}</option>
+                                        <option value={game.demo ? "no" : "yes"}>{game.demo ? "No" : "Yes"}</option>
+                                    </select>
+                                    : game.demo === 1 || game.demo === true 
+                                        ? "Yes"
+                                        : "No"
+                                }
                             </td>
                             <td>
-                                {game.trailer}
+                                {
+                                    editGame === game.id
+                                    ? <select className="w-full rounded-lg">
+                                        <option value={game.early_access === 1 ? "yes" : "no"}>{game.early_access === 1 ? "Yes" : "No"}</option>
+                                        <option value={game.early_access === 1 ? "no" : "yes"}>{game.early_access === 1 ? "No" : "Yes"}</option>
+                                    </select>
+                                    : game.early_access === 1 || game.early_access === true
+                                        ? "Yes"
+                                        : "No"
+                                }
+                            </td>
+                            <td>
+                                {
+                                    editGame === game.id
+                                    ? <input type="text" value={game.kickstarter_status} placeholder="Kickstarter status" className="w-full rounded-lg" />
+                                    : game.kickstarter_status
+                                }
+                            </td>
+                            <td>
+                                {
+                                    editGame === game.id
+                                    ? <input type="text" value={game.trailer} className="w-full rounded-lg" />
+                                    : game.trailer
+                                }
                             </td>
                             <td>
                                 Full Edit

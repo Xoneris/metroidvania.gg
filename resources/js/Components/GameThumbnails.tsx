@@ -12,7 +12,7 @@ export default function GameThumbnail ({game}:{game:GameData}) {
             {
                 noThumbnail 
                     ? <div 
-                        className="relative w-[322px] h-[152px] border border-black rounded-2xl m-1 group transition-all hover:scale-110 hover:shadow-gameThumbnailShadow hover:z-10" 
+                        className="group relative w-[322px] h-[152px] border border-black rounded-2xl m-1 transition-all hover:scale-110 hover:shadow-gameThumbnailShadow hover:z-10" 
                         title={game.name}
                     >
                         <img 
@@ -29,7 +29,11 @@ export default function GameThumbnail ({game}:{game:GameData}) {
                                 ? <span className="absolute top-1 right-1 p-1 border rounded-md text-white border-black transition-all bg-black bg-opacity-80 group-hover:text-mainOrange">Early Access</span> 
                                 : null
                         }
+                        {/* <div className="hidden absolute top-0 bg-black bg-opacity-70 text-mainOrange text-sm rounded-2xl w-full h-full justify-center items-center group-hover:flex">
+                            {game.description}
+                        </div> */}
                     </div>
+
                     : <div className="Game-NoThumbnail">
                         {game.name}
                     </div>

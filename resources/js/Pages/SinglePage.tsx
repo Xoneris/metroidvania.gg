@@ -15,7 +15,7 @@ export default function SinglePage({ games, title }:{games:GameData[], title:str
                     <hr className="bg-black w-full h-[2px]"/>
                     <div className="w-full flex flex-wrap justify-around content-between">
                     {
-                        games.map((game:GameData) => (
+                        games.map((game) => (
                             <GameThumbnail game={game} key={game.id}/>
                         ))
                     }
