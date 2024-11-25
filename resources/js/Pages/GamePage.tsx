@@ -72,7 +72,6 @@ export default function GamePage ({singleGame, reviews}:{singleGame:GameData, re
 
             <Layout>
 
-
                 <section className="flex gap-2 w-full max-w-[1600px] m-auto p-4">
 
                     <div className="flex flex-col gap-2 w-full max-w-[460px]">

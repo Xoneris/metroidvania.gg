@@ -9,7 +9,8 @@ export default function DashboardNavigation() {
 
             <h1 className="text-2xl">Dashboard</h1>
 
-            <div className="flex flex-col w-full p-2 gap-2">   
+            <div className="flex flex-col w-full p-2 gap-2">
+                   
                 <Link href="/Dashboard">
                     <p className={`
                         border-b text-lg transition-all 
@@ -20,10 +21,10 @@ export default function DashboardNavigation() {
                         Home
                     </p>
                 </Link>
-                <Link href="/Dashboard/NewGame">
+                <Link href="/Dashboard/AddGame">
                     <p className={`
                         border-b text-lg transition-all 
-                        ${url === "/Dashboard/NewGame" 
+                        ${url === "/Dashboard/AddGame" 
                             ? "text-mainOrange border-mainOrange pl-2" 
                             : "border-[#999999] hover:text-mainOrange hover:border-mainOrange hover:pl-2"} 
                     `}>

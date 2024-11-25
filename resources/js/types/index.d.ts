@@ -11,7 +11,6 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     };
 };
 
-
 export interface GameData {
     id: number,
     name: string,
@@ -39,4 +38,11 @@ export interface GameData {
     playstation: string|undefined,
     xbox: string|undefined,
     nintendo: string|undefined,
+}
+
+export interface Report {
+    id: number,
+    game_name: string,
+    report: string,
+    status: string,
 }

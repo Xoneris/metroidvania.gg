@@ -40,11 +40,12 @@ export default function NavigationDropdownMenu ({
             <div className="absolute bg-mainDark w-[150px] max-h-0 overflow-hidden mt-1 -ml-[4px] flex flex-col z-20 border-0 border-transparent rounded-b-lg group-hover:border-mainOrange transition-all duration-700 group-hover:flex group-hover:max-h-screen group-hover:overflow-ellipsis group-hover:border">
 
             {
-                dropdownItems.map((item) => (
+                dropdownItems.map((item, index) => (
                     <NavigationDropdownItem 
                         currentUrl={currentUrl}
                         destination={item.destination}
                         name={item.name}
+                        key={index}
                     />
                 ))
             }    

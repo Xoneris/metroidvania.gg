@@ -8,7 +8,7 @@ export default function GameThumbnail ({game}:{game:GameData}) {
     const noThumbnail:boolean = true
 
     return (
-        <Link href={"/" + game.slug} key={game.id}>
+        <Link href={"/Game/" + game.slug} key={game.id}>
             {
                 noThumbnail 
                     ? <div 
@@ -25,7 +25,7 @@ export default function GameThumbnail ({game}:{game:GameData}) {
                             {game.release_date !== "0000-00-00" ? replaceMonthWithName(game.release_date) : game.release_window}
                         </span>
                         {
-                            game.early_access === 1 
+                            game.early_access === true || game.early_access === 1 
                                 ? <span className="absolute top-1 right-1 p-1 border rounded-md text-white border-black transition-all bg-black bg-opacity-80 group-hover:text-mainOrange">Early Access</span> 
                                 : null
                         }

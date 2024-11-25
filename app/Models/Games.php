@@ -12,7 +12,7 @@ class Games extends Model {
     protected $guarded = ['id'];
     public $timestamps = false;
 
-    // public function reports() {
-    //     return $this->hasMany(Reports::class);
-    // }
+    public function reports() {
+        return $this->hasMany(Reports::class);
+    }
 }

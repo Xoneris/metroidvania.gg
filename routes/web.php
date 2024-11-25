@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Games;
+use App\Models\Reports;
 use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
@@ -312,7 +313,7 @@ Route::get('/Login', function () {
 })->name('Login');
 
 
-// Route::post('/Login', [AuthenticatedSessionController::class, 'store'])->name('Login');
+Route::post('/Login', [AuthenticatedSessionController::class, 'store'])->name('Login');
 
 Route::middleware(['auth'])->prefix('Dashboard')->group(function () {
 // Route::prefix('Dashboard')->group(function () {
@@ -321,23 +322,53 @@ Route::middleware(['auth'])->prefix('Dashboard')->group(function () {
         return Inertia::render('Dashboard/DashboardHome');
     });
     
+    Route::get('/AddGame', function () {
+        return Inertia::render('Dashboard/AddGame');
+    });
+
     Route::get('/EditGames', function () {
         
         $allGames = Games::orderBy('name','ASC')
-        ->get();
+            ->get();
+
         return Inertia::render('Dashboard/EditGames', [
             'games' => $allGames,
+        ]);
+    }); 
+
+    Route::get('/Reports', function () {
+        
+        $reports = Reports::all();
+
+        return Inertia::render('Dashboard/Reports', [
+            'reports' => $reports,
         ]);
     }); 
 });
 
 
-Route::get('/{slug}', function ($slug) {
+Route::get('/Game/{slug}', function ($slug) {
     
     $singleGame = Games::where('slug', $slug)->first();
 
-    return Inertia::render('SingleGamePage', [
+    # Get Steam reviews if game is released
+    if ($singleGame)
+
+    $steamParts = explode('/', $singleGame['steam']); // Splits into ["https:", "", "store.steampowered.com", "app", "12345", "game-title"]
+    $steamAppId = isset($steamParts[4]) ? $steamParts[4] : null; // Output will be "12345"
+    $external_api = 'https://store.steampowered.com/appreviews/' . $steamAppId . '?json=1&purchase_type=all';
+    $getReviews = Http::get($external_api);
+    
+    if ($getReviews){
+        $reviews = $getReviews->json();
+    } else {
+        $reviews = ['error' => 'failed to fetch from steam api'];
+    }
+
+
+    return Inertia::render('GamePage', [
         'singleGame' => $singleGame,
+        'reviews' => $reviews,
     ]);
 });
 
