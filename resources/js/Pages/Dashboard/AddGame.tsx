@@ -1,7 +1,33 @@
 import DashboardLayout from "@/Layouts/DashboardLayout";
-import { Head } from "@inertiajs/react";
+import { Head, useForm } from "@inertiajs/react";
 
 export default function AddGame () {
+
+    const { data, setData, post, processing, errors } = useForm({
+        name: '',
+        slug: '',
+        developer: '',
+        publisher: '',
+        release_date: '',
+        release_window: '',
+        demo: '',
+        early_access: '',
+        description: '',
+        steam: '',
+        epic: '',
+        gog: '',
+        playstation: '',
+        xbox: '',
+        switch: '',
+        twitter: '',
+        facebook: '',
+        instagram: '',
+        tiktok: '',
+        youtube: '',
+        website: '',
+        discord: '',
+        // remember: false,
+      })
 
     return (
         <DashboardLayout>
@@ -10,15 +36,17 @@ export default function AddGame () {
             
             <h1 className="text-3xl">Add Game</h1>
 
+            <p>{data.name}</p>
+
             <div className="flex flex-col gap-1 w-full">
                 <div className="flex w-full">
                     <div className="flex flex-col w-1/2 p-2">
                         <label>Name:</label>
-                        <input name="name" type="text" className="rounded-md" />
+                        <input name="name" type="text" className="rounded-md" placeholder="Hollow Knight" value={data.name} onChange={(e) => setData('name', e.target.value)} />
                     </div>
                     <div className="flex flex-col w-1/2 p-2">
                         <label>Slug:</label>
-                        <input name="slug" type="text" className="rounded-md" />
+                        <input name="slug" type="text" className="rounded-md" placeholder="hollow-knight" value={data.slug} onChange={(e) => setData('slug', e.target.value)}/>
                     </div>
                 </div>
 
@@ -117,6 +145,8 @@ export default function AddGame () {
                         <input name="facebook" type="text" className="rounded-md" />
                         <label>TikTok:</label>
                         <input name="tiktok" type="text" className="rounded-md" />
+                        <label>YouTube:</label>
+                        <input name="youtube" type="text" className="rounded-md" />
                         <label>Discord:</label>
                         <input name="discord" type="text" className="rounded-md" />
                         <label>Website:</label>
