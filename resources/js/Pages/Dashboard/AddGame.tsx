@@ -1,18 +1,24 @@
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, useForm } from "@inertiajs/react";
+import { router } from "@inertiajs/react";
+import { FormEventHandler } from "react";
 
 export default function AddGame () {
 
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, post, processing, errors, setError } = useForm<any>({
         name: '',
         slug: '',
         developer: '',
         publisher: '',
         release_date: '',
         release_window: '',
-        demo: '',
-        early_access: '',
+        demo: 0,
+        early_access: 0,
+        kickstarter_page: '',
+        kickstarter_status: '',
         description: '',
+        trailer: '',
+        thumbnail: '',
         steam: '',
         epic: '',
         gog: '',
@@ -29,6 +35,14 @@ export default function AddGame () {
         // remember: false,
       })
 
+
+    function handleSubmit(e:any) {
+        e.preventDefault()
+        router.post('/Game/New', data)
+        console.log(data)
+    }
+
+
     return (
         <DashboardLayout>
             
@@ -36,50 +50,70 @@ export default function AddGame () {
             
             <h1 className="text-3xl">Add Game</h1>
 
-            <p>{data.name}</p>
+            <form className="flex flex-col gap-1 w-full" onSubmit={handleSubmit}>
 
-            <div className="flex flex-col gap-1 w-full">
                 <div className="flex w-full">
                     <div className="flex flex-col w-1/2 p-2">
-                        <label>Name:</label>
-                        <input name="name" type="text" className="rounded-md" placeholder="Hollow Knight" value={data.name} onChange={(e) => setData('name', e.target.value)} />
+                        <label>Name: *</label>
+
+                        <input 
+                            name="name" 
+                            type="text" 
+                            className={`rounded-md ${errors.name !== "" ? "border border-red-600" : null}`}  
+                            placeholder="Hollow Knight" 
+                            value={data.name} 
+                            onChange={(e) => setData('name', e.target.value)}
+                            onBlur={(e) => e.target.value === "" ? setError('name', 'please fill this out') : setError('name','')}
+                        />
+
+                        <p className="text-red-600">{errors.name}</p>
                     </div>
                     <div className="flex flex-col w-1/2 p-2">
-                        <label>Slug:</label>
-                        <input name="slug" type="text" className="rounded-md" placeholder="hollow-knight" value={data.slug} onChange={(e) => setData('slug', e.target.value)}/>
+                        <label>Slug: *</label>
+                        <input 
+                            name="slug" 
+                            type="text" 
+                            className="rounded-md" 
+                            placeholder="hollow-knight" 
+                            value={data.slug} 
+                            onChange={(e) => setData('slug', e.target.value)}
+                        />
                     </div>
                 </div>
 
                 <div className="flex w-full">
                     <div className="flex flex-col w-1/2 p-2">
-                        <label>Developer:</label>
-                        <input name="developer" type="text" className="rounded-md" />
+                        <label>Developer: *</label>
+                        <input name="developer" type="text" className="rounded-md" placeholder="Team Cherry" value={data.developer} onChange={(e) => setData('developer', e.target.value)} />
                     </div>
                     <div className="flex flex-col w-1/2 p-2">
                         <label>Publisher:</label>
-                        <input name="publisher" type="text" className="rounded-md" />
+                        <input name="publisher" type="text" className="rounded-md" placeholder="Team Cherry" value={data.publisher} onChange={(e) => setData('publisher', e.target.value)} />
                     </div>
                 </div>
 
                 <div className="flex w-full">
                     <div className="flex flex-col w-1/2 p-2">
-                        <label>Release Window:</label>
-                        <input name="name" type="text" className="rounded-md" />
+                        <label>Release Window: *</label>
+                        <input name="name" type="text" className="rounded-md" placeholder="Q2 2025" value={data.release_window} onChange={(e) => setData('release_window', e.target.value)} />
                     </div>
                     <div className="flex flex-col w-1/2 p-2">
-                        <label>Release Date:</label>
-                        <input name="name" type="date" className="rounded-md" />
+                        <label>Release Date: *</label>
+                        <input name="name" type="date" className="rounded-md" value={data.release_date} onChange={(e) => setData('release_date', e.target.value)} />
                     </div>
                 </div>
 
                 <div className="flex w-full">
                     <div className="flex flex-col w-1/2 p-2">
                         <label>Kickstarter Page:</label>
-                        <input name="kickstarterpage" type="text" className="rounded-md" />
+                        <input name="kickstarterpage" type="text" className="rounded-md" 
+                            placeholder="" value={data.kickstarter_page} onChange={(e) => setData('kickstarter_page', e.target.value)} 
+                        />
                     </div>
                     <div className="flex flex-col w-1/2 p-2">
                         <label>Kickstarter Status:</label>
-                        <select className="rounded-md">
+                        <select className="rounded-md" onChange={(e) => setData('kickstarter_status', e.target.value)}>
+                            <option selected disabled>Select option</option>
                             <option>Funded</option>
                             <option>Upcoming</option>
                             <option>Live</option>
@@ -89,31 +123,40 @@ export default function AddGame () {
                 
                 <div className="flex w-full">
                     <div className="flex flex-col w-1/2 p-2">
-                        <label>Does the game have a Demo?</label>
+                        <label>Does the game have a Demo? *</label>
                         <div className="flex items-center gap-2">
                             <label>Yes</label>
-                            <input type="radio" name="demo" />
+                            <input type="radio" name="demo" onClick={() => setData('demo', 1)} />
                             <label>No</label>
-                            <input type="radio" name="demo" />
+                            <input type="radio" name="demo" onClick={() => setData('demo', 0)}/>
                         </div>
                     </div>
 
                     <div className="flex flex-col w-1/2 p-2">
-                        <label>Is the game in Early Access?</label>
+                        <label>Is the game in Early Access? *</label>
                         <div className="flex items-center gap-2">
                             <label>Yes</label>
-                            <input type="radio" name="earlyaccess" />
+                            <input type="radio" name="earlyaccess" onClick={() => setData('early_access', 1)} />
                             <label>No</label>
-                            <input type="radio" name="earlyaccess" />
+                            <input type="radio" name="earlyaccess" onClick={() => setData('early_access', 0)} />
                         </div>
                     </div>
                 </div>
 
                 <div className="flex flex-col p-2">
-                    <label>Description:</label>
-                    <input name="name" type="text" className="rounded-md h-[100px]" />
+                    <label>Description: *</label>
+                    <input name="name" type="text" className="rounded-md h-[100px]" placeholder="Cool description here" value={data.description} onChange={(e) => setData('description', e.target.value)} />
                 </div>
 
+                <div>
+                    <label>Thumbnail:</label>
+                    <input type="file" name="thumbnail" accept="image/png, image/jpg" max={1} onChange={(e) => setData('thumbnail', e.target.files[0])} />
+                </div>
+
+                <div>
+                    <label>Trailer:</label>
+                    <input type="text" name="trailer" className="rounded-md" value={data.trailer} onChange={(e) => setData('trailer', e.target.value)} />
+                </div>
 
                 <div className="flex w-full">
 
@@ -121,42 +164,43 @@ export default function AddGame () {
                         <h2 className="text-2xl">Platforms:</h2>
                         <hr className="bg-black w-full h-1"/>
                         <label>Steam:</label>
-                        <input name="steam" type="text" className="rounded-md" />
+                        <input name="steam" type="text" className="rounded-md" value={data.steam} onChange={(e) => setData('steam', e.target.value)} />
                         <label>Epic Games:</label>
-                        <input name="epic" type="text" className="rounded-md" />
+                        <input name="epic" type="text" className="rounded-md" value={data.epic} onChange={(e) => setData('epic', e.target.value)} />
                         <label>GoG:</label>
-                        <input name="gog" type="text" className="rounded-md" />
+                        <input name="gog" type="text" className="rounded-md" value={data.gog} onChange={(e) => setData('gog', e.target.value)} />
                         <label>Playstation:</label>
-                        <input name="playstation" type="text" className="rounded-md" />
+                        <input name="playstation" type="text" className="rounded-md" value={data.playstation} onChange={(e) => setData('playstation', e.target.value)} />
                         <label>Xbox:</label>
-                        <input name="xbox" type="text" className="rounded-md" />
+                        <input name="xbox" type="text" className="rounded-md" value={data.xbox} onChange={(e) => setData('xbox', e.target.value)} />
                         <label>Nintendo Switch:</label>
-                        <input name="nintendo" type="text" className="rounded-md" />
+                        <input name="nintendo" type="text" className="rounded-md" value={data.switch} onChange={(e) => setData('switch', e.target.value)} />
                     </div>
 
                     <div className="w-1/2 flex flex-col gap-1 p-2">
                         <h2 className="text-2xl">Social Media:</h2>
                         <hr className="bg-black w-full h-1"/>
                         <label>Twitter:</label>
-                        <input name="twitter" type="text" className="rounded-md" />
+                        <input name="twitter" type="text" className="rounded-md" value={data.twitter} onChange={(e) => setData('twitter', e.target.value)} />
                         <label>Instagram:</label>
-                        <input name="instagram" type="text" className="rounded-md" />
+                        <input name="instagram" type="text" className="rounded-md" value={data.instagram} onChange={(e) => setData('instagram', e.target.value)} />
                         <label>Facebook:</label>
-                        <input name="facebook" type="text" className="rounded-md" />
+                        <input name="facebook" type="text" className="rounded-md" value={data.facebook} onChange={(e) => setData('facebook', e.target.value)} />
                         <label>TikTok:</label>
-                        <input name="tiktok" type="text" className="rounded-md" />
+                        <input name="tiktok" type="text" className="rounded-md" value={data.tiktok} onChange={(e) => setData('tiktok', e.target.value)} />
                         <label>YouTube:</label>
-                        <input name="youtube" type="text" className="rounded-md" />
+                        <input name="youtube" type="text" className="rounded-md" value={data.youtube} onChange={(e) => setData('youtube', e.target.value)} />
                         <label>Discord:</label>
-                        <input name="discord" type="text" className="rounded-md" />
+                        <input name="discord" type="text" className="rounded-md" value={data.discord} onChange={(e) => setData('discord', e.target.value)} />
                         <label>Website:</label>
-                        <input name="website" type="text" className="rounded-md" />
+                        <input name="website" type="text" className="rounded-md" value={data.website} onChange={(e) => setData('website', e.target.value)} />
                     </div>
 
                 </div>
 
-                <button className="w-28 rounded-md bg-white text-black">Add Game</button>
-            </div>
+                <button className="w-28 p-2 rounded-md bg-white text-black font-bold border border-[#666666] hover:text-mainOrange">Add Game</button>
+
+            </form>
 
         </DashboardLayout>
     )

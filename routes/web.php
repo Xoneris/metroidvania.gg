@@ -7,6 +7,7 @@ use App\Models\Reports;
 use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
@@ -346,6 +347,48 @@ Route::middleware(['auth'])->prefix('Dashboard')->group(function () {
     }); 
 });
 
+Route::middleware(['auth'])->post('/Game/New', function (Request $request) {
+
+    # Validate first
+
+    # Thumbnail
+    $thumbnail = $request->file('thumbnail');
+    $folder = '/assets/thumbnails';
+    $thumbnail_name = $request->slug . $thumbnail->getClientOriginalExtension();
+    $thumbnail->move(public_path($folder), $thumbnail_name);
+
+    # Put new game into the DB
+    Games::create([
+        'name' => $request['name'],
+        'developer' => $request['developer'],
+        'publisher' => $request['publisher'],
+        'description' => $request['description'],
+        'release_window' => $request['release_window'],
+        'slug' => $request['slug'],
+        'demo' => $request['demo'],
+        'early_access' => $request['early_access'],
+        'trailer' => $request['trailer'],
+        'twitter' => $request['twitter'],
+        'epic' => $request['epic'],
+        'facebook' => $request['facebook'],
+        'gog' => $request['gog'],
+        'homepage' => $request['website'],
+        'instagram' => $request['instagram'],
+        'nintendo' => $request['nintendo'],
+        'playstation' => $request['playstation'],
+        'steam' => $request['steam'],
+        'tiktok' => $request['tiktok'],
+        'xbox' => $request['xbox'],
+        'youtube' => $request['youtube'],
+        'kickstarter_page' => $request['kickstarter_page'],
+        'discord' => $request['discord'],
+        'release_date' => $request['release_date'],
+        'kickstarter_status' => $request['kickstarter_status'],
+        // '' => $request[''],
+    ]);
+
+    return to_route('/Dashboard');
+});
 
 Route::get('/Game/{slug}', function ($slug) {
     

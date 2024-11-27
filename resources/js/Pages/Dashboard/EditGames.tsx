@@ -36,7 +36,7 @@ export default function EditGames({games}:{games:GameData[]}) {
                 </thead>
                 {
                     games.filter(game => game.name.toLowerCase().includes(search)).map((game:GameData) => (
-                        <tbody className="odd:bg-[#CCCCCC] [&>td]:p-2" onClick={() => {setEditGame(game.id)}}>
+                        <tbody className="odd:bg-[#CCCCCC] [&>td]:p-2" onClick={() => {setEditGame(game.id)}} key={game.id}>
                             <td>
                                 {
                                     editGame === game.id
