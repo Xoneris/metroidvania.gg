@@ -6,8 +6,6 @@ import { Head } from "@inertiajs/react";
 
 export default function ({games}:{games:GameData[]}) {
 
-    const noThumbnail = ""
-
     let alphabet = [];
     let chr; 
  

@@ -374,7 +374,7 @@ Route::middleware(['auth'])->post('/Game/New', function (Request $request) {
         'gog' => $request['gog'],
         'homepage' => $request['website'],
         'instagram' => $request['instagram'],
-        'nintendo' => $request['nintendo'],
+        'nintendo' => $request['switch'],
         'playstation' => $request['playstation'],
         'steam' => $request['steam'],
         'tiktok' => $request['tiktok'],

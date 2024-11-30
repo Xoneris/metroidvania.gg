@@ -13,7 +13,7 @@ export default function DashboardLayout({children}: PropsWithChildren) {
                 
                 <DashboardNavigation/>
 
-                <section className="grow p-3 flex flex-col gap-2">
+                <section className="grow max-h-screen p-3 flex flex-col gap-2 overflow-y-scroll">
                     {children}
                 </section>
 

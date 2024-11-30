@@ -1,3 +1,4 @@
+import FullGameEdit from "@/Layouts/Components/Dashboard/FullGameEdit";
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { GameData } from "@/types";
 import { replaceMonthWithName } from "@/Utils/replaceMonthWithName";
@@ -10,18 +11,34 @@ export default function EditGames({games}:{games:GameData[]}) {
     const [search, setSearch] = useState<string>("")
     const [editGame, setEditGame] = useState<number|undefined>(undefined)
 
+    const [fullEdit, setFullEdit] = useState<boolean>(false)
+    const [fullGame, setFullGame] = useState<GameData>()
+
     return (
         <DashboardLayout>
 
             <Head title="Edit Games"/>
 
-            <h1 className="text-3xl">Edit Games - {games.length}</h1>
+            <h1 className="text-3xl">Edit Games - {fullEdit ? fullGame?.name : games.length}</h1>
         
+            {
+                fullEdit 
+                ? <>
+                    <button 
+                        className="w-28 p-2 rounded-md bg-white text-black font-bold border border-[#666666] hover:text-mainOrange" 
+                        onClick={() => setFullEdit(false)}
+                    >
+                        {"< Back"}
+                    </button>
+                    <FullGameEdit game={fullGame} editGame={true} />
+                </>
+                : <>
+
             <input type="text" placeholder="Search game..."
                 className="w-1/2 rounded-lg"
                 onChange={(e) => setSearch(e.target.value)}
                 onClick={() => setEditGame(undefined)}
-            />
+                />
 
             <table className="w-full">
                 <thead className="bg-black text-mainOrange font-bold [&>td]:p-2">
@@ -56,8 +73,8 @@ export default function EditGames({games}:{games:GameData[]}) {
                                     editGame === game.id
                                     ? <input type="date" value={game.release_date} className="w-full rounded-lg" />
                                     : game.release_date !== "0000-00-00"
-                                        ? replaceMonthWithName(game.release_date)
-                                        : null
+                                    ? replaceMonthWithName(game.release_date)
+                                    : null
                                 }
                             </td>
                             <td>
@@ -68,9 +85,9 @@ export default function EditGames({games}:{games:GameData[]}) {
                                         <option value={game.demo ? "no" : "yes"}>{game.demo ? "No" : "Yes"}</option>
                                     </select>
                                     : game.demo === 1 || game.demo === true 
-                                        ? "Yes"
+                                    ? "Yes"
                                         : "No"
-                                }
+                                    }
                             </td>
                             <td>
                                 {
@@ -80,8 +97,8 @@ export default function EditGames({games}:{games:GameData[]}) {
                                         <option value={game.early_access === 1 ? "no" : "yes"}>{game.early_access === 1 ? "No" : "Yes"}</option>
                                     </select>
                                     : game.early_access === 1 || game.early_access === true
-                                        ? "Yes"
-                                        : "No"
+                                    ? "Yes"
+                                    : "No"
                                 }
                             </td>
                             <td>
@@ -99,12 +116,32 @@ export default function EditGames({games}:{games:GameData[]}) {
                                 }
                             </td>
                             <td>
-                                Full Edit
+                                {
+                                    <button 
+                                    onClick={() => {
+                                        setFullEdit(true)
+                                        setFullGame(game)
+                                    }}
+                                    >
+                                            Full Edit!
+                                        </button>
+                                    
+                                }
                             </td>
                         </tbody>
                     ))
                 }
             </table>
+                </>
+}
+
+
+            {/* { fullEdit && (
+                <FullGameEdit 
+                    game={fullGame}
+                    setFullEdit={setFullEdit}
+                 />
+            )} */}
 
         </DashboardLayout>
     )
