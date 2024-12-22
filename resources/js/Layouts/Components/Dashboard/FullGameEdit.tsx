@@ -48,6 +48,13 @@ export default function FullGameEdit({game, editGame}:{editGame: boolean, game: 
         }
     }
 
+    // function fetchFile(e:any) {
+    //     const reader = new FileReader
+    //     if (e.target.files instanceof FileList) {
+    //         return reader.readAsDataURL(e.target.files[0])
+    //     }
+    // }
+
     return (
 
         <form className="flex flex-col gap-1 w-full" onSubmit={handleSubmit}>
@@ -147,7 +154,7 @@ export default function FullGameEdit({game, editGame}:{editGame: boolean, game: 
 
                 <div className="flex flex-col w-1/2 p-2">
                     <label>Thumbnail:</label>
-                    <input type="file" name="thumbnail" accept="image/png, image/jpg" max={1} onChange={(e) => setData('thumbnail', e.target.files[0])} />
+                    <input type="file" name="thumbnail" accept="image/png, image/jpg" max={1} onChange={(e) => setData('thumbnail', e.target.files?.[0])} />
                     {
                         editGame 
                         ? <img className="w-1/3 my-2 rounded-lg" src={"/assets/thumbnails/"+data.slug+".jpg"} />
