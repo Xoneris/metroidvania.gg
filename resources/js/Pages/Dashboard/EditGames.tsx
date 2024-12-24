@@ -2,7 +2,7 @@ import FullGameEdit from "@/Layouts/Components/Dashboard/FullGameEdit";
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { GameData } from "@/types";
 import { replaceMonthWithName } from "@/Utils/replaceMonthWithName";
-import { Head } from "@inertiajs/react";
+import { Head, useForm } from "@inertiajs/react";
 import { useState } from "react";
 
 
@@ -13,6 +13,38 @@ export default function EditGames({games}:{games:GameData[]}) {
 
     const [fullEdit, setFullEdit] = useState<boolean>(false)
     const [fullGame, setFullGame] = useState<GameData>()
+
+    const {data, setData, patch, errors, setError} = useForm<any>({
+        name: '',
+        release_date: '',
+        release_window: '',
+        demo: 0,
+        early_access: 0,
+        kickstarter_status: '',
+        trailer: '',
+    })
+
+    const handleClickOnRow = (game:GameData) => {
+         
+        if(editGame !== game.id) {
+            setEditGame(game.id)
+            setData({
+                'name': game.name,
+                'release_date': game.release_date,
+                'release_window': game.release_window,
+                'demo': game.demo,
+                'early_access': game.early_access,
+                'kickstarter_status': game.kickstarter_status,
+                'trailer': game.trailer,
+            }) 
+        }   
+    }
+
+    const updateGame = () => {
+
+        patch('/Game/'+editGame+'/update', data)
+
+    }
 
     return (
         <DashboardLayout>
@@ -26,7 +58,11 @@ export default function EditGames({games}:{games:GameData[]}) {
                 ? <>
                     <button 
                         className="w-28 p-2 rounded-md bg-white text-black font-bold border border-[#666666] hover:text-mainOrange" 
-                        onClick={() => setFullEdit(false)}
+                        onClick={() => {
+                            setFullEdit(false)
+                            setSearch("")
+                            setEditGame(undefined)
+                        }}
                     >
                         {"< Back"}
                     </button>
@@ -52,11 +88,21 @@ export default function EditGames({games}:{games:GameData[]}) {
                         </thead>
                         {
                             games.filter(game => game.name.toLowerCase().includes(search)).map((game:GameData) => (
-                                <tbody className="odd:bg-[#CCCCCC] [&>td]:p-2" onClick={() => {setEditGame(game.id)}} key={game.id}>
+                                <tbody 
+                                    className="odd:bg-[#CCCCCC] [&>td]:p-2" 
+                                    onClick={() => handleClickOnRow(game)} 
+                                    key={game.id}
+                                >
                                     <td>
                                         {
                                             editGame === game.id
-                                            ? <input type="text" value={game.name} className="w-full rounded-lg" />
+                                            ? <input 
+                                                type="text" 
+                                                className="w-full rounded-lg" 
+                                                value={data.name}
+                                                onChange={(e) => setData('name', e.target.value)}
+                                                onKeyUp={(e) => (e.key === "Enter" ? updateGame() : null)}
+                                            />
                                             : game.name
                                         }
                                     </td>
@@ -116,13 +162,14 @@ export default function EditGames({games}:{games:GameData[]}) {
                                     </td>
                                     <td>
                                         {
-                                            <button 
-                                            onClick={() => {
-                                                setFullEdit(true)
-                                                setFullGame(game)
-                                            }}
+                                            <button
+                                                className="w-20 p-2 rounded-md bg-white text-black font-bold border border-[#666666] hover:text-mainOrange" 
+                                                onClick={() => {
+                                                    setFullEdit(true)
+                                                    setFullGame(game)
+                                                }}
                                             >
-                                                    Full Edit!
+                                                    Full Edit
                                                 </button>
                                             
                                         }

@@ -317,7 +317,6 @@ Route::get('/Login', function () {
 Route::post('/Login', [AuthenticatedSessionController::class, 'store'])->name('Login');
 
 Route::middleware(['auth'])->prefix('Dashboard')->group(function () {
-// Route::prefix('Dashboard')->group(function () {
 
     Route::get('/', function () {
         return Inertia::render('Dashboard/DashboardHome');
@@ -347,9 +346,34 @@ Route::middleware(['auth'])->prefix('Dashboard')->group(function () {
     }); 
 });
 
+Route::middleware(['auth'])->patch('/Game/{id}/update', function (Request $request, $id) {
+
+    $game = Games::where('id', $id)->first();
+
+    # Validate
+    # ...at some point
+
+    $game->update($request->all());
+});
+
+Route::middleware(['auth'])->put('/Game/{slug}/Edit', function (Request $request, $slug) {
+
+    $game = Games::where('slug', $slug)->first();
+
+    # Validate 
+    # ...later
+
+    # Replace thumbnail
+
+    $game->update($request->all());
+
+    // return to_route('Dashboard');
+});
+
 Route::middleware(['auth'])->post('/Game/New', function (Request $request) {
 
     # Validate first
+    # At... some point lol
 
     # Thumbnail
     $thumbnail = $request->file('thumbnail');
@@ -387,7 +411,7 @@ Route::middleware(['auth'])->post('/Game/New', function (Request $request) {
         // '' => $request[''],
     ]);
 
-    return to_route('/Dashboard');
+    // return to_route('/Dashboard');
 });
 
 Route::get('/Game/{slug}', function ($slug) {

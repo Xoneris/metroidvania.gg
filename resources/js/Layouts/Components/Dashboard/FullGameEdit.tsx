@@ -3,7 +3,7 @@ import { useForm } from "@inertiajs/react";
 
 export default function FullGameEdit({game, editGame}:{editGame: boolean, game: GameData|undefined,}) {
 
-    const { data, setData, post, processing, errors, setError } = useForm<any>(game || {
+    const { data, setData, post, put, processing, errors, setError } = useForm<any>(game || {
         name: '',
         slug: '',
         developer: '',
@@ -38,7 +38,7 @@ export default function FullGameEdit({game, editGame}:{editGame: boolean, game: 
 
         if (editGame === true) {
 
-            // post('/Game/Edit', data)
+            put('/Game/'+data.slug+'/Edit', data)
             console.log(data)
 
         } else if (editGame === false) {
@@ -48,12 +48,6 @@ export default function FullGameEdit({game, editGame}:{editGame: boolean, game: 
         }
     }
 
-    // function fetchFile(e:any) {
-    //     const reader = new FileReader
-    //     if (e.target.files instanceof FileList) {
-    //         return reader.readAsDataURL(e.target.files[0])
-    //     }
-    // }
 
     return (
 
