@@ -21,7 +21,7 @@ export default function Released ({games}:{games:GameData[]}) {
         }
     }
 
-    // Convert a number (1-12) to it's corresponding month
+    // Convert numbers (1-12) to it's corresponding month
     function getMonthName(monthNumber:string) {
       
         const date = new Date();

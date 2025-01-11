@@ -13,13 +13,13 @@ export default function Reports ({reports}:{reports:Report[]}) {
             
             <div className="flex gap-2">
                 <div 
-                    className={reportStatus === "open" ? "active" : ""} 
+                    className={`${reportStatus === "open" ? "text-mainOrange" : "text-black"} bg-white border border-[#666666] rounded-lg p-2 cursor-pointer`} 
                     onClick={() => {setReportStatus("open")}}
                 >
-                    Open Report
+                    Open Reports
                 </div>
                 <div 
-                    className={reportStatus === "closed" ? "active" : ""} 
+                    className={`${reportStatus === "closed" ? "text-mainOrange" : "text-black"} bg-white border border-[#666666] rounded-lg p-2 cursor-pointer`} 
                     onClick={() => {setReportStatus("closed")}}
                 >
                     Closed Reports

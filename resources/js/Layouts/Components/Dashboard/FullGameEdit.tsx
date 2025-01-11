@@ -165,7 +165,13 @@ export default function FullGameEdit({game, editGame}:{editGame: boolean, game: 
 
             <div className="flex flex-col p-2">
                 <label>Description: *</label>
-                <input name="name" type="text" className="rounded-md h-[100px]" placeholder="Cool description here" value={data.description} onChange={(e) => setData('description', e.target.value)} />
+                <textarea 
+                    name="name" 
+                    className="rounded-md h-[100px]" 
+                    placeholder="Cool description here" 
+                    value={data.description} 
+                    onChange={(e) => setData('description', e.target.value)} 
+                ></textarea>
             </div>
 
             <div className="flex w-full">

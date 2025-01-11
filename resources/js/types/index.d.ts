@@ -40,6 +40,11 @@ export interface GameData {
     nintendo: string|undefined,
 }
 
+export interface SendReport {
+    game_name: string,
+    report: string,
+}
+
 export interface Report {
     id: number,
     game_name: string,

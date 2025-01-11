@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportController;
 use App\Models\Games;
 use App\Models\Reports;
 use App\Models\User;
@@ -314,6 +315,8 @@ Route::get('/Login', function () {
 })->name('Login');
 
 
+Route::post('/Report', [ReportController::class, 'store']);
+
 Route::post('/Login', [AuthenticatedSessionController::class, 'store'])->name('Login');
 
 Route::middleware(['auth'])->prefix('Dashboard')->group(function () {
@@ -336,14 +339,16 @@ Route::middleware(['auth'])->prefix('Dashboard')->group(function () {
         ]);
     }); 
 
-    Route::get('/Reports', function () {
-        
-        $reports = Reports::all();
+    Route::get('/Reports', [ReportController::class , "index"]);
 
-        return Inertia::render('Dashboard/Reports', [
-            'reports' => $reports,
-        ]);
-    }); 
+    // Route::get('/Reports', function () {
+        
+    //     $reports = Reports::all();
+
+    //     return Inertia::render('Dashboard/Reports', [
+    //         'reports' => $reports,
+    //     ]);
+    // }); 
 });
 
 Route::middleware(['auth'])->patch('/Game/{id}/update', function (Request $request, $id) {
