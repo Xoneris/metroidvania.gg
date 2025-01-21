@@ -1,8 +1,8 @@
 import { replaceMonthWithName } from '@/Utils/replaceMonthWithName';
-import { GameData } from '@/types';
+import { FrontPageSectionGame, GameData } from '@/types';
 import { Link } from "@inertiajs/react"
 
-export default function GameThumbnail ({game}:{game:GameData}) {
+export default function GameThumbnail ({game}:{game:GameData|FrontPageSectionGame}) {
 
     // temporary fixed variable will fix later
     const noThumbnail:boolean = true
@@ -22,7 +22,7 @@ export default function GameThumbnail ({game}:{game:GameData}) {
                         />
 
                         <span className="absolute bottom-1 left-1 p-1 border rounded-md text-white border-black bg-black bg-opacity-80 transition-all group-hover:text-mainOrange">
-                            {game.release_date !== "0000-00-00" ? replaceMonthWithName(game.release_date) : game.release_window}
+                            {game.release_date !== null ? replaceMonthWithName(game.release_date) : game.release_window}
                         </span>
                         {
                             game.early_access === true || game.early_access === 1 

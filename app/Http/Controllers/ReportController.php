@@ -68,7 +68,12 @@ class ReportController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'status' => 'required|string'
+        ]);
+        $report = Reports::findOrFail($id);
+        // $report->status = $request->input('status');
+        $report->update($validated);
     }
 
     /**

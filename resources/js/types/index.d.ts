@@ -11,6 +11,15 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     };
 };
 
+export interface FrontPageSectionGame {
+    id: number,
+    name: string,
+    slug: string,
+    release_window: string|undefined,
+    release_date: string,
+    early_access: boolean|number,
+}
+
 export interface GameData {
     id: number,
     name: string,
