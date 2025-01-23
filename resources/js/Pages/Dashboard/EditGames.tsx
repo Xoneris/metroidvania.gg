@@ -117,9 +117,9 @@ export default function EditGames({games}:{games:GameData[]}) {
                                         {
                                             editGame === game.id
                                             ? <input type="date" value={game.release_date} className="w-full rounded-lg" />
-                                            : game.release_date !== "0000-00-00"
-                                            ? replaceMonthWithName(game.release_date)
-                                            : null
+                                            : game.release_date !== null
+                                                ? replaceMonthWithName(game.release_date)
+                                                : null
                                         }
                                     </td>
                                     <td>
@@ -169,8 +169,8 @@ export default function EditGames({games}:{games:GameData[]}) {
                                                     setFullGame(game)
                                                 }}
                                             >
-                                                    Full Edit
-                                                </button>
+                                                Full Edit
+                                            </button>
                                             
                                         }
                                     </td>
