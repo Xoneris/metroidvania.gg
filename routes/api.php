@@ -16,6 +16,112 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/home', function (Request $request) {
+
+    #Games for Banner Section.
+    $today = date("Y-m-d");
+
+    $bannerSectionRecentRelease = Games::where('release_date', '<=', $today)
+        ->orderBy('release_date', 'DESC')
+        ->first();
+
+    $bannerSectionComingSoon = Games::where('release_date', '>=', $today)
+        ->orderBy('release_date', 'ASC')
+        ->first();
+
+    $bannerSectionKickstarterLive = Games::where('kickstarter_status', 'Live')
+        ->first();
+
+    $bannerSectionKickstarterUpcoming = Games::where('kickstarter_status', 'Upcoming')
+        ->first();
+
+    $bannerSectionGames = [
+        $bannerSectionRecentRelease,
+        $bannerSectionComingSoon,
+        $bannerSectionKickstarterLive,
+        $bannerSectionKickstarterUpcoming,
+    ];
+
+    #5 upcoming Games.
+    $upcomingGames = Games::select('id','name','slug','release_date','release_window','early_access')
+        ->where('release_date', '>=', $today)
+        ->orderBy('release_date', 'ASC')
+        ->skip(0)
+        ->take(5)
+        ->get();
+
+    #5 last released Games. 
+    $recentlyReleased = Games::where('release_date', '<=', $today)
+        ->orderBy('release_date', 'DESC')
+        ->skip(0)
+        ->take(5)
+        ->get();
+
+    #5 random Games with Demos.
+    $gamesWithDemos = Games::where('demo', 1)
+        ->skip(0)
+        ->take(5)
+        ->inRandomOrder()   
+        ->get();
+
+    #5 random Games in Early Access
+    $earlyAccessGames = Games::where('early_access', 1)
+        ->skip(0)
+        ->take(5)    
+        ->inRandomOrder()
+        ->get();
+
+    #5 upcoming Kickstarters
+    $upcomingKickstarters = Games::where('kickstarter_status', 'Upcoming')
+        ->skip(0)
+        ->take(5)    
+        ->inRandomOrder()
+        ->get();
+
+    #5 random Games releasing in 2025.
+    $tomorrow = date("Y-m-d",strtotime("tomorrow"));
+    $gamesReleasing2025 = Games::where('release_window', 'LIKE', '%2025%')
+        ->orWhereBetween('release_date', [$tomorrow,'2025-12-31'])
+        ->skip(0)
+        ->take(5)
+        ->inRandomOrder() 
+        ->get();
+
+    #5 random Games releasing in 2026.
+    $gamesReleasing2026 = Games::where('release_window', 'LIKE', '%2026%')
+        ->orWhereBetween('release_date', ['2026-01-01','2026-12-31'])
+        ->skip(0)
+        ->take(5)
+        ->inRandomOrder() 
+        ->get();
+
+    #5 random Games releasing in TBD.
+    $gamesReleasingTBD = Games::where('release_window', 'TBD')
+        ->skip(0)
+        ->take(5)
+        ->inRandomOrder()
+        ->get();
+
+    #5 last added games. 
+    $lastAddedGames = Games::orderBy('id', 'DESC')    
+        ->skip(0)
+        ->take(5)
+        ->get();
+
+
+    $games['bannerSection'] = $bannerSectionGames;
+    $games['upcomingGames'] = $upcomingGames;
+    $games['recentlyReleased'] = $recentlyReleased;
+    $games['gamesWithDemos'] = $gamesWithDemos;
+    $games['earlyAccessGames'] = $earlyAccessGames;
+    $games['upcomingKickstarter'] = $upcomingKickstarters;
+    $games['releasingIn2025'] = $gamesReleasing2025;
+    $games['releasingIn2026'] = $gamesReleasing2026;
+    $games['releasingInTBD'] = $gamesReleasingTBD;
+    $games['lastAddedGames'] = $lastAddedGames;
+
+    return response()->json($games);
+});
 
 Route::get('/games', function () {
     $games = Games::all();
