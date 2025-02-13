@@ -11,6 +11,8 @@ export default function EditGames({games}:{games:GameData[]}) {
     const [search, setSearch] = useState<string>("")
     const [editGame, setEditGame] = useState<number|undefined>(undefined)
 
+    const [allGames, setAllGames] = useState<GameData[]>(games)
+
     const [fullEdit, setFullEdit] = useState<boolean>(false)
     const [fullGame, setFullGame] = useState<GameData>()
 
@@ -41,9 +43,22 @@ export default function EditGames({games}:{games:GameData[]}) {
     }
 
     const updateGame = () => {
+        patch(`/Game/${editGame}/update`, data)
 
-        patch('/Game/'+editGame+'/update', data)
-
+        // setAllGames(allGames.map(game => 
+        //     game.name === data.name 
+        //     ? {
+        //         ...game, 
+        //         name: data.name,
+        //         release_date: data.release_date,
+        //         release_window: data.release_window,
+        //         demo: data.demo,
+        //         early_access: data.early_access,
+        //         kickstarter_status: data.kickstarter_status,
+        //         trailer: data.trailer,
+        //     }
+        //     : game
+        // ))
     }
 
     return (
@@ -73,7 +88,7 @@ export default function EditGames({games}:{games:GameData[]}) {
                         className="w-1/2 rounded-lg"
                         onChange={(e) => setSearch(e.target.value)}
                         onClick={() => setEditGame(undefined)}
-                        />
+                    />
 
                     <table className="w-full">
                         <thead className="bg-black text-mainOrange font-bold [&>td]:p-2">
@@ -87,7 +102,7 @@ export default function EditGames({games}:{games:GameData[]}) {
                             <td>Edit</td>
                         </thead>
                         {
-                            games.filter(game => game.name.toLowerCase().includes(search)).map((game:GameData) => (
+                            allGames.filter(game => game.name.toLowerCase().includes(search)).map((game:GameData) => (
                                 <tbody 
                                     className="odd:bg-[#CCCCCC] [&>td]:p-2" 
                                     onClick={() => handleClickOnRow(game)} 
@@ -109,17 +124,30 @@ export default function EditGames({games}:{games:GameData[]}) {
                                     <td>
                                         {
                                             editGame === game.id
-                                            ? <input type="text" value={game.release_window} placeholder="Release Window" className="w-full rounded-lg" />
+                                            ? <input 
+                                                type="text" 
+                                                className="w-full rounded-lg" 
+                                                placeholder="Release Window" 
+                                                value={data.release_window}
+                                                onChange={(e) => setData('release_window', e.target.value)} 
+                                                onKeyUp={(e) => (e.key === "Enter" ? updateGame() : null)}
+                                            />
                                             : game.release_window
                                         }
                                     </td>
                                     <td>
                                         {
                                             editGame === game.id
-                                            ? <input type="date" value={game.release_date} className="w-full rounded-lg" />
-                                            : game.release_date !== null
-                                                ? replaceMonthWithName(game.release_date)
-                                                : null
+                                            ? <input 
+                                                type="date" 
+                                                className="w-full rounded-lg" 
+                                                value={data.release_date}
+                                                onChange={(e) => setData('release_date', e.target.value)} 
+                                                onKeyUp={(e) => (e.key === "Enter" ? updateGame() : null)}
+                                            />
+                                            : game.release_date === null || game.release_date === ''
+                                                ? null
+                                                : replaceMonthWithName(game.release_date)
                                         }
                                     </td>
                                     <td>
@@ -149,14 +177,27 @@ export default function EditGames({games}:{games:GameData[]}) {
                                     <td>
                                         {
                                             editGame === game.id
-                                            ? <input type="text" value={game.kickstarter_status} placeholder="Kickstarter status" className="w-full rounded-lg" />
+                                            ? <input 
+                                                type="text" 
+                                                className="w-full rounded-lg" 
+                                                placeholder="Kickstarter status" 
+                                                value={data.kickstarter_status}
+                                                onChange={(e) => setData('kickstarter_status', e.target.value)} 
+                                                onKeyUp={(e) => (e.key === "Enter" ? updateGame() : null)}
+                                            />
                                             : game.kickstarter_status
                                         }
                                     </td>
                                     <td>
                                         {
                                             editGame === game.id
-                                            ? <input type="text" value={game.trailer} className="w-full rounded-lg" />
+                                            ? <input 
+                                                type="text" 
+                                                className="w-full rounded-lg" 
+                                                value={data.trailer}
+                                                onChange={(e) => setData('trailer', e.target.value)} 
+                                                onKeyUp={(e) => (e.key === "Enter" ? updateGame() : null)}
+                                            />
                                             : game.trailer
                                         }
                                     </td>

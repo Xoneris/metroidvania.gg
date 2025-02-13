@@ -1,5 +1,5 @@
 import { Head } from '@inertiajs/react';
-import { GameData } from '@/types';
+import { GameData, FrontPageSectionGame } from '@/types';
 import Layout from '@/Layouts/Layout';
 import HomePageBanner from '@/Components/HomePageBanner';
 import HomePageSection from '@/Components/HomePageSection';
@@ -20,7 +20,7 @@ export default function Home(
     :
     { 
         bannerSectionGames: GameData[],
-        upcomingGames: GameData[],
+        upcomingGames: FrontPageSectionGame[],
         recentlyReleased: GameData[], 
         gamesWithDemos: GameData[],
         earlyAccessGames: GameData[],  

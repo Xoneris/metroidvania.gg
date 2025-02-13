@@ -25,7 +25,7 @@ Route::get('/home', function (Request $request) {
         ->orderBy('release_date', 'DESC')
         ->first();
 
-    $bannerSectionComingSoon = Games::where('release_date', '>=', $today)
+    $bannerSectionComingSoon = Games::where('release_date', '>', $today)
         ->orderBy('release_date', 'ASC')
         ->first();
 
@@ -44,7 +44,7 @@ Route::get('/home', function (Request $request) {
 
     #5 upcoming Games.
     $upcomingGames = Games::select('id','name','slug','release_date','release_window','early_access')
-        ->where('release_date', '>=', $today)
+        ->where('release_date', '>', $today)
         ->orderBy('release_date', 'ASC')
         ->skip(0)
         ->take(5)

@@ -37,7 +37,7 @@ Route::get('/', function (Request $request) {
         ->orderBy('release_date', 'DESC')
         ->first();
 
-    $bannerSectionComingSoon = Games::where('release_date', '>=', $today)
+    $bannerSectionComingSoon = Games::where('release_date', '>', $today)
         ->orderBy('release_date', 'ASC')
         ->first();
 
@@ -55,7 +55,8 @@ Route::get('/', function (Request $request) {
     ];
 
     #5 upcoming Games.
-    $upcomingGames = Games::where('release_date', '>=', $today)
+    $upcomingGames = Games::select('id','name','slug','release_date','release_window','early_access')
+        ->where('release_date', '>', $today)
         ->orderBy('release_date', 'ASC')
         ->skip(0)
         ->take(5)
@@ -316,6 +317,7 @@ Route::get('/Login', function () {
 
 
 Route::post('/Report', [ReportController::class, 'store']);
+Route::put('/Report/{id}', [ReportController::class, 'update'])->middleware(['auth']);
 
 Route::post('/Login', [AuthenticatedSessionController::class, 'store'])->name('Login');
 
@@ -340,15 +342,6 @@ Route::middleware(['auth'])->prefix('Dashboard')->group(function () {
     }); 
 
     Route::get('/Reports', [ReportController::class , "index"]);
-
-    // Route::get('/Reports', function () {
-        
-    //     $reports = Reports::all();
-
-    //     return Inertia::render('Dashboard/Reports', [
-    //         'reports' => $reports,
-    //     ]);
-    // }); 
 });
 
 Route::middleware(['auth'])->patch('/Game/{id}/update', function (Request $request, $id) {

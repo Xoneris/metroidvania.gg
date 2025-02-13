@@ -1,8 +1,8 @@
-import { GameData } from "@/types";
+import { FrontPageSectionGame, GameData } from "@/types";
 import GameThumbnail from "./GameThumbnails";
 
 
-export default function HomePageSection({title,games}:{title:string, games:GameData[]|null}) {
+export default function HomePageSection({title,games}:{title:string, games:FrontPageSectionGame[]|null}) {
 
     return (
         <div className="w-full p-3">
@@ -10,7 +10,7 @@ export default function HomePageSection({title,games}:{title:string, games:GameD
             <hr className="bg-black w-full h-[2px]"/>
             <div className="flex flex-wrap justify-around pt-3">
                 {
-                    games?.map((game:GameData) => (
+                    games?.map((game:FrontPageSectionGame) => (
                         <GameThumbnail game={game} key={game.id}/>
                     ))
                 }
