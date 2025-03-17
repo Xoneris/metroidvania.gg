@@ -28,4 +28,4 @@ db-backup.sql
 build.tar.gz
 
 #db
-/database/database.sqlite
+database/database.sqlite

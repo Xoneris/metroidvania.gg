@@ -72,8 +72,8 @@ export default function DashboardNavigation() {
                     </p>
                 </Link>
 
-                <Link href={route('logout')} method="post">
-                    <p className="border-b text-lg transition-all border-[#999999] hover:text-mainOrange hover:border-mainOrange hover:pl-2">
+                <Link href={route('logout')} method="post" as="button">
+                    <p className="border-b text-lg transition-all border-[#999999] text-left hover:text-mainOrange hover:border-mainOrange hover:pl-2">
                         Logout
                     </p>
                 </Link>

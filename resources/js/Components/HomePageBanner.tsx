@@ -25,7 +25,7 @@ export default function HomePageBanner({games}:{games:GameData[]}) {
                         </span>
                         <img 
                             className={`rounded-r-2xl transition-all duration-500 ${heroTrailer !== games[0]?.trailer ? "-translate-x-12 opacity-30 group-hover:-translate-x-0 group-hover:opacity-100" : null}`}
-                            src={"/assets/thumbnails/"+games[0]?.slug+".jpg"} 
+                            src={"/storage/thumbnails/"+games[0]?.slug+".jpg"} 
                         />
                     </div>
 
@@ -35,7 +35,7 @@ export default function HomePageBanner({games}:{games:GameData[]}) {
                         </span>
                         <img 
                             className={`rounded-r-2xl transition-all duration-500 ${heroTrailer !== games[1]?.trailer ? "-translate-x-12 opacity-30 group-hover:-translate-x-0 group-hover:opacity-100" : null}`}
-                            src={"/assets/thumbnails/"+games[1]?.slug+".jpg"} 
+                            src={"/storage/thumbnails/"+games[1]?.slug+".jpg"} 
                         />
                     </div>
 
@@ -48,7 +48,7 @@ export default function HomePageBanner({games}:{games:GameData[]}) {
                             </span>
                             <img 
                                 className={`rounded-r-2xl transition-all duration-500  ${heroTrailer !== games[2]?.trailer ? "-translate-x-12 opacity-30 group-hover:-translate-x-0 group-hover:opacity-100" : null}`}
-                                src={"/assets/thumbnails/"+games[2]?.slug+".jpg"} 
+                                src={"/storage/thumbnails/"+games[2]?.slug+".jpg"} 
                             />
                         </div>
 
@@ -58,7 +58,7 @@ export default function HomePageBanner({games}:{games:GameData[]}) {
                             </span>
                             <img 
                                 className={`rounded-r-2xl transition-all duration-500  ${heroTrailer !== games[3]?.trailer ? "-translate-x-12 opacity-30 group-hover:-translate-x-0 group-hover:opacity-100" : null}`}
-                                src={"/assets/thumbnails/"+games[3]?.slug+".jpg"} 
+                                src={"/storage/thumbnails/"+games[3]?.slug+".jpg"} 
                             />
                         </div>
                     }

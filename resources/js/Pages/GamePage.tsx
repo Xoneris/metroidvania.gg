@@ -99,7 +99,7 @@ export default function GamePage ({singleGame, reviews}:{singleGame:GameData, re
 
                         <div className="flex flex-col gap-2 w-full max-w-[460px]">
 
-                            <img src={'/assets/thumbnails/' + singleGame.slug + '.jpg'} alt={singleGame.name} className="rounded-xl border border-black"/>
+                            <img src={'/storage/thumbnails/' + singleGame.slug + '.jpg'} alt={singleGame.name} className="rounded-xl border border-black"/>
                             <h2 className="text-2xl">Details:</h2>
                             <ul className="pl-4">
                                 <li><b>Developer:</b> {singleGame.developer} </li>

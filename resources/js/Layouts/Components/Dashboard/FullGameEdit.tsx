@@ -151,7 +151,7 @@ export default function FullGameEdit({game, editGame}:{editGame: boolean, game: 
                     <input type="file" name="thumbnail" accept="image/png, image/jpg" max={1} onChange={(e) => setData('thumbnail', e.target.files?.[0])} />
                     {
                         editGame 
-                        ? <img className="w-1/3 my-2 rounded-lg" src={"/assets/thumbnails/"+data.slug+".jpg"} />
+                        ? <img className="w-1/3 my-2 rounded-lg" src={"/storage/thumbnails/"+data.slug+".jpg"} />
                         : null
                     }
                 </div>

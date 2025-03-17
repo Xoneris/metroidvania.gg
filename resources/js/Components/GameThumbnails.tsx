@@ -16,7 +16,7 @@ export default function GameThumbnail ({game}:{game:GameData|FrontPageSectionGam
                         title={game.name}
                     >
                         <img 
-                            src={"/assets/thumbnails/" + game.slug + '.jpg'} 
+                            src={"/storage/thumbnails/" + game.slug + '.jpg'} 
                             alt={game.name} 
                             className="rounded-2xl"
                         />
