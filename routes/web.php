@@ -313,7 +313,7 @@ Route::get('/AllGames', function () {
 
 Route::get('/Login', function () {
     return Inertia::render('Auth/Login', []);
-});
+})->name('Login');
 
 
 Route::post('/Report', [ReportController::class, 'store']);
@@ -374,10 +374,13 @@ Route::middleware(['auth'])->post('/Game/New', function (Request $request) {
     # At... some point lol
 
     # Thumbnail
-    $thumbnail = $request->file('thumbnail');
-    $folder = '/assets/thumbnails';
-    $thumbnail_name = $request->slug . $thumbnail->getClientOriginalExtension();
-    $thumbnail->move(public_path($folder), $thumbnail_name);
+    // $thumbnail = $request->file('thumbnail');
+    // $folder = '/assets/thumbnails';
+    // $thumbnail_name = $request->slug . $thumbnail->getClientOriginalExtension();
+    // $thumbnail->move(public_path($folder), $thumbnail_name);
+
+    $fileName = $request->input('slug') . '.' . $request->file('thumbnail')->getClientOriginalExtension();
+    $path = $request->file('thumbnail')->storeAs('thumbnails', $fileName, 'public');
 
     # Put new game into the DB
     Games::create([
