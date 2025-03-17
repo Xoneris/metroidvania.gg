@@ -313,7 +313,7 @@ Route::get('/AllGames', function () {
 
 Route::get('/Login', function () {
     return Inertia::render('Auth/Login', []);
-})->name('Login');
+});
 
 
 Route::post('/Report', [ReportController::class, 'store']);

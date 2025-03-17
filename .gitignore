@@ -18,8 +18,14 @@ yarn-error.log
 /.idea
 /.vscode
 
-#thumbnails
-/public/assets/thumbnails
-
 #db insert
 insert.sql
+mvgg.sql
+test.sql
+db-backup.sql
+
+#build 
+build.tar.gz
+
+#db
+/database/database.sqlite
