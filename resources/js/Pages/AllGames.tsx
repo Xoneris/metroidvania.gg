@@ -24,7 +24,7 @@ export default function ({games}:{games:GameData[]}) {
                 <h1 className="text-2xl">All Games</h1>
                 <hr className="bg-black w-full h-[2px]"/>
                 
-                <ul className="flex m-auto gap-3">
+                <ul className="flex flex-wrap justify-center m-auto gap-3">
                     <a href="#0-9">
                         <li className="p-2 border border-black bg-black text-mainOrange rounded-md transition-all hover:text-black hover:bg-mainOrange hover:cursor-pointer">
                             0-9

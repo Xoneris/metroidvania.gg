@@ -7,7 +7,7 @@ import { useState } from "react";
 
 export default function Released ({games}:{games:GameData[]}) {
 
-    const [yearSelect, setYearSelect] = useState<string>("2024")
+    const [yearSelect, setYearSelect] = useState<string>("2025")
 
     const allPossibleYearsToSelect = [...new Set(games.filter(game => game.release_date !== "0000-00-00").map(game => game.release_date.split("-")[0]))]
 
@@ -17,7 +17,7 @@ export default function Released ({games}:{games:GameData[]}) {
         if (i < 10) {
             months.push("0" + i)
         } else {
-            months.push(""+i)
+            months.push("" + i)
         }
     }
 

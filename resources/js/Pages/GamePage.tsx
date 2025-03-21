@@ -90,8 +90,8 @@ export default function GamePage ({singleGame, reviews}:{singleGame:GameData, re
 
                     <h1 className="text-3xl font-bold">{singleGame.name}</h1>
 
-                    <div className=" bg-mainOrange p-1 rounded-lg flex justify-center">
-                        Is any information on this page wrong, outdated or missing? <span className="font-bold underline mx-1 cursor-pointer" onClick={() => setReport(true)}>Report</span> the issue and it will be fixed soon! Thank you for your help!
+                    <div className="w-full bg-mainOrange p-1 rounded-lg text-center">
+                        Is any information on this page wrong, outdated or missing? <span className="font-bold underline cursor-pointer" onClick={() => setReport(true)}>Report</span> the issue and it will be fixed soon! Thank you for your help!
 
                     </div>
 
