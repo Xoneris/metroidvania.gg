@@ -21,8 +21,8 @@ export default function Navigation() {
                 <NavigationDropdownMenu 
                     currentUrl={url}
                     dropdownItems={[
-                        {destination: "/2024", name: "2024"},
                         {destination: "/2025", name: "2025"},
+                        {destination: "/2026", name: "2026"},
                         {destination: "/TBD", name: "TBD"},
                         {destination: "/EarlyAccess", name: "Early Access"},
                         {destination: "/UpcomingKickstarters", name: "Upcoming Kickstarters"},

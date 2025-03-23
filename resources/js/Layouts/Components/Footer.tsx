@@ -23,8 +23,8 @@ export default function Footer() {
                 </div>
             </div>
 
-            <div className="bg-mainDark text-[#999999] w-full flex justify-center">
-                @2024 - Metroidvania.GG. All Right Reserved. Designed and Developed by<a href='https://twitter.com/xoneris' target='_blank' className="text-mainOrange hover:underline">Xoneris</a>
+            <div className="bg-mainDark text-[#999999] w-full text-center p-2">
+                All Right Reserved. Designed and Developed by <a href='https://twitter.com/xoneris' target='_blank' className="text-mainOrange hover:underline">Xoneris</a>
             </div>
         </footer>
     )

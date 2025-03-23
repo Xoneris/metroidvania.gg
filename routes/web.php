@@ -90,18 +90,18 @@ Route::get('/', function (Request $request) {
         ->inRandomOrder()
         ->get();
 
-    #5 random Games releasing in 2024.
+    #5 random Games releasing in 2025.
     $tomorrow = date("Y-m-d",strtotime("tomorrow"));
-    $gamesReleasing2024 = Games::where('release_window', 'LIKE', '%2024%')
-        ->orWhereBetween('release_date', [$tomorrow,'2024-12-31'])
+    $gamesReleasing2025 = Games::where('release_window', 'LIKE', '%2025%')
+        ->orWhereBetween('release_date', [$tomorrow,'2025-12-31'])
         ->skip(0)
         ->take(5)
         ->inRandomOrder() 
         ->get();
 
-    #5 random Games releasing in 2025.
-    $gamesReleasing2025 = Games::where('release_window', 'LIKE', '%2025%')
-        ->orWhereBetween('release_date', ['2025-01-01','2025-12-31'])
+    #5 random Games releasing in 2026.
+    $gamesReleasing2026 = Games::where('release_window', 'LIKE', '%2026%')
+        ->orWhereBetween('release_date', ['2026-01-01','2026-12-31'])
         ->skip(0)
         ->take(5)
         ->inRandomOrder() 
@@ -128,8 +128,8 @@ Route::get('/', function (Request $request) {
         'gamesWithDemos' => $gamesWithDemos,
         'earlyAccessGames' => $earlyAccessGames,
         'upcomingKickstarterGames' => $upcomingKickstarters,
-        'releasingIn2024' => $gamesReleasing2024,
         'releasingIn2025' => $gamesReleasing2025,
+        'releasingIn2026' => $gamesReleasing2026,
         'releasingInTBD' => $gamesReleasingTBD,
         'lastAddedGames' => $lastAddedGames,
         'canLogin' => Route::has('login'),

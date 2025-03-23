@@ -12,21 +12,19 @@ export default function Home(
         gamesWithDemos,
         earlyAccessGames,
         upcomingKickstarterGames,
-        releasingIn2024,
         releasingIn2025,
+        releasingIn2026,
         releasingInTBD,
         lastAddedGames,
-    }
-    :
-    { 
+    }:{ 
         bannerSectionGames: GameData[],
         upcomingGames: FrontPageSectionGame[],
         recentlyReleased: GameData[], 
         gamesWithDemos: GameData[],
         earlyAccessGames: GameData[],  
         upcomingKickstarterGames: GameData[],
-        releasingIn2024: GameData[],
         releasingIn2025: GameData[],
+        releasingIn2026: GameData[],
         releasingInTBD: GameData[],
         lastAddedGames: GameData[],
     }
@@ -68,12 +66,12 @@ export default function Home(
                             games={upcomingKickstarterGames}
                         />
                         <HomePageSection 
-                            title="Releasing in 2024"
-                            games={releasingIn2024}
-                        />
-                        <HomePageSection 
                             title="Releasing in 2025"
                             games={releasingIn2025}
+                        />
+                        <HomePageSection 
+                            title="Releasing in 2026"
+                            games={releasingIn2026}
                         />
                         <HomePageSection 
                             title="Releasing in TBD"
