@@ -18,7 +18,7 @@ export default function NavigationDropdownMenu ({
     // Check if the currently active page url is part of this dropdowns menu items
     const dropdownItemsIncludeCurrentUrl = () => {
         for (let i=0 ; i < dropdownItems.length ; i++){
-            if(dropdownItems[i].destination === currentUrl){
+            if (dropdownItems[i].destination === currentUrl) {
                 return true
             }
         }
