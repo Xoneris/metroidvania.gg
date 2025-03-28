@@ -33,16 +33,16 @@ class ReportController extends Controller
      */
     public function store(Request $request)
     {
-        // $validated = $request->validate([
-        //     'game_name' => 'string|required',
-        //     'report' => 'string|required',
-        // ]);
+        $validated = $request->validate([
+            'game_name' => 'string|required',
+            'report' => 'string|required',
+        ]);
 
-        // Reports::create([
-        //     'game_name' => $request['game_name'],
-        //     'report' => $request['report'],
-        //     'status' => 'open',
-        // ]);
+        Reports::create([
+            'game_name' => $request['game_name'],
+            'report' => $request['report'],
+            'status' => 'open',
+        ]);
 
         return redirect()->back()->with('success','Report submitted successfully!');
     }
