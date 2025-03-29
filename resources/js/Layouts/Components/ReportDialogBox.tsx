@@ -1,9 +1,12 @@
 import { useForm, usePage } from "@inertiajs/react"
+import { useState } from "react"
 
 export default function ReportDialogBox({gameName, setReport}:{gameName:string, setReport:any}) {
 
-    const { props } = usePage()
-    const { success }:any = props
+    // const { props } = usePage()
+    // const { success }:any = props
+
+    const [success, setSuccesss] = useState<string>("")
 
     const {data, setData, post, errors, setError} = useForm<any>({
         game_name: gameName,
@@ -20,10 +23,13 @@ export default function ReportDialogBox({gameName, setReport}:{gameName:string, 
             return
         }
 
-        // console.log(data)
-        post("/Report", data)
-        // setReport(false)
-        console.log(props)
+        post("/Report", {
+            data: data,
+            onFinish: () => {
+                console.log("Finished!")
+                setSuccesss("Report sent! Thank you! We'll fix the issue as soon as we can!")
+            }
+        })
     }
 
     return (
