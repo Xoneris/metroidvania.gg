@@ -106,7 +106,7 @@ export default function GamePage ({singleGame, reviews}:{singleGame:GameData, re
                                 <li><b>Publisher:</b> {singleGame.publisher}</li>
                                 <li><b>Release: </b> 
                                     {
-                                        singleGame.release_date !== "0000-00-00" && singleGame.release_date !== ""
+                                        singleGame.release_date !== "0000-00-00" && singleGame.release_date !== "" && singleGame.release_date !== "1970-01-01"
                                         ? replaceMonthWithName(singleGame.release_date) 
                                         : singleGame.release_window
                                     }   
