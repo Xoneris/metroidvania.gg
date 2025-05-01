@@ -48,13 +48,21 @@ export default function SubmitGame () {
 
     const changeFormPage = (currentPage:number, targetPage:number) => {
 
-        if (currentFormPage[targetPage-1].visitable === false) {
+        // if (currentFormPage[targetPage-1].visitable === false) {
             
-            return 
-        }
+        //     return 
+        // }
 
         setCurrentPage(targetPage)
 
+    }
+
+    function handleSubmit(e:any) {
+
+        e.preventDefault()
+
+        post('/SubmitGames', data)
+        console.log(data)
     }
 
     return(
@@ -94,7 +102,7 @@ export default function SubmitGame () {
                             Social Media {currentFormPage[3].visitable ? "✅" : "❌"}</div>
                     </div>
 
-                    <div className="flex flex-col w-full">
+                    <div className="flex flex-col w-full gap-1">
                         {/* ### First Page of the Form ### */}
                         {
                             currentPage === 1
@@ -154,7 +162,7 @@ export default function SubmitGame () {
                             <select 
                                 name="selectedReleaseDate"
                                 className={`${errors.release_select !== "" ? errors.release_select !== undefined ? "border-red-600" : "border-black" : "border-black"} rounded-md` }
-                                // When you select yes or no, remove the release_select error
+                                // ToDo: When you select yes or no, remove the release_select error
                                 onChange={(e) => e.target.value === "yes" ? setHasReleaseDate(true) : e.target.value === "no" ? setHasReleaseDate(false) : null }
                                 onBlur={(e) => e.target.value === "select an option" ? setError("release_select", "Select a option") : setError("release_select", "")}
                             >
@@ -196,6 +204,15 @@ export default function SubmitGame () {
                                 onBlur={(e) => e.target.value === "" ? setError("description", "Please enter a description for this game") : setError("description", "")}
                             ></textarea>
                             <span className="text-red-600">{errors.description}</span>
+                            <label>Thumbnail: *</label>
+                            <input 
+                                id="fileUpload"
+                                type="file"
+                                accept=".png, .jpg, .jpeg"
+                                className={`border-black rounded-md`}
+                                onBlur={(e) => e.target.value.length < 0 ? setError("thumbnails", "Please upload a Thumbnail of the game") : setError("thumbnails", "")}
+                            />
+                            <span className="text-red-600">{errors.thumbnail}</span>
                             </>
                             : null
                         }
@@ -417,7 +434,7 @@ export default function SubmitGame () {
                             currentPage === 4
                             ? <button 
                                 className="w-28 p-2 rounded-md bg-white text-black font-bold border border-[#666666] hover:text-mainOrange"
-                                // onClick={() => handleSubmit}
+                                onClick={(e) => handleSubmit(e)}
                             >
                                 Submit
                             </button>

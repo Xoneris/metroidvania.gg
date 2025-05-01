@@ -41,7 +41,7 @@ export default function DashboardNavigation() {
                         Edit Games
                     </p>
                 </Link>
-                <Link href="/Dashboard/SubmittedGames">
+                <Link href="/Dashboard/SubmitGames">
                     <p className={`
                         border-b text-lg transition-all 
                         ${url === "/Dashboard/SubmittedGames" 

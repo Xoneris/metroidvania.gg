@@ -3,8 +3,10 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SubmitGamesController;
 use App\Models\Games;
 use App\Models\Reports;
+use App\Models\SubmitGames;
 use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
@@ -311,6 +313,11 @@ Route::get('/AllGames', function () {
     ]);
 });
 
+Route::get('/SubmitGame', function () {
+
+    return Inertia::render('SubmitGames',[]);
+});
+
 Route::get('/Login', function () {
     return Inertia::render('Auth/Login', []);
 });
@@ -318,6 +325,8 @@ Route::get('/Login', function () {
 
 Route::post('/Report', [ReportController::class, 'store']);
 Route::put('/Report/{id}', [ReportController::class, 'update'])->middleware(['auth']);
+
+Route::post('/SubmitGames', [SubmitGames::class, 'create']);
 
 Route::post('/Login', [AuthenticatedSessionController::class, 'store'])->name('Login');
 
@@ -341,6 +350,7 @@ Route::middleware(['auth'])->prefix('Dashboard')->group(function () {
         ]);
     }); 
 
+    Route::get('/SubmitGames', [SubmitGamesController::class, "index"]);
     Route::get('/Reports', [ReportController::class , "index"]);
 });
 
