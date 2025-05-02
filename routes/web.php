@@ -326,7 +326,7 @@ Route::get('/Login', function () {
 Route::post('/Report', [ReportController::class, 'store']);
 Route::put('/Report/{id}', [ReportController::class, 'update'])->middleware(['auth']);
 
-Route::post('/SubmitGames', [SubmitGames::class, 'create']);
+Route::post('/SubmitGames', [SubmitGamesController::class, 'store']);
 
 Route::post('/Login', [AuthenticatedSessionController::class, 'store'])->name('Login');
 

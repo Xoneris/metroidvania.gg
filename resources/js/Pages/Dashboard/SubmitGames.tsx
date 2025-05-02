@@ -25,24 +25,50 @@ export default function SubmitGame ({games}:{games:any}) {
                     >
                         {"< Back"}
                     </button>
-                    <FullGameEdit game={fullGame} editGame={true} />
+                    <FullGameEdit game={fullGame} editGame={undefined} submittedGame={true} />
                 </>
                 : <>
+                    <table className="w-full">
+                        <thead className="bg-black text-mainOrange font-bold">
+                            <tr className="[&>td]:p-2">
+                                <td>Name</td>
+                                <td>Release Window</td>
+                                <td>Release Date</td>
+                                <td>Demo</td>
+                                <td>Early Access</td>
+                                <td>Kickstarter Status</td>
+                                <td>Trailer</td>
+                                <td>Edit</td>
+                            </tr>
+                        </thead>
                 {
                     games.map((game:GameData) => (
-                        <div className="flex justify-between">
-                            <p>{game.name}</p>
-                            <button
-                                onClick={() => {
-                                    setFullGame(game)
-                                    setFullEdit(true)
-                                }}
-                            >
-
-                            </button>
-                        </div>
+                        <tbody 
+                            className="odd:bg-[#CCCCCC] [&>td]:p-2" 
+                            key={game.id}
+                        >
+                            <td>{game.name}</td>
+                            <td>{game.release_window}</td>
+                            <td>{game.release_date}</td>
+                            <td>{game.demo}</td>
+                            <td>{game.early_access}</td>
+                            <td>{game.kickstarter_status}</td>
+                            <td>{game.trailer}</td>
+                            <td>
+                                <button
+                                    className="w-20 p-2 rounded-md bg-white text-black font-bold border border-[#666666] hover:text-mainOrange" 
+                                    onClick={() => {
+                                        setFullGame(game)
+                                        setFullEdit(true)
+                                    }}
+                                >
+                                    Review Game
+                                </button>
+                            </td>
+                        </tbody>
                     ))
                 }
+                    </table>
                 </>
 
             }

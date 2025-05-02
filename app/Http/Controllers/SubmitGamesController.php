@@ -24,10 +24,17 @@ class SubmitGamesController extends Controller
      * Show the form for creating a new resource.
      */
     public function create(Request $request) {
+        
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request) {
         $fileName = $request->input('slug') . '.' . $request->file('thumbnail')->getClientOriginalExtension();
         $path = $request->file('thumbnail')->storeAs('thumbnails', $fileName, 'public');
 
-        dd($request);
+        // dd($request->all());
 
         # Put new game into the DB
         SubmitGames::create([
@@ -58,14 +65,6 @@ class SubmitGamesController extends Controller
             'kickstarter_status' => $request['kickstarter_status'],
             // '' => $request[''],
         ]);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**

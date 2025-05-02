@@ -1,23 +1,23 @@
 import Layout from "@/Layouts/Layout";
 import { GameData } from "@/types";
 import { Head, useForm } from "@inertiajs/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function SubmitGame () {
 
     const [hasReleaseDate, setHasReleaseDate] = useState<boolean>()
-    const [hasPublisher, setHasPublisher] = useState<boolean>()
+    const [hasPublisher, setHasPublisher] = useState<boolean>(false)
     const [hasKickstarter, setHasKickstarter] = useState<boolean>()
     const [currentPage, setCurrentPage] = useState<number>(1)
 
     const [currentFormPage, setCurrentFormPage] = useState([
-        { page: 1, visitable: false},
-        { page: 2, visitable: false},
-        { page: 3, visitable: false},
-        { page: 4, visitable: false},
+        { visitable: false },
+        { visitable: false },
+        { visitable: false },
+        { visitable: false },
     ])
 
-    const { data, setData, post, processing, errors, setError } = useForm<GameData|any>({
+    const { data, setData, post, processing, errors, setError } = useForm<GameData&{thumbnail:string}|any>({
         name: '',
         slug: '',
         developer: '',
@@ -126,7 +126,14 @@ export default function SubmitGame () {
                                 type="text" 
                                 placeholder="My cool Studio"
                                 className={`${errors.developer !== "" ? errors.developer !== undefined ? "border-red-600" : "border-black" : "border-black"} rounded-md` }
-                                onChange={(e) => setData("developer", e.target.value)}
+                                onChange={(e) => {
+                                    hasPublisher 
+                                    ? setData("developer", e.target.value)
+                                    : (
+                                        setData(data => ({ ...data, developer: e.target.value})),
+                                        setData(data => ({ ...data, publisher: e.target.value}))
+                                    )
+                                }}
                                 onBlur={(e) => e.target.value === "" ? setError("developer", "Please enter the Developer of this game") : setError("developer", "")}
                             />
                             <span className="text-red-600">{errors.developer}</span>
@@ -135,7 +142,7 @@ export default function SubmitGame () {
                             <select 
                                 name="selectedPublisher"
                                 className={`${errors.publisher_select !== "" ? errors.publisher_select !== undefined ? "border-red-600" : "border-black" : "border-black"} rounded-md` }
-                                onChange={(e) => e.target.value === "yes" ? setHasPublisher(true) : e.target.value === "no" ? setHasPublisher(false) : null}
+                                onChange={(e) => e.target.value === "yes" ? setHasPublisher(true) : e.target.value === "no" ? (setHasPublisher(false), setData("publisher",data.developer)) : null}
                                 onBlur={(e) => e.target.value === "select an option" ? setError("publisher_select", "Select a option") : setError("publisher_select", "")}
                             >
                                 <option disabled selected>select an option</option>
@@ -196,6 +203,17 @@ export default function SubmitGame () {
                                     </> 
                                 : null
                             }
+
+                            <label>Trailer: *</label>
+                            <input 
+                                type="text" 
+                                placeholder="https://www.youtube.com/watch?v="
+                                className={`${errors.trailer !== "" ? errors.trailer !== undefined ? "border-red-600" : "border-black" : "border-black"} rounded-md` }
+                                onChange={(e) => setData("trailer", e.target.value)}
+                                onBlur={(e) => e.target.value === "" ? setError("trailer", "Please provide a YouTube link to a trailer of this game") : setError("trailer", "")}
+                            />
+                            <span className="text-red-600">{errors.trailer}</span>
+
                             <label>Description: *</label>
                             <textarea
                                 className={`${errors.description !== "" ? errors.description !== undefined ? "border-red-600" : "border-black" : "border-black"} rounded-md min-h-[100px]`}
@@ -210,7 +228,8 @@ export default function SubmitGame () {
                                 type="file"
                                 accept=".png, .jpg, .jpeg"
                                 className={`border-black rounded-md`}
-                                onBlur={(e) => e.target.value.length < 0 ? setError("thumbnails", "Please upload a Thumbnail of the game") : setError("thumbnails", "")}
+                                onChange={(e) => setData('thumbnail', e.target.files?.[0])}
+                                // onBlur={(e) => e.target.value.length < 0 ? setError("thumbnails", "Please upload a Thumbnail of the game") : setError("thumbnails", "")}
                             />
                             <span className="text-red-600">{errors.thumbnail}</span>
                             </>
@@ -451,8 +470,8 @@ export default function SubmitGame () {
                     <div className="flex flex-col gap">
                         <p>{data.name}</p>
                         <p>{data.slug}</p>
-                        <p>{data.developer}</p>
-                        <p>{data.publisher}</p>
+                        <p>Dev: {data.developer}</p>
+                        <p>Pub: {data.publisher}</p>
                         <p>{data.release_date}</p>
                         <p>{data.release_window}</p>
                         <p>{data.description}</p>
