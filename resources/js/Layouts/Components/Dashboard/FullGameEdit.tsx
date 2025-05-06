@@ -1,5 +1,6 @@
 import { GameData } from "@/types";
 import { useForm } from "@inertiajs/react";
+import { useEffect } from "react";
 
 export default function FullGameEdit({game, editGame, submittedGame}:{editGame: boolean|undefined, submittedGame: boolean|undefined, game: GameData|undefined,}) {
 
@@ -30,9 +31,12 @@ export default function FullGameEdit({game, editGame, submittedGame}:{editGame: 
         youtube: '',
         website: '',
         discord: '',
-        submittedGame: false
     })
-        
+    
+    useEffect(() => {
+        if (submittedGame) {setData('submittedGame', true)}
+    },[])
+
     function handleSubmit(e:any) {
 
         e.preventDefault()
@@ -42,10 +46,17 @@ export default function FullGameEdit({game, editGame, submittedGame}:{editGame: 
             put('/Game/'+data.slug+'/Edit', data)
             console.log(data)
 
-        } else if (editGame === false || submittedGame === true) {
+        } else if (editGame === false) {
 
             post('/Game/New', data)
             console.log(data)
+
+        } else if (submittedGame === true) {
+
+            
+            post('/Game/New', data)
+            console.log(data)
+
         }
     }
 

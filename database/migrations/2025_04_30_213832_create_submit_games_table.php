@@ -39,6 +39,7 @@ return new class extends Migration
             $table->string('discord')->nullable();
             $table->date('release_date')->nullable();
             $table->string('kickstarter_status')->nullable();
+            $table->boolean('isAdded')->default(false);
         });
     }
 

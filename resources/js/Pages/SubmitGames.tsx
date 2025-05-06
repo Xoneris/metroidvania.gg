@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 export default function SubmitGame () {
 
     const [hasReleaseDate, setHasReleaseDate] = useState<boolean>()
-    const [hasPublisher, setHasPublisher] = useState<boolean>(false)
+    const [hasPublisher, setHasPublisher] = useState<boolean>()
     const [hasKickstarter, setHasKickstarter] = useState<boolean>()
     const [currentPage, setCurrentPage] = useState<number>(1)
 
@@ -54,6 +54,35 @@ export default function SubmitGame () {
         // }
 
         setCurrentPage(targetPage)
+
+    }
+
+    const checkAnswers = (page:number) => {
+        switch (page) {
+            case 1:
+                let pageOneError = false
+                if (data.name === ""){ setError("name", "Please enter the name of the game"), pageOneError = false }
+                if (data.developer === ""){ setError("developer", "Please enter the Developer of this game"), pageOneError = false }
+                if (hasPublisher === undefined){ setError("publisher_select", "Select a option"), pageOneError = false }
+                if (hasPublisher === true && data.publisher === ""){ setError("publisher", "Please enter the Publisher of this game"), pageOneError = false }
+                if (hasReleaseDate === undefined){ setError("release_select", "Select a option"), pageOneError = false }
+                if (hasReleaseDate === true && data.release_date === ""){ setError("release_date", "Please select a release date"), pageOneError = false }
+                if (hasReleaseDate === false && data.release_window === ""){ setError("release_window", "Please enter a release window for this game"), pageOneError = false }
+                if (data.trailer === ""){ setError("trailer", "Please provide a YouTube link to a trailer of this game"), pageOneError = false }
+                if (data.description === ""){ setError("description", "Please enter a description for this game"), pageOneError = false }
+                if (data.thumbnail === ""){ setError("thumbnail", "Please upload a Thumbnail of the game"), pageOneError = false }
+                if (pageOneError === false) { setCurrentPage(2) }
+                break
+            case 2:
+
+                break
+            case 3:
+
+                break
+            case 4:
+
+                break
+        }
 
     }
 
@@ -186,7 +215,8 @@ export default function SubmitGame () {
                                         <input 
                                             type="date"
                                             className={`${errors.release_date !== "0000-00-00" ? errors.release_date !== undefined ? "border-red-600" : "border-black" : "border-black"} rounded-md` }
-                                            onChange={(e) => setData("release_date", e.target.value)}    
+                                            onChange={(e) => setData("release_date", e.target.value)}
+                                            onBlur={(e) => e.target.value === "" ? setError("release_date", "Please select a release date") : setError("release_date", "")}    
                                         />
                                         <span className="text-red-600">{errors.release_date}</span>
                                     </>
@@ -228,7 +258,10 @@ export default function SubmitGame () {
                                 type="file"
                                 accept=".png, .jpg, .jpeg"
                                 className={`border-black rounded-md`}
-                                onChange={(e) => setData('thumbnail', e.target.files?.[0])}
+                                onChange={(e) => {
+                                    setData('thumbnail', e.target.files?.[0])
+                                    setError("thumbnail", "")
+                                }}
                                 // onBlur={(e) => e.target.value.length < 0 ? setError("thumbnails", "Please upload a Thumbnail of the game") : setError("thumbnails", "")}
                             />
                             <span className="text-red-600">{errors.thumbnail}</span>
@@ -460,21 +493,12 @@ export default function SubmitGame () {
                             : <button 
                                 className="w-28 p-2 rounded-md bg-white text-black font-bold border border-[#666666] hover:text-mainOrange"
                                 // onClick={() => setCurrentPage(currentPage + 1)}
-                                onClick={() => changeFormPage(currentPage, currentPage + 1)}
+                                // onClick={() => changeFormPage(currentPage, currentPage + 1)}
+                                onClick={() => checkAnswers(currentPage)}
                             >
                                 Next
                             </button>
                         }
-                    </div>
-
-                    <div className="flex flex-col gap">
-                        <p>{data.name}</p>
-                        <p>{data.slug}</p>
-                        <p>Dev: {data.developer}</p>
-                        <p>Pub: {data.publisher}</p>
-                        <p>{data.release_date}</p>
-                        <p>{data.release_window}</p>
-                        <p>{data.description}</p>
                     </div>
                 </div>
             </section>

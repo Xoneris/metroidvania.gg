@@ -383,14 +383,13 @@ Route::middleware(['auth'])->post('/Game/New', function (Request $request) {
     # Validate first
     # At... some point lol
 
-    # Thumbnail
-    // $thumbnail = $request->file('thumbnail');
-    // $folder = '/assets/thumbnails';
-    // $thumbnail_name = $request->slug . $thumbnail->getClientOriginalExtension();
-    // $thumbnail->move(public_path($folder), $thumbnail_name);
+    // dd($request->all());
 
-    $fileName = $request->input('slug') . '.' . $request->file('thumbnail')->getClientOriginalExtension();
-    $path = $request->file('thumbnail')->storeAs('thumbnails', $fileName, 'public');
+    # Thumbnail
+    if ($request["submittedGame"] !== true) {
+        $fileName = $request->input('slug') . '.' . $request->file('thumbnail')->getClientOriginalExtension();
+        $path = $request->file('thumbnail')->storeAs('thumbnails', $fileName, 'public');
+    }
 
     # Put new game into the DB
     Games::create([
@@ -422,6 +421,12 @@ Route::middleware(['auth'])->post('/Game/New', function (Request $request) {
         // '' => $request[''],
     ]);
 
+    if ($request["submittedGame"] === true) {
+        
+        $submittedGame = SubmitGames::where('slug', $request['slug'])->first();
+        $submittedGame->isAdded = true;
+        $submittedGame->save();
+    }
     // return to_route('/Dashboard');
 });
 
