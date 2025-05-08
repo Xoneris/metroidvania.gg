@@ -9,6 +9,10 @@ export default function SubmitGame () {
     const [hasPublisher, setHasPublisher] = useState<boolean>()
     const [hasKickstarter, setHasKickstarter] = useState<boolean>()
 
+    const [fileName, setFileName] = useState<string>()
+
+    const [currentEditingPage, setCurrentEditingPage] = useState<number>(1)
+
     const [currentPage, setCurrentPage] = useState<number>(1)
     const [currentFormPage, setCurrentFormPage] = useState([
         false,
@@ -16,6 +20,9 @@ export default function SubmitGame () {
         false,
         false,
     ])
+
+    let oneTimePageThreeCheck = false
+    let oneTimePageFourCheck = false
 
     const { data, setData, post, processing, errors, setError } = useForm<GameData&{thumbnail:string}|any>({
         name: '',
@@ -57,7 +64,27 @@ export default function SubmitGame () {
 
     }
 
+    const validateFileUpload = (e) => {
+
+        const fileUpload = e.target.files[0]
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png']
+
+        if (fileUpload && allowedTypes.includes(fileUpload.type)) {
+            setData("thumbnail", fileUpload);
+            setFileName(fileUpload.name);
+            setError("thumbnail","");
+          } else {
+            setError("thumbnail", "Only .jpg, .jpeg, or .png files are allowed.");
+          }
+
+
+        setData('thumbnail', e.target.files?.[0])
+        setError("thumbnail", "")
+                                
+    }
+
     const checkAnswers = (page:number) => {
+        let oneTimeCheck = false
         switch (page) {
             case 1:
                 let pageOneError = false
@@ -72,9 +99,11 @@ export default function SubmitGame () {
                 if (data.description === ""){ setError("description", "Please enter a description for this game"), pageOneError = true }
                 if (data.thumbnail === ""){ setError("thumbnail", "Please upload a Thumbnail of the game"), pageOneError = true }
                 if (pageOneError === false){
+
                     const updatedCurrentFormPage = [...currentFormPage]
                     updatedCurrentFormPage[0] = true
-                    setCurrentFormPage(updatedCurrentFormPage) 
+                    setCurrentFormPage(updatedCurrentFormPage)
+                    setCurrentEditingPage(2)
                     setCurrentPage(2)
                 }
                 break
@@ -89,25 +118,55 @@ export default function SubmitGame () {
                     const updatedCurrentFormPage = [...currentFormPage]
                     updatedCurrentFormPage[1] = true
                     setCurrentFormPage(updatedCurrentFormPage) 
+                    setCurrentEditingPage(3)
                     setCurrentPage(3)
                 }
                 break
             case 3:
-                let pageThreeError = false
-                if (
-                    data.steam === "" &&
-                    data.epic === "" &&
-                    data.gog === "" &&
-                    data.playstation === "" &&
-                    data.xbox === "" &&
-                    data.nintendo == ""
-                ) { setError("platforms","You have not entered the link to any platforms. While none of these are mandatory informations, consider again if you really don't have this information"), pageThreeError }
-                if (pageThreeError === false){
+
+                if (oneTimePageThreeCheck === false) {
+
+                    if (
+                        data.steam === "" &&
+                        data.epic === "" &&
+                        data.gog === "" &&
+                        data.playstation === "" &&
+                        data.xbox === "" &&
+                        data.nintendo == "" 
+                    ) { setError("platforms","You have not entered the link to any platforms. While none of these are mandatory informations, consider again if you really don't have this information") }
+                    oneTimePageThreeCheck = true
+                } 
+
+                if (oneTimePageThreeCheck === true && errors.platforms === ""){ 
                     const updatedCurrentFormPage = [...currentFormPage]
                     updatedCurrentFormPage[2] = true
                     setCurrentFormPage(updatedCurrentFormPage) 
+                    setError("platforms","")
+                    setCurrentEditingPage(4)
                     setCurrentPage(4)
                 }
+
+
+
+                // let pageThreeError = false
+                // if (
+                //     data.steam === "" &&
+                //     data.epic === "" &&
+                //     data.gog === "" &&
+                //     data.playstation === "" &&
+                //     data.xbox === "" &&
+                //     data.nintendo == "" 
+                // ) { setError("platforms","You have not entered the link to any platforms. While none of these are mandatory informations, consider again if you really don't have this information"), pageThreeError }
+
+                // if (pageThreeError === false){
+                //     const updatedCurrentFormPage = [...currentFormPage]
+                //     updatedCurrentFormPage[2] = true
+                //     setCurrentFormPage(updatedCurrentFormPage) 
+                //     setError("platforms","")
+                //     setCurrentEditingPage(4)
+                //     setCurrentPage(4)
+                // }
+
                 break
         }
 
@@ -135,37 +194,38 @@ export default function SubmitGame () {
                         <div 
                             className={`
                                 ${currentPage === 1 ? "border-b-[#EEEEEE]" : "bg-white" } 
-                                ${currentFormPage[0] ? "hover:cursor-pointer" : "hover:cursor-not-allowed"}
+                                ${currentEditingPage >= 1 ? "hover:cursor-pointer" : "hover:cursor-not-allowed"}
                                 p-2 -mb-[1px] border border-black rounded-t-md z-10`
                             }
-                            onClick={() => currentFormPage[0] ? changeFormPage(currentPage, 1) : null}
+                            // onClick={() => currentFormPage[0] ? changeFormPage(currentPage, 1) : null}
+                            onClick={() => currentEditingPage >= 1 ? changeFormPage(currentPage, 1) : null}
                         >
                             Basic Information {currentFormPage[0] ? "✅" : ""}</div>
                         <div 
                             className={`
                                 ${currentPage === 2 ? "border-b-[#EEEEEE]" : "bg-white" } 
-                                ${currentFormPage[1] ? "hover:cursor-pointer" : "hover:cursor-not-allowed"}
+                                ${currentEditingPage >= 2 ? "hover:cursor-pointer" : "hover:cursor-not-allowed"}
                                 p-2 -mb-[1px] border border-black rounded-t-md z-10`
                             }
-                            onClick={() => currentFormPage[1] ? changeFormPage(currentPage, 2) : null}
+                            onClick={() => currentEditingPage >= 2 ? changeFormPage(currentPage, 2) : null}
                         >
                             Demo, Early Access & Kickstarter {currentFormPage[1] ? "✅" : ""}</div>
                         <div 
                             className={`
                                 ${currentPage === 3 ? "border-b-[#EEEEEE]" : "bg-white" } 
-                                ${currentFormPage[2] ? "hover:cursor-pointer" : "hover:cursor-not-allowed"}
+                                ${currentEditingPage >= 3 ? "hover:cursor-pointer" : "hover:cursor-not-allowed"}
                                 p-2 -mb-[1px] border border-black rounded-t-md z-10`
                             }
-                            onClick={() => currentFormPage[2] ? changeFormPage(currentPage, 3) : null}
+                            onClick={() => currentEditingPage >= 3 ? changeFormPage(currentPage, 3) : null}
                         >
                             Platforms {currentFormPage[2] ? "✅" : ""}</div>
                         <div 
                             className={`
                                 ${currentPage === 4 ? "border-b-[#EEEEEE]" : "bg-white" } 
-                                ${currentFormPage[3] ? "hover:cursor-pointer" : "hover:cursor-not-allowed"}
+                                ${currentEditingPage >= 4 ? "hover:cursor-pointer" : "hover:cursor-not-allowed"}
                                 p-2 -mb-[1px] border border-black rounded-t-md z-10`
                             }
-                            onClick={() => currentFormPage[3] ? changeFormPage(currentPage, 4) : null}
+                            onClick={() => currentEditingPage >= 4 ? changeFormPage(currentPage, 4) : null}
                         >
                             Social Media {currentFormPage[3] ? "✅" : ""}</div>
                     </div>
@@ -305,12 +365,10 @@ export default function SubmitGame () {
                                 accept=".png, .jpg, .jpeg"
                                 className={`border-black rounded-md`}
                                 // value={data.thumbnail}
-                                onChange={(e) => {
-                                    setData('thumbnail', e.target.files?.[0])
-                                    setError("thumbnail", "")
-                                }}
+                                onChange={(e) => { validateFileUpload(e) }}
                                 // onBlur={(e) => e.target.value.length < 0 ? setError("thumbnails", "Please upload a Thumbnail of the game") : setError("thumbnails", "")}
                             />
+                            <span>{fileName}</span>
                             <span className="text-red-600">{errors.thumbnail}</span>
                             </>
                             : null
