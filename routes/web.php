@@ -3,8 +3,10 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SubmitGamesController;
 use App\Models\Games;
 use App\Models\Reports;
+use App\Models\SubmitGames;
 use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
@@ -311,6 +313,11 @@ Route::get('/AllGames', function () {
     ]);
 });
 
+Route::get('/SubmitGame', function () {
+
+    return Inertia::render('SubmitGames',[]);
+});
+
 Route::get('/Login', function () {
     return Inertia::render('Auth/Login', []);
 });
@@ -318,6 +325,8 @@ Route::get('/Login', function () {
 
 Route::post('/Report', [ReportController::class, 'store']);
 Route::put('/Report/{id}', [ReportController::class, 'update'])->middleware(['auth']);
+
+Route::post('/SubmitGames', [SubmitGamesController::class, 'store']);
 
 Route::post('/Login', [AuthenticatedSessionController::class, 'store'])->name('Login');
 
@@ -341,6 +350,7 @@ Route::middleware(['auth'])->prefix('Dashboard')->group(function () {
         ]);
     }); 
 
+    Route::get('/SubmitGames', [SubmitGamesController::class, "index"]);
     Route::get('/Reports', [ReportController::class , "index"]);
 });
 
@@ -373,14 +383,13 @@ Route::middleware(['auth'])->post('/Game/New', function (Request $request) {
     # Validate first
     # At... some point lol
 
-    # Thumbnail
-    // $thumbnail = $request->file('thumbnail');
-    // $folder = '/assets/thumbnails';
-    // $thumbnail_name = $request->slug . $thumbnail->getClientOriginalExtension();
-    // $thumbnail->move(public_path($folder), $thumbnail_name);
+    // dd($request->all());
 
-    $fileName = $request->input('slug') . '.' . $request->file('thumbnail')->getClientOriginalExtension();
-    $path = $request->file('thumbnail')->storeAs('thumbnails', $fileName, 'public');
+    # Thumbnail
+    if ($request["submittedGame"] !== true) {
+        $fileName = $request->input('slug') . '.' . $request->file('thumbnail')->getClientOriginalExtension();
+        $path = $request->file('thumbnail')->storeAs('thumbnails', $fileName, 'public');
+    }
 
     # Put new game into the DB
     Games::create([
@@ -412,6 +421,12 @@ Route::middleware(['auth'])->post('/Game/New', function (Request $request) {
         // '' => $request[''],
     ]);
 
+    if ($request["submittedGame"] === true) {
+        
+        $submittedGame = SubmitGames::where('slug', $request['slug'])->first();
+        $submittedGame->isAdded = true;
+        $submittedGame->save();
+    }
     // return to_route('/Dashboard');
 });
 

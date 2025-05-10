@@ -81,7 +81,7 @@ export default function EditGames({games}:{games:GameData[]}) {
                     >
                         {"< Back"}
                     </button>
-                    <FullGameEdit game={fullGame} editGame={true} />
+                    <FullGameEdit game={fullGame} editGame={true} submittedGame={undefined} />
                 </>
                 : <>
                     <input type="text" placeholder="Search game..."

@@ -13,7 +13,7 @@ export default function AddGame () {
             
             <h1 className="text-3xl">Add Game</h1>
 
-            <FullGameEdit game={undefined} editGame={false} />
+            <FullGameEdit game={undefined} editGame={false} submittedGame={undefined} />
 
         </DashboardLayout>
     )

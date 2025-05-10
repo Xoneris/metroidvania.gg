@@ -1,7 +1,8 @@
 import { GameData } from "@/types";
 import { useForm } from "@inertiajs/react";
+import { useEffect } from "react";
 
-export default function FullGameEdit({game, editGame}:{editGame: boolean, game: GameData|undefined,}) {
+export default function FullGameEdit({game, editGame, submittedGame}:{editGame: boolean|undefined, submittedGame: boolean|undefined, game: GameData|undefined,}) {
 
     const { data, setData, post, put, processing, errors, setError } = useForm<any>(game || {
         name: '',
@@ -31,7 +32,11 @@ export default function FullGameEdit({game, editGame}:{editGame: boolean, game: 
         website: '',
         discord: '',
     })
-        
+    
+    useEffect(() => {
+        if (submittedGame) {setData('submittedGame', true)}
+    },[])
+
     function handleSubmit(e:any) {
 
         e.preventDefault()
@@ -45,6 +50,13 @@ export default function FullGameEdit({game, editGame}:{editGame: boolean, game: 
 
             post('/Game/New', data)
             console.log(data)
+
+        } else if (submittedGame === true) {
+
+            
+            post('/Game/New', data)
+            console.log(data)
+
         }
     }
 
@@ -152,6 +164,8 @@ export default function FullGameEdit({game, editGame}:{editGame: boolean, game: 
                     {
                         editGame 
                         ? <img className="w-1/3 my-2 rounded-lg" src={"/storage/thumbnails/"+data.slug+".jpg"} />
+                        : submittedGame
+                        ? <img className="w-1/3 my-2 rounded-lg" src={"/storage/thumbnails/"+data.slug+".jpg"} />
                         : null
                     }
                 </div>
@@ -216,7 +230,11 @@ export default function FullGameEdit({game, editGame}:{editGame: boolean, game: 
 
             <button className="w-28 p-2 rounded-md bg-white text-black font-bold border border-[#666666] hover:text-mainOrange">
                 {
-                    editGame ? "Save Game" : "Add Game"
+                    editGame 
+                    ? "Save Game" 
+                    : submittedGame
+                    ? "Add Game"
+                    : "Add Game"
                 }
             </button>
 
