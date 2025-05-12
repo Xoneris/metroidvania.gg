@@ -18,12 +18,13 @@ export default function Header () {
         <header className="bg-mainDark border-b border-mainOrange text-white">
 
             <div className="max-w-[1920px] flex justify-between bg-[#111111] p-2 text-sm text-[#999999]">
-                <p className="flex gap-1">
+                <p className="hidden sm:flex gap-1">
                     <span>{currentDay}</span>-
                     <span>{currentMonth}</span>
                     <span>{date.getDate()}</span>-
                     <span>{currentHour + ":" + currentMinute}</span>
                 </p>
+                <p className="flex sm:hidden"></p>
                 <div className="flex gap-1">
                     <p><a href="https://twitter.com/metroidvania_gg" target="_blank" className="hover:underline hover:cursor-pointer">Twitter</a> | </p>
                     <p><a href="https://youtube.com/@metroidvaniagg" target="_blank" className="hover:underline hover:cursor-pointer">YouTube</a> | </p>

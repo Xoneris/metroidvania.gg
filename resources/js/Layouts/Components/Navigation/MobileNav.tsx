@@ -21,7 +21,7 @@ export default function MobileNav() {
 
             <div className={`${isOpen ? "w-[300px] border-l border-mainOrange" : "w-0"} fixed top-0 right-0 h-screen z-50 overflow-hidden bg-mainDark bg-opacity-70 backdrop-blur-lg transition-all`}>
 
-                <div className="flex justify-end items-center m-2">
+                <div className="flex justify-end items-center m-2 mt-10">
 
                     <div
                         className="relative m-2 w-10 h-10 cursor-pointer"
