@@ -427,7 +427,19 @@ Route::middleware(['auth'])->post('/Game/New', function (Request $request) {
         $submittedGame->isAdded = true;
         $submittedGame->save();
     }
-    // return to_route('/Dashboard');
+    
+    $discord_webhook_id = env('DISCORD_WEBHOOK_ID');
+    $discord_webhook_token = env('DISCORD_WEBHOOK_TOKEN');
+    Http::post('https://discord.com/api/webhooks/'. $discord_webhook_id .'/'.$discord_webhook_token.'', [
+        'embeds' => [[
+            'title' => 'New Game added to MetroidVania.GG!',
+            'description' => "**Name:** " . $request['name'] . "\n\n**Description:** " . $request['description'] . "\n\n[Find out more!](https://www.metroidvania.gg/Game/" . $request['slug']. ")",
+            'image' => [
+                'url' => 'https://www.metroidvania.gg/storage/thumbnails/' . $request['slug']
+            ],
+            'color' => hexdec('dd8500'),
+        ]]
+    ]);
 });
 
 Route::get('/Game/{slug}', function ($slug) {
