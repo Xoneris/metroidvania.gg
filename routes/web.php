@@ -380,56 +380,59 @@ Route::middleware(['auth'])->put('/Game/{slug}/Edit', function (Request $request
 
 Route::middleware(['auth'])->post('/Game/New', function (Request $request) {
 
-    # Validate first
-    # At... some point lol
+    if ($request['name'] !== "Test") {
 
-    // dd($request->all());
+        # Validate first
+        # At... some point lol
 
-    # Thumbnail
-    if ($request["submittedGame"] !== true) {
-        $fileName = $request->input('slug') . '.' . $request->file('thumbnail')->getClientOriginalExtension();
-        $path = $request->file('thumbnail')->storeAs('thumbnails', $fileName, 'public');
-    }
+        # Thumbnail
+        if ($request["submittedGame"] !== true) {
+            $fileName = $request->input('slug') . '.' . $request->file('thumbnail')->getClientOriginalExtension();
+            $path = $request->file('thumbnail')->storeAs('thumbnails', $fileName, 'public');
+        }
 
-    # Put new game into the DB
-    Games::create([
-        'name' => $request['name'],
-        'developer' => $request['developer'],
-        'publisher' => $request['publisher'],
-        'description' => $request['description'],
-        'release_window' => $request['release_window'],
-        'slug' => $request['slug'],
-        'demo' => $request['demo'],
-        'early_access' => $request['early_access'],
-        'trailer' => $request['trailer'],
-        'twitter' => $request['twitter'],
-        'epic' => $request['epic'],
-        'facebook' => $request['facebook'],
-        'gog' => $request['gog'],
-        'homepage' => $request['website'],
-        'instagram' => $request['instagram'],
-        'nintendo' => $request['switch'],
-        'playstation' => $request['playstation'],
-        'steam' => $request['steam'],
-        'tiktok' => $request['tiktok'],
-        'xbox' => $request['xbox'],
-        'youtube' => $request['youtube'],
-        'kickstarter_page' => $request['kickstarter_page'],
-        'discord' => $request['discord'],
-        'release_date' => $request['release_date'],
-        'kickstarter_status' => $request['kickstarter_status'],
-        // '' => $request[''],
-    ]);
+        # Put new game into the DB
+        Games::create([
+            'name' => $request['name'],
+            'developer' => $request['developer'],
+            'publisher' => $request['publisher'],
+            'description' => $request['description'],
+            'release_window' => $request['release_window'],
+            'slug' => $request['slug'],
+            'demo' => $request['demo'],
+            'early_access' => $request['early_access'],
+            'trailer' => $request['trailer'],
+            'twitter' => $request['twitter'],
+            'epic' => $request['epic'],
+            'facebook' => $request['facebook'],
+            'gog' => $request['gog'],
+            'homepage' => $request['website'],
+            'instagram' => $request['instagram'],
+            'nintendo' => $request['switch'],
+            'playstation' => $request['playstation'],
+            'steam' => $request['steam'],
+            'tiktok' => $request['tiktok'],
+            'xbox' => $request['xbox'],
+            'youtube' => $request['youtube'],
+            'kickstarter_page' => $request['kickstarter_page'],
+            'discord' => $request['discord'],
+            'release_date' => $request['release_date'],
+            'kickstarter_status' => $request['kickstarter_status'],
+            // '' => $request[''],
+        ]);
 
-    if ($request["submittedGame"] === true) {
-        
-        $submittedGame = SubmitGames::where('slug', $request['slug'])->first();
-        $submittedGame->isAdded = true;
-        $submittedGame->save();
+        if ($request["submittedGame"] === true) {
+            
+            $submittedGame = SubmitGames::where('slug', $request['slug'])->first();
+            $submittedGame->isAdded = true;
+            $submittedGame->save();
+        }
     }
     
-    $discord_webhook_id = env('DISCORD_WEBHOOK_ID');
-    $discord_webhook_token = env('DISCORD_WEBHOOK_TOKEN');
+    # Discord Webhook
+    $discord_webhook_id = config('discord.webhook.id');
+    $discord_webhook_token = config('discord.webhook.token');
+
     Http::post('https://discord.com/api/webhooks/'. $discord_webhook_id .'/'.$discord_webhook_token.'', [
         'embeds' => [[
             'title' => 'New Game added to MetroidVania.GG!',
