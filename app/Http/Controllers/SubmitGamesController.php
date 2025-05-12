@@ -63,6 +63,7 @@ class SubmitGamesController extends Controller
             'discord' => $request['discord'],
             'release_date' => $request['release_date'],
             'kickstarter_status' => $request['kickstarter_status'],
+            'isAdded' => false,
             // '' => $request[''],
         ]);
     }

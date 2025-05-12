@@ -374,6 +374,7 @@ export default function SubmitGame () {
                                 ></textarea>
                                 <span className="text-red-600">{errors.description}</span>
                                 <label>Thumbnail: *</label>
+                                <p className="text-[#666666]">All Thumbnails of Games on this website are based on the Steam Capsule images. All images are 460x215 pixels. So if your image could also be that, that be great!</p>
                                 <input 
                                     id="fileUpload"
                                     type="file"
