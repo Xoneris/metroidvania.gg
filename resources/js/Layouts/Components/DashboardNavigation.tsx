@@ -41,10 +41,10 @@ export default function DashboardNavigation() {
                         Edit Games
                     </p>
                 </Link>
-                <Link href="/Dashboard/SubmittedGames">
+                <Link href="/Dashboard/SubmitGames">
                     <p className={`
                         border-b text-lg transition-all 
-                        ${url === "/Dashboard/SubmittedGames" 
+                        ${url === "/Dashboard/SubmitGames" 
                             ? "text-mainOrange border-mainOrange pl-2" 
                             : "border-[#999999] hover:text-mainOrange hover:border-mainOrange hover:pl-2"} 
                     `}>

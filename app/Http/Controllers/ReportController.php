@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Games;
 use App\Models\Reports;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class ReportController extends Controller
