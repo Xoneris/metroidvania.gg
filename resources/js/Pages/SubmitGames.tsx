@@ -66,7 +66,7 @@ export default function SubmitGame () {
 
     }
 
-    const validateFileUpload = (e) => {
+    const validateFileUpload = (e:any) => {
 
         const fileUpload = e.target.files[0]
         const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png']
@@ -258,8 +258,8 @@ export default function SubmitGame () {
                                     className={`${errors.name !== "" ? errors.name !== undefined ? "border-red-600" : "border-black" : "border-black"} rounded-md` }
                                     value={data.name}
                                     onChange={(e) => {
-                                        setData(data => ({ ...data, name: e.target.value}));
-                                        setData(data => ({ ...data, slug: e.target.value.replaceAll(" ","-").toLowerCase()}));
+                                        setData((data:GameData) => ({ ...data, name: e.target.value}));
+                                        setData((data:GameData) => ({ ...data, slug: e.target.value.replaceAll(" ","-").toLowerCase()}));
                                     }}
                                     onBlur={(e) => e.target.value === "" ? setError("name", "Please enter the name of the game") : setError("name", "")} 
                                 />
@@ -275,8 +275,8 @@ export default function SubmitGame () {
                                         hasPublisher 
                                         ? setData("developer", e.target.value)
                                         : (
-                                            setData(data => ({ ...data, developer: e.target.value})),
-                                            setData(data => ({ ...data, publisher: e.target.value}))
+                                            setData((data:GameData) => ({ ...data, developer: e.target.value})),
+                                            setData((data:GameData) => ({ ...data, publisher: e.target.value}))
                                         )
                                     }}
                                     onBlur={(e) => e.target.value === "" ? setError("developer", "Please enter the Developer of this game") : setError("developer", "")}

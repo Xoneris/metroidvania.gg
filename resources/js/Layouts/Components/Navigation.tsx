@@ -1,4 +1,4 @@
-import { usePage } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import NavigationDropdownMenu from "./Navigation/NavigationDropdownMenu";
 import NavigationItem from "./Navigation/NavigationItem";
 import MobileNav from "./Navigation/MobileNav";
@@ -9,14 +9,15 @@ export default function Navigation() {
     const { url } = usePage()
 
     return (
-        <>
+        <div className="flex flex-col justify-between h-full">
+
             <nav className="hidden lg:flex">
 
                 <NavigationItem 
                     currentUrl={url}
                     destination={"/"}
                     name={"Home"}
-                    />
+                />
 
                 <NavigationDropdownMenu 
                     currentUrl={url}
@@ -28,19 +29,19 @@ export default function Navigation() {
                         {destination: "/UpcomingKickstarters", name: "Upcoming Kickstarters"},
                     ]}
                     name={"In Development"}
-                    />
+                />
 
                 <NavigationItem 
                     currentUrl={url}
                     destination={"/Demos"}
                     name={"Demos"}
-                    />
+                />
 
                 <NavigationItem 
                     currentUrl={url}
                     destination={"/Released"}
                     name={"Released"}
-                    />
+                />
 
                 <NavigationDropdownMenu 
                     currentUrl={url}
@@ -53,17 +54,17 @@ export default function Navigation() {
                         {destination: "/Nintendo", name: "Nintendo Switch"},
                     ]}
                     name={"Platforms"}
-                    />
+                />
 
                 <NavigationItem 
                     currentUrl={url}
                     destination={"/AllGames"}
                     name={"All Games"}
-                    />
+                />
 
             </nav>
 
             <MobileNav/>
-        </>
+        </div>
     )
 }

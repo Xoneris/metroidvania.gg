@@ -1,4 +1,4 @@
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import { GameData, FrontPageSectionGame } from '@/types';
 import Layout from '@/Layouts/Layout';
 import HomePageBanner from '@/Components/HomePageBanner';
