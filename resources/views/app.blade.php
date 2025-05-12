@@ -6,6 +6,9 @@
 
         <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
+        {{-- <meta name="description" content="Learn how to develop a tone of voice for your brand and use our template to get started."> --}}
+        <meta name="description" content="The #1 Information hub for Metroidvania fans. Find the latest and greatest Metroidvanias!">
+
         <title inertia>{{ config('app.name', 'Metroidvania.GG') }}</title>
 
         <!-- Fonts -->
@@ -24,4 +27,14 @@
     <body class="font-sans antialiased">
         @inertia
     </body>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4F85GDK216"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-4F85GDK216');
+    </script>
 </html>

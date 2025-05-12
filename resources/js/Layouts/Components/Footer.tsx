@@ -1,4 +1,6 @@
+import { SocialIcon } from "react-social-icons"
 import Logo from "../../../assets/Logo.png"
+import KoFiBadge from "../../../assets/kofi_badge.webp"
 
 export default function Footer() {
 
@@ -8,8 +10,11 @@ export default function Footer() {
                 <div className="w-full md:w-1/2 lg:w-1/4 flex justify-center">
                     <img src={Logo} alt="logo" className="w-36 h-36" />
                 </div>
-                <div className="w-full md:w-1/2 lg:w-1/4 flex justify-center">
-                    <h1 className="text-mainOrange text-2xl font-bold">Metroidvania Content Creators</h1>
+                <div className="w-full md:w-1/2 lg:w-1/4 flex flex-col items-center">
+                    <h1 className="text-mainOrange text-2xl font-bold pb-4">Support the website</h1>
+                    <a href="https://ko-fi.com/metroidvaniagg" target="_blank" className="group">
+                        <img src={"/assets/kofi_logo.webp"} alt="Ko-Fi Badge" className="w-44 transition-all group-hover:scale-110" />
+                    </a>
                 </div>
                 <div className="w-full md:w-1/2 lg:w-1/4 flex flex-col items-center">
                     <h1 className="text-mainOrange text-2xl font-bold pb-4">Useful Links</h1>
@@ -18,8 +23,31 @@ export default function Footer() {
                         <li><a href="https://reddit.com/r/metroidvania/" target="_blank" className="text-[#999999] hover:underline">Metroidvania Subreddit</a></li>
                     </ul>
                 </div>
-                <div className="w-full md:w-1/2 lg:w-1/4 flex justify-center">
-                    <h1 className="text-mainOrange text-2xl font-bold">Stay in Touch</h1>
+                <div className="w-full md:w-1/2 lg:w-1/4 flex flex-col items-center">
+                    <h1 className="text-mainOrange text-2xl font-bold pb-4">Stay in Touch</h1>
+                    <div className="flex gap-2">
+                        <SocialIcon 
+                            className="transition-all hover:scale-125" 
+                            url="https://x.com/metroidvania_gg" 
+                            bgColor='#dd8500' 
+                            fgColor='black' 
+                            target="_blank"
+                        />
+                        <SocialIcon 
+                            className="transition-all hover:scale-125" 
+                            url="https://youtube.com/@metroidvaniagg" 
+                            bgColor='#dd8500' 
+                            fgColor='black' 
+                            target="_blank"
+                        />
+                        <SocialIcon 
+                            className="transition-all hover:scale-125" 
+                            url="https://discord.gg/f64tqHPZCh" 
+                            bgColor='#dd8500' 
+                            fgColor='black' 
+                            target="_blank"
+                        />
+                    </div>
                 </div>
             </div>
 
