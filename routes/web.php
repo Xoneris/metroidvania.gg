@@ -37,16 +37,20 @@ Route::get('/', function (Request $request) {
 
     $bannerSectionRecentRelease = Games::where('release_date', '<=', $today)
         ->orderBy('release_date', 'DESC')
+        ->inRandomOrder()
         ->first();
 
     $bannerSectionComingSoon = Games::where('release_date', '>', $today)
         ->orderBy('release_date', 'ASC')
+        ->inRandomOrder()
         ->first();
 
     $bannerSectionKickstarterLive = Games::where('kickstarter_status', 'Live')
+        ->inRandomOrder()
         ->first();
 
     $bannerSectionKickstarterUpcoming = Games::where('kickstarter_status', 'Upcoming')
+        ->inRandomOrder()
         ->first();
 
     $bannerSectionGames = [
