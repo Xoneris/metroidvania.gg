@@ -442,7 +442,7 @@ Route::middleware(['auth'])->post('/Game/New', function (Request $request) {
             'title' => 'New Game added to MetroidVania.GG!',
             'description' => "**Name:** " . $request['name'] . "\n\n**Description:** " . $request['description'] . "\n\n[Find out more!](https://www.metroidvania.gg/Game/" . $request['slug']. ")",
             'image' => [
-                'url' => 'https://www.metroidvania.gg/storage/thumbnails/' . $request['slug']
+                'url' => 'https://www.metroidvania.gg/storage/thumbnails/' . $request['slug'] . '.jpg'
             ],
             'color' => hexdec('dd8500'),
         ]]
