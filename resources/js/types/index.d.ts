@@ -18,6 +18,7 @@ export interface FrontPageSectionGame {
     release_window: string|undefined,
     release_date: string,
     early_access: boolean|number,
+    discount?: number,
 }
 
 export interface GameData {
@@ -47,6 +48,7 @@ export interface GameData {
     playstation: string|undefined,
     xbox: string|undefined,
     nintendo: string|undefined,
+    discount?: number,
 }
 
 export interface SendReport {

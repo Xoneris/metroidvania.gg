@@ -16,7 +16,7 @@ export default function Navigation() {
                     currentUrl={url}
                     destination={"/"}
                     name={"Home"}
-                    />
+                />
 
                 <NavigationDropdownMenu 
                     currentUrl={url}
@@ -28,19 +28,19 @@ export default function Navigation() {
                         {destination: "/UpcomingKickstarters", name: "Upcoming Kickstarters"},
                     ]}
                     name={"In Development"}
-                    />
+                />
 
                 <NavigationItem 
                     currentUrl={url}
                     destination={"/Demos"}
                     name={"Demos"}
-                    />
+                />
 
                 <NavigationItem 
                     currentUrl={url}
                     destination={"/Released"}
                     name={"Released"}
-                    />
+                />
 
                 <NavigationDropdownMenu 
                     currentUrl={url}
@@ -53,13 +53,21 @@ export default function Navigation() {
                         {destination: "/Nintendo", name: "Nintendo Switch"},
                     ]}
                     name={"Platforms"}
-                    />
+                />
 
                 <NavigationItem 
                     currentUrl={url}
                     destination={"/AllGames"}
                     name={"All Games"}
-                    />
+                />
+
+                <NavigationDropdownMenu 
+                    currentUrl={url}
+                    dropdownItems={[
+                        {destination: "/steam-sale", name: "Steam"},
+                    ]}
+                    name={"On Sale"}
+                />
 
             </nav>
 

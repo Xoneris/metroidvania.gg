@@ -36,6 +36,16 @@ export default function GameThumbnail ({game}:{game:GameData|FrontPageSectionGam
                         {/* <div className="hidden absolute top-0 bg-black bg-opacity-70 text-mainOrange text-sm rounded-2xl w-full h-full justify-center items-center group-hover:flex">
                             {game.description}
                         </div> */}
+
+                        {
+                            game.discount 
+                            ? <span className="absolute bottom-1 right-1 p-1 border rounded-md font-bold text-green-900 border-green-900 bg-green-400 bg-opacity-80">
+                                {game.discount}%
+                            </span>
+                            : null
+                        }
+                        
+
                     </div>
 
                     : <div className="Game-NoThumbnail">

@@ -17,7 +17,7 @@ import ReportDialogBox from "@/Layouts/Components/ReportDialogBox";
 // import NotFound from "./NotFound";
 // import SteamReview from "./SteamReview";
 
-export default function GamePage ({singleGame, reviews}:{singleGame:GameData, reviews:any}) {
+export default function GamePage ({singleGame, reviews, discount}:{singleGame:GameData, reviews:any, discount:any}) {
 
     // const { gameSlug } = useParams();
     // const [gamesData, setGamesData] = useState([]);
@@ -145,16 +145,30 @@ export default function GamePage ({singleGame, reviews}:{singleGame:GameData, re
                             { 
                                 singleGame.release_date && singleGame.release_date < currentDate 
                                 ? <>
-                                        <h2 className="text-2xl">Reviews:</h2>
-                                        <ul>
-                                            <li className="pl-4">
-                                                <SteamReview reviews={reviews}/>
-                                            </li>
-                                        </ul>
-                                        <hr className="bg-black w-full h-1"/>
-                                    </>
-                                    : null
-                                }
+                                    <h2 className="text-2xl">Reviews:</h2>
+                                    <ul>
+                                        <li className="pl-4">
+                                            <SteamReview reviews={reviews}/>
+                                        </li>
+                                    </ul>
+                                    <hr className="bg-black w-full h-1"/>
+                                </>
+                                : null
+                            }
+
+                            {
+                                discount 
+                                ? <>
+                                    <h2 className="text-2xl">On Sale:</h2>
+                                    <ul>
+                                        <li className="pl-4">
+                                            Steam: {discount}%
+                                        </li>
+                                    </ul>
+                                    <hr className="bg-black w-full h-1"/>
+                                </>
+                                : null
+                            }
 
                             <h2 className="text-2xl">Social Media:</h2>
                             <ul className="flex pl-4 gap-2">
