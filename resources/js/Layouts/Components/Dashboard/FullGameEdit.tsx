@@ -121,7 +121,7 @@ export default function FullGameEdit({game, editGame, submittedGame}:{editGame: 
                     <label>Kickstarter Page:</label>
                     <input name="kickstarterpage" type="text" className="rounded-md" 
                         placeholder="" value={data.kickstarter_page} onChange={(e) => setData('kickstarter_page', e.target.value)} 
-                        />
+                    />
                 </div>
                 <div className="flex flex-col w-1/2 p-2">
                     <label>Kickstarter Status:</label>
@@ -160,7 +160,7 @@ export default function FullGameEdit({game, editGame, submittedGame}:{editGame: 
 
                 <div className="flex flex-col w-1/2 p-2">
                     <label>Thumbnail:</label>
-                    <input type="file" name="thumbnail" accept="image/png, image/jpg" max={1} onChange={(e) => setData('thumbnail', e.target.files?.[0])} />
+                    <input type="file" name="thumbnail" accept=".png, .jpg, .jpeg" max={1} onChange={(e) => setData('thumbnail', e.target.files?.[0])} />
                     {
                         editGame 
                         ? <img className="w-1/3 my-2 rounded-lg" src={"/storage/thumbnails/"+data.slug+".jpg"} />
