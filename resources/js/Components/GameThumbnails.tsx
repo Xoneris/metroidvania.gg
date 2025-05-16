@@ -1,11 +1,13 @@
 import { replaceMonthWithName } from '@/Utils/replaceMonthWithName';
 import { FrontPageSectionGame, GameData } from '@/types';
-import { Link } from "@inertiajs/react"
+import { Link, usePage } from "@inertiajs/react"
 
 export default function GameThumbnail ({game}:{game:GameData|FrontPageSectionGame}) {
 
     // temporary fixed variable will fix later
     const noThumbnail:boolean = true
+
+    const { url } = usePage()
 
     return (
         <Link href={"/Game/" + game.slug} key={game.id}>
@@ -21,13 +23,17 @@ export default function GameThumbnail ({game}:{game:GameData|FrontPageSectionGam
                             className="rounded-2xl"
                         />
 
-                        <span className="absolute bottom-1 left-1 p-1 border rounded-md text-white border-black bg-black bg-opacity-80 transition-all group-hover:text-mainOrange">
+                        <div className="absolute bottom-1 left-1 p-1 border rounded-md text-white border-black bg-black bg-opacity-80 transition-all group-hover:text-mainOrange flex flex-col">
+                            <span className='text-xs'>Release date:</span>
+                            <span className='text-sm'>
+
                             {
                                 game.release_date === '' || game.release_date === null
                                 ? game.release_window
-                                : replaceMonthWithName(game.release_date) 
+                                : replaceMonthWithName(game.release_date)
                             }
-                        </span>
+                            </span>
+                        </div>
                         {
                             game.early_access === true || game.early_access === 1 
                                 ? <span className="absolute top-1 right-1 p-1 border rounded-md text-white border-black transition-all bg-black bg-opacity-80 group-hover:text-mainOrange">Early Access</span> 
@@ -38,9 +44,13 @@ export default function GameThumbnail ({game}:{game:GameData|FrontPageSectionGam
                         </div> */}
 
                         {
-                            game.discount 
+                            url === "/steam-sale" && game.steam_discount 
                             ? <span className="absolute bottom-1 right-1 p-1 border rounded-md font-bold text-green-900 border-green-900 bg-green-400 bg-opacity-80">
-                                {game.discount}%
+                                -{game.steam_discount}%
+                            </span>
+                            : url === "/gog-sale" && game.gog_discount
+                            ? <span className="absolute bottom-1 right-1 p-1 border rounded-md font-bold text-green-900 border-green-900 bg-green-400 bg-opacity-80">
+                                -{game.gog_discount}%
                             </span>
                             : null
                         }

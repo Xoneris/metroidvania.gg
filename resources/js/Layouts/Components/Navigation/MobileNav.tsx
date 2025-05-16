@@ -19,7 +19,7 @@ export default function MobileNav() {
             </div>
 
 
-            <div className={`${isOpen ? "w-[300px] border-l border-mainOrange" : "w-0"} fixed top-0 right-0 h-screen z-50 overflow-hidden bg-mainDark bg-opacity-70 backdrop-blur-lg transition-all`}>
+            <div className={`${isOpen ? "w-[300px] border-l border-mainOrange" : "w-0"} fixed top-0 right-0 h-screen overflow-scroll z-50 bg-mainDark bg-opacity-70 backdrop-blur-lg transition-all`}>
 
                 <div className="flex justify-end items-center m-2 mt-10">
 
@@ -128,6 +128,19 @@ export default function MobileNav() {
                         destination={"/AllGames"}
                         name={"All Games"}
                     />
+                    <p className="w-full">On Sale</p>
+                    <div className="flex flex-col gap-2 w-full pl-4 border-l">
+                        <MobileNavLink 
+                            currentUrl={url}
+                            destination={"/steam-sale"}
+                            name={"Steam"}
+                        />
+                        <MobileNavLink 
+                            currentUrl={url}
+                            destination={"/gog-sale"}
+                            name={"GoG"}
+                        />
+                    </div>
 
                 </div>
             </div>

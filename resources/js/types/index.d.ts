@@ -18,7 +18,8 @@ export interface FrontPageSectionGame {
     release_window: string|undefined,
     release_date: string,
     early_access: boolean|number,
-    discount?: number,
+    steam_discount?: number,
+    gog_discount?: number,
 }
 
 export interface GameData {
@@ -48,7 +49,8 @@ export interface GameData {
     playstation: string|undefined,
     xbox: string|undefined,
     nintendo: string|undefined,
-    discount?: number,
+    steam_discount?: number,
+    gog_discount?: number,
 }
 
 export interface SendReport {
@@ -61,4 +63,9 @@ export interface Report {
     game_name: string,
     report: string,
     status: string,
+}
+
+export interface Discounts {
+    steam_discount: number,
+    gog_discount: number,
 }

@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('app:refresh-steam-sale-data')->everyFourHours();
+        $schedule->command('app:refresh-gog-sale-data')->everyFourHours();
     }
 
     /**

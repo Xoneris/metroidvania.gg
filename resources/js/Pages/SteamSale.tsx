@@ -3,7 +3,7 @@ import { GameData } from '@/types';
 import Layout from '@/Layouts/Layout';
 import GameThumbnail from '@/Components/GameThumbnails';
 
-export default function SinglePage({ games, title }:{games:GameData[], title:string}) {
+export default function SteamSale({ games, title }:{games:GameData[], title:string}) {
 
     console.log(games)
 
@@ -20,7 +20,7 @@ export default function SinglePage({ games, title }:{games:GameData[], title:str
                     </div>
                     <div className="w-full flex flex-wrap justify-around content-between">
                         {
-                            games.sort((a,b) => (b.discount ?? 0) - (a.discount ?? 0)).map((game) => (
+                            games.sort((a,b) => (b.steam_discount ?? 0) - (a.steam_discount ?? 0)).map((game) => (
                                 <GameThumbnail game={game} key={game.id}/>
                             ))
                         }

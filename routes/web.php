@@ -76,6 +76,23 @@ Route::get('/', function (Request $request) {
         ->take(5)
         ->get();
 
+    #5 highest games on (steam) sale
+    $releasedGames = Games::where('release_date', '<=', $today)
+        ->orderBy('release_date', 'DESC')
+        ->get();
+
+    foreach ($releasedGames as $game) {
+        $discount = Cache::get("{$game->slug}-steam-discount", 0);
+        $game->discount = $discount;
+    }
+    
+    $discountedGames = $releasedGames->filter(function ($game) {
+        return $game->discount > 0;
+    })
+    ->sortByDesc('discount')
+    ->take(5) 
+    ->values();
+
     #5 random Games with Demos.
     $gamesWithDemos = Games::where('demo', 1)
         ->skip(0)
@@ -132,6 +149,7 @@ Route::get('/', function (Request $request) {
         'bannerSectionGames' => $bannerSectionGames,
         'upcomingGames' => $upcomingGames,
         'recentlyReleased' => $recentlyReleased,
+        'steamSale' => $discountedGames,
         'gamesWithDemos' => $gamesWithDemos,
         'earlyAccessGames' => $earlyAccessGames,
         'upcomingKickstarterGames' => $upcomingKickstarters,
@@ -332,45 +350,40 @@ Route::get('/steam-sale', function () {
             ->get();
 
         foreach ($releasedGames as $game) {
-
             $discount = Cache::get("{$game->slug}-steam-discount", 0);
-                
-            // $steamParts = explode('/', $game['steam']); 
-            // $steamAppId = isset($steamParts[4]) ? $steamParts[4] : null; 
-            
-            //     if ($steamAppId) {
-            //     $discount = Cache::remember("{$game->slug}-discount", 3600, function () use ($steamAppId) {
-                    
-            //         $external_api = "https://store.steampowered.com/api/appdetails?appids={$steamAppId}&cc=us&l=en";
-            //         $response = Http::get($external_api);
-                    
-            //         if ($response->successful()) {
-            //             $data = $response->json();
-                        
-            //             $discount_perfecnt = $data[$steamAppId]['data']['price_overview']['discount_percent'] ?? 0;
-            //             if ($discount_perfecnt > 0 ) {
-            //                 return $discount_perfecnt;
-            //             } else {
-            //                 return 0;
-            //             }
-            //         }
-                    
-            //         return 0;
-            //     });
-            //     } else {
-            //         $game->discount = 0;
-            //     }
-                
-            $game->discount = $discount;
+            $game->steam_discount = $discount;
         }
         
         $discountedGames = $releasedGames->filter(function ($game) {
-            return $game->discount > 0;
+            return $game->steam_discount > 0;
         })->values();
     
-    return Inertia::render('OnSale', [
+    return Inertia::render('SteamSale', [
         'games' => $discountedGames,
         'title' => 'Steam games on Sale',
+    ]);
+});
+
+Route::get('/gog-sale', function () {
+
+        $today = date("Y-m-d");
+        $releasedGoGGames = Games::where('release_date', '<=', $today)
+            ->where('gog','!=','')
+            ->orderBy('release_date', 'DESC')
+            ->get();
+
+        foreach ($releasedGoGGames as $game) {
+            $discount = Cache::get("{$game->slug}-gog-discount", 0);
+            $game->gog_discount = $discount;
+        }
+        
+        $discountedGames = $releasedGoGGames->filter(function ($game) {
+            return $game->gog_discount > 0;
+        })->values();
+    
+    return Inertia::render('GoGSale', [
+        'games' => $discountedGames,
+        'title' => 'GoG games on Sale',
     ]);
 });
 
@@ -525,42 +538,18 @@ Route::get('/Game/{slug}', function ($slug) {
             return ['error' => 'failed to fetch from steam api'];
         });
 
-        $discount = Cache::get("{$slug}-steam-discount", 0);
-
-        // $discount = Cache::remember("{$slug}-discount", 3600, function () use ($steamAppId) {
-            
-        //     $external_api = "https://store.steampowered.com/api/appdetails?appids={$steamAppId}&cc=us&l=en";
-        //     $response = Http::get($external_api);
-
-        //     if ($response->successful()) {
-        //         $data = $response->json();
-
-        //         $discount_perfecnt = $data[$steamAppId]['data']['price_overview']['discount_percent'];
-        //         if ($discount_perfecnt > 0 ) {
-        //             return $discount_perfecnt;
-        //         } else {
-        //             return 0;
-        //         }
-        //     }
-
-        //     return ['error' => 'failed to fetch from steam api'];
-        // });
+        $discounts = [
+            'steam_discount' => Cache::get("{$slug}-steam-discount", 0),
+            'gog_discount' => Cache::get("{$slug}-gog-discount", 0)
+        ];
     }
 
-    // $external_api = 'https://store.steampowered.com/appreviews/' . $steamAppId . '?json=1&purchase_type=all';
-    // $getReviews = Http::get($external_api);
-    
-    // if ($getReviews){
-    //     $reviews = $getReviews->json();
-    // } else {
-    //     $reviews = ['error' => 'failed to fetch from steam api'];
-    // }
-
+    // dd($discounts);
 
     return Inertia::render('GamePage', [
         'singleGame' => $singleGame,
         'reviews' => $reviews,
-        'discount' => $discount,
+        'discounts' => $discounts,
     ]);
 });
 

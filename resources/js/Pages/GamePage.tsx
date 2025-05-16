@@ -4,7 +4,7 @@
 // import { replaceMonthWithName } from "./functions";
 // import { apiUrlContext } from "../Homepage";
 
-import { GameData } from "@/types";
+import { Discounts, GameData } from "@/types";
 import { replaceMonthWithName } from "@/Utils/replaceMonthWithName";
 import Layout from "@/Layouts/Layout";
 import { Head, usePage } from "@inertiajs/react";
@@ -17,7 +17,7 @@ import ReportDialogBox from "@/Layouts/Components/ReportDialogBox";
 // import NotFound from "./NotFound";
 // import SteamReview from "./SteamReview";
 
-export default function GamePage ({singleGame, reviews, discount}:{singleGame:GameData, reviews:any, discount:any}) {
+export default function GamePage ({singleGame, reviews, discounts}:{singleGame:GameData, reviews:any, discounts:Discounts}) {
 
     // const { gameSlug } = useParams();
     // const [gamesData, setGamesData] = useState([]);
@@ -157,13 +157,25 @@ export default function GamePage ({singleGame, reviews, discount}:{singleGame:Ga
                             }
 
                             {
-                                discount 
+                                discounts.steam_discount !== 0 || discounts.gog_discount !== 0
                                 ? <>
                                     <h2 className="text-2xl">On Sale:</h2>
                                     <ul>
-                                        <li className="pl-4">
-                                            Steam: {discount}%
-                                        </li>
+                                        {
+                                            discounts.steam_discount
+                                            ? <li className="pl-4">
+                                                Steam: -{discounts.steam_discount}%
+                                            </li>
+                                            : null
+                                        }
+                                        {
+                                            discounts.gog_discount
+                                            ? <li className="pl-4">
+                                                GoG: -{discounts.gog_discount}%
+                                            </li>
+                                            : null
+                                        }
+                                        
                                     </ul>
                                     <hr className="bg-black w-full h-1"/>
                                 </>
