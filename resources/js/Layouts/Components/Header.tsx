@@ -37,13 +37,13 @@ export default function Header () {
                 </div>
             </div>
 
-            <div className="max-w-[1920px] flex justify-between items-center lg:items-end m-auto">
+            <div className="max-w-[1920px] flex flex-row lg:flex-col justify-between lg:justify-center items-center m-auto">
 
                 <Link href="/">
-                    <div className="flex p-2">
+                    <div className="flex p-2 w-full m-auto">
                         <img src={Logo} alt="logo" className="w-12 h-12" />
-                        <span className="text-mainOrange text-4xl font-extrabold hidden xl:block">MetroidVania.GG</span>
-                        <span className="text-mainOrange text-4xl font-extrabold block xl:hidden ">MV.GG</span>
+                        <span className="text-mainOrange text-4xl font-extrabold hidden sm:block">MetroidVania.GG</span>
+                        <span className="text-mainOrange text-4xl font-extrabold block sm:hidden ">MV.GG</span>
                     </div>
                 </Link>
 

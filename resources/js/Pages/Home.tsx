@@ -8,7 +8,8 @@ export default function Home(
     { 
         bannerSectionGames,
         upcomingGames,
-        recentlyReleased, 
+        recentlyReleased,
+        steamSale, 
         gamesWithDemos,
         earlyAccessGames,
         upcomingKickstarterGames,
@@ -19,7 +20,8 @@ export default function Home(
     }:{ 
         bannerSectionGames: GameData[],
         upcomingGames: FrontPageSectionGame[],
-        recentlyReleased: GameData[], 
+        recentlyReleased: GameData[],
+        steamSale: GameData[] 
         gamesWithDemos: GameData[],
         earlyAccessGames: GameData[],  
         upcomingKickstarterGames: GameData[],
@@ -52,6 +54,10 @@ export default function Home(
                         <HomePageSection 
                             title="Recently Released"
                             games={recentlyReleased}
+                        />
+                        <HomePageSection 
+                            title="Steam Games on Sale"
+                            games={steamSale}
                         />
                         <HomePageSection 
                             title="Games with Demos"
