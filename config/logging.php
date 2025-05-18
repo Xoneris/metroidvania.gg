@@ -126,6 +126,13 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+        
+        // Logs for daily demo update
+        'demo_check' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/demo-check.log'),
+            'level' => 'info',
+        ]
     ],
 
 ];

@@ -83,13 +83,13 @@ Route::get('/', function (Request $request) {
 
     foreach ($releasedGames as $game) {
         $discount = Cache::get("{$game->slug}-steam-discount", 0);
-        $game->discount = $discount;
+        $game->steam_discount = $discount;
     }
     
     $discountedGames = $releasedGames->filter(function ($game) {
-        return $game->discount > 0;
+        return $game->steam_discount > 0;
     })
-    ->sortByDesc('discount')
+    ->sortByDesc('steam_discount')
     ->take(5) 
     ->values();
 
@@ -418,6 +418,24 @@ Route::middleware(['auth'])->prefix('Dashboard')->group(function () {
             'games' => $allGames,
         ]);
     }); 
+
+    Route::get('/demo-check', function () {
+        $logPath = storage_path('logs/demo-check.log');
+        $logLines = file($logPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+        $messages = [];
+
+        foreach ($logLines as $line) {
+            // Match everything after the last colon and space
+            if (preg_match('/:\s(.+)$/', $line, $matches)) {
+                $messages[] = $matches[1];
+            }
+        }
+
+        return Inertia::render('Dashboard/DemoCheck', [
+            'logs' => $messages,
+        ]);
+    });
 
     Route::get('/SubmitGames', [SubmitGamesController::class, "index"]);
     Route::get('/Reports', [ReportController::class , "index"]);

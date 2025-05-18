@@ -25,6 +25,7 @@ export default function Header () {
                     <span>{currentHour + ":" + currentMinute}</span>
                 </p>
                 <p className="flex sm:hidden"></p>
+
                 <div className="flex gap-1">
                     <p><a href="https://twitter.com/metroidvania_gg" target="_blank" className="hover:underline hover:cursor-pointer">Twitter</a> | </p>
                     <p><a href="https://youtube.com/@metroidvaniagg" target="_blank" className="hover:underline hover:cursor-pointer">YouTube</a> | </p>
@@ -35,6 +36,7 @@ export default function Header () {
                         </p>
                     </Link>
                 </div>
+
             </div>
 
             <div className="max-w-[1920px] flex flex-row lg:flex-col justify-between lg:justify-center items-center m-auto">

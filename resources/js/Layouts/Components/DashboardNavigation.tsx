@@ -53,7 +53,7 @@ export default function DashboardNavigation() {
                 </Link>
                 <Link href="/Dashboard/Reports">
                     <p className={`
-                        border-b text-lg transition-all 
+                        border-b text-lg transition-all
                         ${url === "/Dashboard/Reports" 
                             ? "text-mainOrange border-mainOrange pl-2" 
                             : "border-[#999999] hover:text-mainOrange hover:border-mainOrange hover:pl-2"} 
@@ -71,7 +71,16 @@ export default function DashboardNavigation() {
                         Contact
                     </p>
                 </Link>
-
+                <Link href="/Dashboard/demo-check">
+                    <p className={`
+                        border-b text-lg transition-all 
+                        ${url === "/Dashboard/demo-check" 
+                            ? "text-mainOrange border-mainOrange pl-2" 
+                            : "border-[#999999] hover:text-mainOrange hover:border-mainOrange hover:pl-2"} 
+                    `}>
+                        Demo Update Logs
+                    </p>
+                </Link>
                 <Link href={route('logout')} method="post" as="button">
                     <p className="border-b text-lg transition-all border-[#999999] text-left hover:text-mainOrange hover:border-mainOrange hover:pl-2">
                         Logout

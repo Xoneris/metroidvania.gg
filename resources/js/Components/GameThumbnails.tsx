@@ -44,7 +44,11 @@ export default function GameThumbnail ({game}:{game:GameData|FrontPageSectionGam
                         </div> */}
 
                         {
-                            url === "/steam-sale" && game.steam_discount 
+                            url === "/" && game.steam_discount
+                            ? <span className="absolute bottom-1 right-1 p-1 border rounded-md font-bold text-green-900 border-green-900 bg-green-400 bg-opacity-80">
+                                -{game.steam_discount}%
+                            </span>
+                            : url === "/steam-sale" && game.steam_discount 
                             ? <span className="absolute bottom-1 right-1 p-1 border rounded-md font-bold text-green-900 border-green-900 bg-green-400 bg-opacity-80">
                                 -{game.steam_discount}%
                             </span>
