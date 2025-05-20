@@ -45,7 +45,7 @@ export default function SubmitGame () {
         gog: '',
         playstation: '',
         xbox: '',
-        nintendo: '',
+        switch: '',
         twitter: '',
         facebook: '',
         instagram: '',
@@ -259,7 +259,14 @@ export default function SubmitGame () {
                                     value={data.name}
                                     onChange={(e) => {
                                         setData((data:GameData) => ({ ...data, name: e.target.value}));
-                                        setData((data:GameData) => ({ ...data, slug: e.target.value.replaceAll(" ","-").toLowerCase()}));
+                                        setData((data:GameData) => ({ ...data, 
+                                            slug: e.target.value.replaceAll(" ","-")
+                                                .replaceAll(":","")
+                                                .replaceAll("'","")
+                                                .replaceAll(".","")
+                                                .replaceAll("_","-")
+                                                .toLowerCase()
+                                        }));
                                     }}
                                     onBlur={(e) => e.target.value === "" ? setError("name", "Please enter the name of the game") : setError("name", "")} 
                                 />
@@ -600,14 +607,6 @@ export default function SubmitGame () {
                                     value={data.website}
                                     onChange={(e) => setData("website", e.target.value)}
                                 />
-                                </>
-                                : null
-                            }
-                            {/* ### Fifth Page of the Form ### */}
-                            {
-                                currentPage === 5
-                                ? <>
-                                    test derp 
                                 </>
                                 : null
                             }
