@@ -80,6 +80,7 @@ class CheckIfGameHasDemo extends Command
                     }
                 }
             } else if ($game->demo != 0) {
+                Log::channel('demo_check')->info("well something went wrong with: {$game->name}");
                 $game->demo = 0;
                 $game->save();
             }
