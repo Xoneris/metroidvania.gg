@@ -56,7 +56,6 @@ class CheckReleaseToday extends Command
                         if (!$isReleased) {
                             
                             Cache::put("{$game->slug}-released", true, now()->addHours(24));
-                            $this->info("Yes its released");
                         
                             $discord_webhook_id = config('discord.webhook.isReleased.id');
                             $discord_webhook_token = config('discord.webhook.isReleased.token');
@@ -72,9 +71,7 @@ class CheckReleaseToday extends Command
                                 ]]
                             ]);
                                     
-                        } else {
-                            $this->info("No its not released");
-                        }
+                        } 
                     }
                 } 
             }
