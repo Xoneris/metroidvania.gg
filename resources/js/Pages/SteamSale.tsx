@@ -5,8 +5,6 @@ import GameThumbnail from '@/Components/GameThumbnails';
 
 export default function SteamSale({ games, title }:{games:GameData[], title:string}) {
 
-    console.log(games)
-
     return (
         <>
             <Head title={title} />

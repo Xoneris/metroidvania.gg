@@ -16,6 +16,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('app:refresh-steam-sale-data')->everyFourHours();
         $schedule->command('app:refresh-gog-sale-data')->everyFourHours();
         $schedule->command('app:check-if-game-has-demo')->daily();
+        $schedule->command('app:check-steam-reviews')->daily();
+        $schedule->command('app:check-release-today')->everyTenMinutes();
     }
 
     /**

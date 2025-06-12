@@ -50,7 +50,7 @@ export default function Home(
                         <HomePageSection 
                             title="Coming Soon"
                             games={upcomingGames}
-                            viewAll={""}
+                            viewAll={"/coming-soon"}
                         />
                         <HomePageSection 
                             title="Recently Released"

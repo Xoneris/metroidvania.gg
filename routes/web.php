@@ -36,15 +36,40 @@ Route::get('/', function (Request $request) {
     #Games for Banner Section.
     $today = date("Y-m-d");
 
-    $bannerSectionRecentRelease = Games::where('release_date', '<=', $today)
+    $todayGames = Games::where('release_date', '=', $today)
+        ->orderBy('release_date', 'DESC')
+        ->get();
+
+    $released = [];
+    $notReleased = [];
+
+    foreach($todayGames as $game){
+        $isReleased = Cache::get("{$game->slug}-released");
+        if ($isReleased) {
+            $released[] = $game;
+        } else {
+            $notReleased[] = $game;
+        }
+    }
+
+    if (!empty($released)){
+        $bannerSectionRecentRelease = $released[array_rand($released)];
+    } else {
+        $bannerSectionRecentRelease = Games::where('release_date', '<', $today)
         ->orderBy('release_date', 'DESC')
         ->inRandomOrder()
         ->first();
+    }
 
-    $bannerSectionComingSoon = Games::where('release_date', '>', $today)
+    if (!empty($notReleased)){
+        $bannerSectionComingSoon = $notReleased[array_rand($notReleased)];
+    } else {
+        $bannerSectionComingSoon = Games::where('release_date', '>', $today)
         ->orderBy('release_date', 'ASC')
         ->inRandomOrder()
         ->first();
+    }
+
 
     $bannerSectionKickstarterLive = Games::where('kickstarter_status', 'Live')
         ->inRandomOrder()
@@ -54,31 +79,56 @@ Route::get('/', function (Request $request) {
         ->inRandomOrder()
         ->first();
 
+        
     $bannerSectionGames = [
         $bannerSectionRecentRelease,
         $bannerSectionComingSoon,
         $bannerSectionKickstarterLive,
         $bannerSectionKickstarterUpcoming,
     ];
+    // dd($bannerSectionGames);
+        
+    # Games releasing Today
+    $todayGames = Games::where('release_date', '=', $today)
+        ->orderBy('release_date', 'DESC')
+        ->get();
+
+    $gamesIsReleased = [];
+    $gamesNotReleased = [];
+
+    foreach($todayGames as $game){
+        $isReleased = Cache::get("{$game->slug}-released");
+        if ($isReleased) {
+            $gamesIsReleased[] = $game;
+        } else {
+            $gamesNotReleased[] = $game;
+        }
+    }
 
     #5 upcoming Games.
-    $upcomingGames = Games::select('id','name','slug','release_date','release_window','early_access')
+    $upcomingGamesDB = Games::select('id','name','slug','release_date','release_window','early_access')
         ->where('release_date', '>', $today)
         ->orderBy('release_date', 'ASC')
         ->skip(0)
-        ->take(5)
-        ->get();
+        ->take(5-count($gamesNotReleased))
+        ->get()
+        ->toArray();
+
+    $upcomingGames = array_merge($gamesNotReleased,$upcomingGamesDB);
 
     #5 last released Games. 
-    $recentlyReleased = Games::where('release_date', '<=', $today)
+    $recentlyReleasedDB = Games::where('release_date', '<', $today)
         ->orderBy('release_date', 'DESC')
         ->skip(0)
-        ->take(5)
-        ->get();
+        ->take(5-count($gamesIsReleased))
+        ->get()
+        ->toArray();
 
-    #5 highest games on (steam) sale
+    $recentlyReleased = array_merge($gamesIsReleased,$recentlyReleasedDB);
+
+    #5 random games on (steam) sale
     $releasedGames = Games::where('release_date', '<=', $today)
-        ->orderBy('release_date', 'DESC')
+        ->inRandomOrder() 
         ->get();
 
     foreach ($releasedGames as $game) {
@@ -89,9 +139,9 @@ Route::get('/', function (Request $request) {
     $discountedGames = $releasedGames->filter(function ($game) {
         return $game->steam_discount > 0;
     })
-    ->sortByDesc('steam_discount')
-    ->take(5) 
-    ->values();
+        ->skip(0)
+        ->take(5)
+        ->values();
 
     #5 random Games with Demos.
     $gamesWithDemos = Games::where('demo', 1)
@@ -176,6 +226,20 @@ Route::get('/', function (Request $request) {
 //     ]);
 // });
 
+Route::get('/coming-soon', function () {
+
+    $today = date("Y-m-d");
+    $upcomingGames = Games::select('id','name','slug','release_date','release_window','early_access')
+        ->where('release_date', '>', $today)
+        ->orderBy('release_date', 'ASC')
+        ->get();
+
+    return Inertia::render('SinglePage', [
+        'games' => $upcomingGames,
+        'title' => 'Coming Soon',
+    ]);
+});
+
 Route::get('/2025', function () {
 
     $tomorrow = date("Y-m-d",strtotime("tomorrow"));
@@ -253,12 +317,29 @@ Route::get('/Demos', function () {
 
 Route::get('/Released', function () {
     $today = date("Y-m-d");
-    $releasedGames = Games::where('release_date', '<=', $today)
+
+    $todayGames = Games::where('release_date', '=', $today)
         ->orderBy('release_date', 'DESC')
         ->get();
 
+    $gamesToday = [];
+
+    foreach($todayGames as $game){
+        $isReleased = Cache::get("{$game->slug}-released");
+        if ($isReleased) {
+            $gamesToday[] = $game;
+        }
+    }
+
+    $releasedGames = Games::where('release_date', '<', $today)
+        ->orderBy('release_date', 'DESC')
+        ->get()
+        ->toArray();
+
+    $games = array_merge($gamesToday, $releasedGames);
+
     return Inertia::render('Released', [
-        'games' => $releasedGames,
+        'games' => $games,
     ]);
 });
 
@@ -334,6 +415,25 @@ Route::get('/AllGames', function () {
 
     return Inertia::render('AllGames', [
         'games' => $allGames
+    ]);
+});
+
+Route::get('/steam-reviews', function () {
+    
+    $today = date("Y-m-d");
+    $releasedGames = Games::where('release_date', '<=', $today)
+        ->orderBy('release_date', 'DESC')
+        ->get();
+
+    foreach ($releasedGames as $game) {
+
+        $steam_review = Cache::get("{$game->slug}-steam-review", 0);
+        $game->steam_review = $steam_review;
+
+    }
+
+    return Inertia::render('SteamReviews', [
+        'games' => $releasedGames
     ]);
 });
 
@@ -439,6 +539,13 @@ Route::middleware(['auth'])->prefix('Dashboard')->group(function () {
 
     Route::get('/SubmitGames', [SubmitGamesController::class, "index"]);
     Route::get('/Reports', [ReportController::class , "index"]);
+
+    Route::get('/tracker', function () {
+
+
+        return Inertia::render('Dashboard/Tracker');
+    });
+
 });
 
 Route::middleware(['auth'])->patch('/Game/{id}/update', function (Request $request, $id) {
@@ -517,8 +624,8 @@ Route::middleware(['auth'])->post('/Game/New', function (Request $request) {
     }
     
     # Discord Webhook
-    $discord_webhook_id = config('discord.webhook.id');
-    $discord_webhook_token = config('discord.webhook.token');
+    $discord_webhook_id = config('discord.webhook.addedToSite.id');
+    $discord_webhook_token = config('discord.webhook.addedToSite.token');
 
     Http::post('https://discord.com/api/webhooks/'. $discord_webhook_id .'/'.$discord_webhook_token.'', [
         'embeds' => [[
@@ -537,32 +644,16 @@ Route::get('/Game/{slug}', function ($slug) {
     $singleGame = Games::where('slug', $slug)->first();
 
     # Get Steam reviews if game is released
-    if ($singleGame)
 
-    $steamParts = explode('/', $singleGame['steam']); 
-    $steamAppId = isset($steamParts[4]) ? $steamParts[4] : null; 
+    $reviews = [
+        'steam_reviews' => Cache::get("{$slug}-steam-review", 0)
+    ];
 
-    if ($steamAppId) {
+    $discounts = [
+        'steam_discount' => Cache::get("{$slug}-steam-discount", 0),
+        'gog_discount' => Cache::get("{$slug}-gog-discount", 0)
+    ];
 
-        $reviews = Cache::remember("{$slug}-reviews", 3600, function () use ($steamAppId) {
-
-            $external_api = "https://store.steampowered.com/appreviews/{$steamAppId}?json=1&purchase_type=all";
-            $response = Http::get($external_api);
-
-            if ($response->successful()) {
-                return $response->json();
-            }
-
-            return ['error' => 'failed to fetch from steam api'];
-        });
-
-        $discounts = [
-            'steam_discount' => Cache::get("{$slug}-steam-discount", 0),
-            'gog_discount' => Cache::get("{$slug}-gog-discount", 0)
-        ];
-    }
-
-    // dd($discounts);
 
     return Inertia::render('GamePage', [
         'singleGame' => $singleGame,
