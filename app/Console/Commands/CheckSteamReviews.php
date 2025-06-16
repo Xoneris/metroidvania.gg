@@ -15,7 +15,7 @@ class CheckSteamReviews extends Command
      *
      * @var string
      */
-    protected $signature = 'app:check-steam-reviews';
+    protected $signature = 'app:check-steam-reviews {--test}';
 
     /**
      * The console command description.
@@ -29,33 +29,41 @@ class CheckSteamReviews extends Command
      */
     public function handle()
     {
-        $today = date("Y-m-d");
-        $releasedGames = Games::where('release_date', '<=', $today)
-            ->get();
+        $test = $this->option('test') !== null;
 
-        Cache::put("test-key", "test-value", 60);
-        // foreach ($releasedGames as $game) {
+        if (!$test) {
 
-        //     sleep(1);
+            $today = date("Y-m-d");
+            $releasedGames = Games::where('release_date', '<=', $today)
+                ->get();
+
             
-        //     $steamParts = explode('/', $game['steam']); 
-        //     $steamAppId = isset($steamParts[4]) ? $steamParts[4] : null; 
-            
-        //     if ($steamAppId) {
+            foreach ($releasedGames as $game) {
+
+                sleep(1);
                 
-        //         $external_api = "https://store.steampowered.com/appreviews/{$steamAppId}?json=1&purchase_type=all&language=all";
-        //         $response = Http::get($external_api);
+                $steamParts = explode('/', $game['steam']); 
+                $steamAppId = isset($steamParts[4]) ? $steamParts[4] : null; 
                 
-        //         if ($response->successful()) {
-        //             $data = $response->json();
+                if ($steamAppId) {
                     
-        //             $stream_review = $data["query_summary"] ?? 0;
-        //             if ($stream_review > 0 ) {
-        //                 Cache::put("{$game->slug}-steam-review", $stream_review, now()->addHours(4));
-        //             } 
-        //         }
-        //     } 
-        // }
-        $this->info("Steam review data refreshed and cached.");
+                    $external_api = "https://store.steampowered.com/appreviews/{$steamAppId}?json=1&purchase_type=all&language=all";
+                    $response = Http::get($external_api);
+                    
+                    if ($response->successful()) {
+                        $data = $response->json();
+                        
+                        $stream_review = $data["query_summary"] ?? 0;
+                        if ($stream_review > 0 ) {
+                            Cache::put("{$game->slug}-steam-review", $stream_review, now()->addHours(4));
+                        } 
+                    }
+                } 
+            }
+            $this->info("Steam review data refreshed and cached.");
+        } else {
+            Cache::put("test-key", "test-value", 60);
+            $this->info("test successful!");
+        }
     }
 }
