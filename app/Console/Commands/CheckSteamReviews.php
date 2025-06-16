@@ -33,28 +33,29 @@ class CheckSteamReviews extends Command
         $releasedGames = Games::where('release_date', '<=', $today)
             ->get();
 
-        foreach ($releasedGames as $game) {
+        Cache::put("test-key", "test-value", 60);
+        // foreach ($releasedGames as $game) {
 
-            sleep(1);
+        //     sleep(1);
             
-            $steamParts = explode('/', $game['steam']); 
-            $steamAppId = isset($steamParts[4]) ? $steamParts[4] : null; 
+        //     $steamParts = explode('/', $game['steam']); 
+        //     $steamAppId = isset($steamParts[4]) ? $steamParts[4] : null; 
             
-            if ($steamAppId) {
+        //     if ($steamAppId) {
                 
-                $external_api = "https://store.steampowered.com/appreviews/{$steamAppId}?json=1&purchase_type=all&language=all";
-                $response = Http::get($external_api);
+        //         $external_api = "https://store.steampowered.com/appreviews/{$steamAppId}?json=1&purchase_type=all&language=all";
+        //         $response = Http::get($external_api);
                 
-                if ($response->successful()) {
-                    $data = $response->json();
+        //         if ($response->successful()) {
+        //             $data = $response->json();
                     
-                    $stream_review = $data["query_summary"] ?? 0;
-                    if ($stream_review > 0 ) {
-                        Cache::put("{$game->slug}-steam-review", $stream_review, now()->addHours(4));
-                    } 
-                }
-            } 
-        }
+        //             $stream_review = $data["query_summary"] ?? 0;
+        //             if ($stream_review > 0 ) {
+        //                 Cache::put("{$game->slug}-steam-review", $stream_review, now()->addHours(4));
+        //             } 
+        //         }
+        //     } 
+        // }
         $this->info("Steam review data refreshed and cached.");
     }
 }
