@@ -8,6 +8,7 @@
 
         {{-- <meta name="description" content="Learn how to develop a tone of voice for your brand and use our template to get started."> --}}
         <meta name="description" content="The #1 Information hub for Metroidvania fans. Find the latest and greatest Metroidvanias!">
+        <meta name="google-adsense-account" content="ca-pub-7981802089975633">
 
         <title inertia>{{ config('app.name', 'Metroidvania.GG') }}</title>
 
