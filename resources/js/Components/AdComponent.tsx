@@ -12,7 +12,7 @@ export default function AdComponents(props:any) {
         }
 
         catch (e) {
-            console.log("AdSense Error")
+            console.log("AdSense Error: ", e)
         }
 
     },[]);
