@@ -1,8 +1,10 @@
 import { Head } from '@inertiajs/react';
 import { GameData, FrontPageSectionGame } from '@/types';
+import useWindowSize from '@/hooks/useWindowSize';
 import Layout from '@/Layouts/Layout';
 import HomePageBanner from '@/Components/HomePageBanner';
 import HomePageSection from '@/Components/HomePageSection';
+import AdComponents from '@/Components/AdComponent';
 
 export default function Home(
     { 
@@ -33,6 +35,8 @@ export default function Home(
 
 ) {
 
+    const { width, height } = useWindowSize();
+
     return (
         <>
             <Head title="Home" />
@@ -52,21 +56,29 @@ export default function Home(
                             games={upcomingGames}
                             viewAll={"/coming-soon"}
                         />
+
                         <HomePageSection 
                             title="Recently Released"
                             games={recentlyReleased}
                             viewAll={"/Released"}
                         />
+
+                        { width > 800 ? <AdComponents dataAdSlot="9971178537"/> : null }
+
                         <HomePageSection 
                             title="Steam Games on Sale"
                             games={steamSale}
                             viewAll={"/steam-sale"}
                         />
+
                         <HomePageSection 
                             title="Games with Demos"
                             games={gamesWithDemos}
                             viewAll={"/Demos"}
                         />
+
+                        { width > 800 ? <AdComponents dataAdSlot="9971178537"/> : null }
+
                         <HomePageSection 
                             title="In Early Access"
                             games={earlyAccessGames}
@@ -77,6 +89,9 @@ export default function Home(
                             games={upcomingKickstarterGames}
                             viewAll={"/UpcomingKickstarters"}
                         />
+
+                        { width > 800 ? <AdComponents dataAdSlot="9971178537"/> : null }
+
                         <HomePageSection 
                             title="Releasing in 2025"
                             games={releasingIn2025}
@@ -87,6 +102,9 @@ export default function Home(
                             games={releasingIn2026}
                             viewAll={"/2026"}
                         />
+
+                        { width > 800 ? <AdComponents dataAdSlot="9971178537"/> : null }
+
                         <HomePageSection 
                             title="Releasing in TBD"
                             games={releasingInTBD}
