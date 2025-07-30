@@ -1,7 +1,8 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren} from "react";
 
 import Footer from "./Components/Footer";
 import Header from "./Components/Header";
+import AdComponents from "@/Components/AdComponent";
 
 export default function Layout({children}: PropsWithChildren) {
 
@@ -10,6 +11,7 @@ export default function Layout({children}: PropsWithChildren) {
             <Header/>
             <main className="grow bg-[#eeeeee]">
                 {children}
+                <AdComponents dataAdSlot="9971178537"/>
             </main>
             <Footer/>
         </div>

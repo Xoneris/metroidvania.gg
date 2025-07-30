@@ -36,8 +36,12 @@
         </script>
 
         <!-- Google Adsense -->
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7981802089975633"
-        crossorigin="anonymous"></script>
+        <script 
+            async 
+            {{-- data-adbreak-test="on"  Dev only --}}
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7981802089975633"
+            crossorigin="anonymous"
+        ></script>
     </head>
     <body class="font-sans antialiased">
         @inertia
