@@ -18,7 +18,7 @@ export default function AdComponents(props:any) {
     },[]);
 
     return (
-        <div>
+        <div className="w-full p-4 flex justify-center items-center">
         {/* <div className="bg-[#bbb] m-4 w-[calc(100%-32px)] h-20"> */}
 
             <ins className="adsbygoogle"
