@@ -63,7 +63,11 @@ export default function Home(
                             viewAll={"/Released"}
                         />
 
-                        { width > 800 ? <AdComponents dataAdSlot="9971178537"/> : null }
+                        {
+                            width > 800
+                            ? <AdComponents dataAdSlot="9971178537" adWidth="728px" adHeight="90px" />
+                            : <AdComponents dataAdSlot="2384332553" adWidth="150px" adHeight="60px"/>
+                        }
 
                         <HomePageSection 
                             title="Steam Games on Sale"
@@ -77,7 +81,11 @@ export default function Home(
                             viewAll={"/Demos"}
                         />
 
-                        { width > 800 ? <AdComponents dataAdSlot="9971178537"/> : null }
+                        {
+                            width > 800
+                            ? <AdComponents dataAdSlot="9971178537" adWidth="728px" adHeight="90px" />
+                            : <AdComponents dataAdSlot="2384332553" adWidth="150px" adHeight="60px"/>
+                        }
 
                         <HomePageSection 
                             title="In Early Access"
@@ -90,7 +98,11 @@ export default function Home(
                             viewAll={"/UpcomingKickstarters"}
                         />
 
-                        { width > 800 ? <AdComponents dataAdSlot="9971178537"/> : null }
+                        {
+                            width > 800
+                            ? <AdComponents dataAdSlot="9971178537" adWidth="728px" adHeight="90px" />
+                            : <AdComponents dataAdSlot="2384332553" adWidth="150px" adHeight="60px"/>
+                        }
 
                         <HomePageSection 
                             title="Releasing in 2025"
@@ -103,7 +115,11 @@ export default function Home(
                             viewAll={"/2026"}
                         />
 
-                        { width > 800 ? <AdComponents dataAdSlot="9971178537"/> : null }
+                        {
+                            width > 800
+                            ? <AdComponents dataAdSlot="9971178537" adWidth="728px" adHeight="90px" />
+                            : <AdComponents dataAdSlot="2384332553" adWidth="150px" adHeight="60px"/>
+                        }
 
                         <HomePageSection 
                             title="Releasing in TBD"

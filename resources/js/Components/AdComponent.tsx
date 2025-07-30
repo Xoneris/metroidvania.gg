@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 
 export default function AdComponents(props:any) {
-    const { dataAdSlot } = props;
+    const { dataAdSlot, adWidth, adHeight } = props;
 
     useEffect(() => {
 
@@ -22,7 +22,7 @@ export default function AdComponents(props:any) {
         {/* <div className="bg-[#bbb] m-4 w-[calc(100%-32px)] h-20"> */}
 
             <ins className="adsbygoogle"
-                style={{display:"inline-block", width:"728px", height:"90px"}}
+                style={{display:"inline-block", width:adWidth, height:adHeight}}
                 data-ad-client="ca-pub-7981802089975633"
                 data-ad-slot={dataAdSlot}
             ></ins>
