@@ -75,7 +75,15 @@ export default function GamePage ({singleGame, reviews, discounts}:{singleGame:G
 
     return (
         <>
-            <Head title={singleGame.name}/>
+            {/* <Head title={singleGame.name}/> */}
+            <Head>
+                <title>{singleGame.name}</title>
+                <meta name="description" content={singleGame.description} />
+                <meta property="og:title" content={singleGame.name} />
+                <meta property="og:type" content="website" />
+                <meta property="og:image" content={"https://metroidvania.gg/storage/thumbnails/" + singleGame.slug + ".jpg"} />
+                <meta property="og:url" content={"https://metroidvania.gg/Game/" + singleGame.slug} />
+            </Head>
 
             <Layout>
 
