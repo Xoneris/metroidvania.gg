@@ -45,8 +45,11 @@ jobs:
       with:
         host: ${{ secrets.VPS_HOST }}
         username: ${{ secrets.VPS_USER }}
+        password: ${{ secrets.VPS_USERPWD }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
           cd /var/www/html/metroidvania.gg
           php artisan migrate --force
           php artisan optimize
+          sudo ${{ secrets.VPS_USERPWD }} | sudo -S chmod -R 775 /storage
+          sudo ${{ secrets.VPS_USERPWD }} | sudo -S chmod -R 775 /bootstrap/cache
