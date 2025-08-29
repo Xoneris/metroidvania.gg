@@ -13,6 +13,14 @@ return [
         'demoCheck' => [
             'id' => env('DISCORD_DEMOCHECK_WEBHOOK_ID'),
             'token' => env('DISCORD_DEMOCHECK_WEBHOOK_TOKEN'),
+        ],
+        'sale' => [
+            'id' => env('DISCORD_SALE_WEBHOOK_ID'),
+            'token' => env('DISCORD_SALE_WEBHOOK_ID'),
+        ],
+        'releaseChange' => [
+            'id' => env('DISCORD_RELEASE_CHANGE_WEBHOOK_ID'),
+            'token' => env('DISCORD_RELEASE_CHANGE_WEBHOOK_ID'),
         ]
     ],
 ];

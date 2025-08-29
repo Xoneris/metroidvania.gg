@@ -566,6 +566,26 @@ Route::middleware(['auth'])->put('/Game/{slug}/Edit', function (Request $request
     # ...later
 
     # Replace thumbnail
+    # ...at some point
+    # Should really do this, I could've used this a few times by now.
+    
+
+    # Discord Webhook
+    $discord_webhook_id = config('discord.webhook.releaseChange.id');
+    $discord_webhook_token = config('discord.webhook.releaseChange.token');
+
+    $oldRelease = $game["release_date"] ? $game["release_date"] : $game["release_window"];
+    $newRelease = $request["release_date"] ? $request["release_date"] : $request["release_window"];
+
+    Http::post('https://discord.com/api/webhooks/'. $discord_webhook_id .'/'.$discord_webhook_token.'', [
+        'embeds' => [[
+            'title' => 'Release Date change - ' . $game["name"],
+            'description' => "**Old:** " . $oldRelease . "\n**New:** " . $newRelease,
+            'color' => hexdec('dd8500'),
+        ]]
+    ]);
+
+    
 
     $game->update($request->all());
 
