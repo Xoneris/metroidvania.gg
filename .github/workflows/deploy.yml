@@ -45,7 +45,6 @@ jobs:
       with:
         host: ${{ secrets.VPS_HOST }}
         username: ${{ secrets.VPS_USER }}
-        password: ${{ secrets.VPS_USERPWD }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
           cd /var/www/html/metroidvania.gg
