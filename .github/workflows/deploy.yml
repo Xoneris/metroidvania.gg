@@ -51,5 +51,5 @@ jobs:
           cd /var/www/html/metroidvania.gg
           php artisan migrate --force
           php artisan optimize
-          sudo ${{ secrets.VPS_USERPWD }} | sudo -S chmod -R 775 /storage
-          sudo ${{ secrets.VPS_USERPWD }} | sudo -S chmod -R 775 /bootstrap/cache
+          sudo ${{ secrets.VPS_USERPWD }} | sudo -S chmod -R 775 storage
+          sudo ${{ secrets.VPS_USERPWD }} | sudo -S chmod -R 775 bootstrap/cache
