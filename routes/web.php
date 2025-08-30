@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 /*
@@ -548,6 +549,59 @@ Route::middleware(['auth'])->prefix('Dashboard')->group(function () {
 
 });
 
+Route::middleware(['auth'])->post('/game/import', function (Request $request) {
+
+    // https://store.steampowered.com/api/appdetails?appids=3943840&cc=us&l=en
+
+    $steamParts = explode('/', $request->link); 
+    $steamAppId = isset($steamParts[4]) ? $steamParts[4] : null; 
+
+    if ($steamAppId) {
+        
+        $external_api = "https://store.steampowered.com/api/appdetails?appids={$steamAppId}&cc=us&l=en";
+        $response = Http::get($external_api);
+
+        if ($response->successful()) {
+
+            $data = $response->json();
+
+            $game['name'] = $data[$steamAppId]['data']['name'];
+            $game['slug'] = strtolower(str_replace([":","'",".","_"," "],["","","","-","-"],$game['name']));
+            $game['developer'] = $data[$steamAppId]['data']['developers'][0];
+            $game['publisher'] = $data[$steamAppId]['data']['publishers'][0];
+            $game['release_window'] = $data[$steamAppId]['data']['release_date']['date'];
+            $game['release_date'] = ""; 
+            $game['description'] = $data[$steamAppId]['data']['short_description'];
+            $game['demo'] = isset($data[$steamAppId]['data']['demos'][0]['appid']) ? 1 : 0;
+            $game['early_access'] = 0;
+            $game['kickstarter_page'] = "";
+            $game['kickstarter_status'] = "";
+            $game['trailer'] = "";
+            $game['twitter'] = "";
+            $game['facebook'] = "";
+            $game['instagram'] = "";
+            $game['tiktok'] = "";
+            $game['youtube'] = "";
+            $game['discord'] = "";
+            $game['homepage'] = $data[$steamAppId]['data']['website'];
+            $game['steam'] = $request->link;
+            $game['epic'] = "";
+            $game['gog'] = "";
+            $game['playstation'] = "";
+            $game['xbox'] = "";
+            $game['nintendo'] = "";
+
+            $game['thumbnail_url'] = $data[$steamAppId]['data']['header_image'];
+
+            return Inertia::render('Dashboard/AddGame', [
+                'importedGame' => $game,
+            ]);
+            
+            
+        }
+    }
+});
+
 Route::middleware(['auth'])->patch('/Game/{id}/update', function (Request $request, $id) {
 
     $game = Games::where('id', $id)->first();
@@ -601,8 +655,19 @@ Route::middleware(['auth'])->post('/Game/New', function (Request $request) {
 
         # Thumbnail
         if ($request["submittedGame"] !== true) {
-            $fileName = $request->input('slug') . '.' . $request->file('thumbnail')->getClientOriginalExtension();
-            $path = $request->file('thumbnail')->storeAs('thumbnails', $fileName, 'public');
+
+            if ($request->file('thumbnail') !== null) {
+                $fileName = $request->input('slug') . '.' . $request->file('thumbnail')->getClientOriginalExtension();
+                $path = $request->file('thumbnail')->storeAs('thumbnails', $fileName, 'public');
+            } else if(isset($request->thumbnail_url)) {
+
+                $response = Http::get($request->thumbnail_url);
+                if ($response->failed()) {
+                    return back()->withErrors(['file_url' => 'Unable to download file.']);
+                }
+                $filename = $request->slug . ".jpg";
+                Storage::put("public/thumbnails/{$filename}", $response->body());
+            }
         }
 
         # Put new game into the DB

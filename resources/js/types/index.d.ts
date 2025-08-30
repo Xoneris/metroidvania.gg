@@ -51,6 +51,7 @@ export interface GameData {
     nintendo: string|undefined,
     steam_discount?: number,
     gog_discount?: number,
+    thumbnail_url?: string,
 }
 
 export interface SendReport {

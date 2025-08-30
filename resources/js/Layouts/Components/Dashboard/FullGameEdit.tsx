@@ -18,6 +18,7 @@ export default function FullGameEdit({game, editGame, submittedGame}:{editGame: 
         description: '',
         trailer: '',
         thumbnail: '',
+        thumbnail_url: '',
         steam: '',
         epic: '',
         gog: '',
@@ -158,9 +159,10 @@ export default function FullGameEdit({game, editGame, submittedGame}:{editGame: 
 
             <div className="flex w-full">
 
-                <div className="flex flex-col w-1/2 p-2">
+                <div className="flex flex-col gap-2 w-1/2 p-2">
                     <label>Thumbnail:</label>
                     <input type="file" name="thumbnail" accept=".png, .jpg, .jpeg" max={1} onChange={(e) => setData('thumbnail', e.target.files?.[0])} />
+                    <input type="text" name="thumbnail_url" value={data.thumbnail_url} className="rounded-md" onChange={(e) => setData('thumbnail_url', e.target.value)}/>
                     {
                         editGame 
                         ? <img className="w-1/3 my-2 rounded-lg" src={"/storage/thumbnails/"+data.slug+".jpg"} />
