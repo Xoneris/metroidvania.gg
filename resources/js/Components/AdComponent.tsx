@@ -27,7 +27,7 @@ export default function AdComponents(props:any) {
     },[]);
 
     return (
-        <div className="relative w-full p-4 flex justify-center items-center">
+        <div className="relative w-full p-4 flex justify-center items-center" style={{minHeight: adHeight}}>
 
             <div 
                 className="absolute p-4 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center rounded-lg border border-black bg-[#ccc]" 
