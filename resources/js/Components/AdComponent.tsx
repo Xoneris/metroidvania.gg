@@ -24,7 +24,7 @@ export default function AdComponents({
 
         try {
             // @ts-ignore
-            (adsbygoogle = window.adsbygoogle || []).push({});
+            (window.adsbygoogle || []).push({});
         }
 
         catch (e) {
