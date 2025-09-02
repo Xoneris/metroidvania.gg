@@ -16,8 +16,8 @@ export default function Layout({children}: PropsWithChildren) {
                 {children}
                 {
                     width > 800
-                    ? <AdComponents dataAdSlot="9971178537" isResponsive={false} adWidth="728px" adHeight="100px"/>
-                    : <AdComponents dataAdSlot="2384332553" isResponsive={false} adWidth="320px" adHeight="100px"/>
+                    ? <AdComponents dataAdSlot="9971178537" isResponsive={false} adWidth="728px" adHeight="90px"/>
+                    : <AdComponents dataAdSlot="2384332553" isResponsive={false} adWidth="320px" adHeight="90px"/>
                     // <AdComponents dataAdSlot="1556472595" isResponsive={true} />
                 }
             </main>
