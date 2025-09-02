@@ -36,7 +36,7 @@ export default function AdComponents({
     return (
 
         isResponsive 
-        ? <div className="w-full h-auto p-4">
+        ? <div className="min-w-screen h-auto flex justify-center items-center p-4">
             <ins className="adsbygoogle"
                 style={{display:"block"}}
                 data-ad-client="ca-pub-7981802089975633"
