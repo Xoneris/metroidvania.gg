@@ -15,9 +15,10 @@ export default function Layout({children}: PropsWithChildren) {
             <main className="grow bg-[#eeeeee]">
                 {children}
                 {
-                    width > 800
-                    ? <AdComponents dataAdSlot="9971178537" adWidth="728px" adHeight="100px"/>
-                    : <AdComponents dataAdSlot="2384332553" adWidth="320px" adHeight="100px"/>
+                    // width > 800
+                    // ? <AdComponents dataAdSlot="9971178537" adWidth="728px" adHeight="100px"/>
+                    // : <AdComponents dataAdSlot="2384332553" adWidth="320px" adHeight="100px"/>
+                    <AdComponents dataAdSlot="1556472595" isResponsive={true} />
                 }
             </main>
             <Footer/>

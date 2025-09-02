@@ -1,7 +1,14 @@
 import { useEffect } from "react";
 
-export default function AdComponents(props:any) {
-    const { dataAdSlot, adWidth, adHeight } = props;
+export default function AdComponents({ 
+        dataAdSlot, isResponsive, adWidth, adHeight 
+    }:{
+        dataAdSlot:string, 
+        isResponsive:boolean, 
+        adWidth?:string, 
+        adHeight?:string
+}) {
+    // const { dataAdSlot, adWidth, adHeight }:{dataAdSlot:string, isResponsive:boolean, adWidth?:string, adHeight?:string} = props;
 
     const adtexts = [
         "Support MV.GG by whitelisting this site in your Adblock. No intrusive ads I promise!",
@@ -27,13 +34,24 @@ export default function AdComponents(props:any) {
     },[]);
 
     return (
-        <div className="relative w-full p-4 flex justify-center items-center" style={{minHeight: adHeight}}>
+
+        isResponsive 
+        ? <div className="w-full h-auto p-4">
+            <ins className="adsbygoogle"
+                style={{display:"block"}}
+                data-ad-client="ca-pub-7981802089975633"
+                data-ad-slot={{dataAdSlot}}
+                data-ad-format="auto"
+                data-full-width-responsive="true"
+            ></ins>
+        </div>
+        :<div className="relative w-full p-4 flex justify-center items-center" style={{minHeight: adHeight}}>
 
             <div 
                 className="absolute p-4 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center rounded-lg border border-black bg-[#ccc]" 
                 style={{width:adWidth, height:adHeight}}
             >
-                <p className="text-sm text-[#333] text-center">
+                <p className="text-sm text-[#dd6b6b] text-center">
                     {adtexts[Math.floor(Math.random() * adtexts.length)]}
                 </p>
             </div>
@@ -43,15 +61,7 @@ export default function AdComponents(props:any) {
                 data-ad-client="ca-pub-7981802089975633"
                 data-ad-slot={dataAdSlot}
             ></ins>
-
-            {/* <ins className="adsbygoogle"
-                style={{ display: "block" }}
-                data-ad-client="pub-7981802089975633"
-                data-ad-slot={dataAdSlot}
-                data-ad-format="auto"
-                data-full-width-responsive="true"
-                data-adtest="on"
-            ></ins> */}
         </div>
+        
     )
 }
