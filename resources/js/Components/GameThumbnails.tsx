@@ -1,24 +1,39 @@
 import { replaceMonthWithName } from '@/Utils/replaceMonthWithName';
 import { FrontPageSectionGame, GameData } from '@/types';
 import { Link, usePage } from "@inertiajs/react"
+import { useEffect, useState } from 'react';
 
-export default function GameThumbnail ({game}:{game:GameData|FrontPageSectionGame}) {
-
-    // temporary fixed variable will fix later
-    const noThumbnail:boolean = true
+export default function GameThumbnail ({game, noThumbnail = false, reviewScore}:{game:GameData|FrontPageSectionGame, noThumbnail?:boolean, reviewScore?: string}) {
 
     const { url } = usePage()
+
+    const [ext, setExt] = useState(".jpg")
+
+    // useEffect(() => {
+
+    //     const checkExtension = async () => {
+
+    //         const res = await fetch(`/storage/thumbnails/${game.slug}.${ext}`)
+    //         if (!res.ok) {
+    //             setExt(".png")
+    //         }
+            
+    //     }
+
+    //     checkExtension()
+
+    // },[])
 
     return (
         <Link href={"/Game/" + game.slug} key={game.id}>
             {
-                noThumbnail 
+                noThumbnail !== true
                     ? <div 
                         className="group relative w-[322px] h-[152px] border border-black rounded-2xl m-1 transition-all hover:scale-110 hover:shadow-gameThumbnailShadow hover:z-10" 
                         title={game.name}
                     >
                         <img 
-                            src={"/storage/thumbnails/" + game.slug + '.jpg'} 
+                            src={"/storage/thumbnails/" + game.slug + ext} 
                             alt={game.name} 
                             className="rounded-2xl"
                         />
@@ -59,10 +74,15 @@ export default function GameThumbnail ({game}:{game:GameData|FrontPageSectionGam
                             : null
                         }
                         
+                        {
+                            reviewScore
+                            ? <span className="absolute bottom-1 right-1 p-1 border rounded-md text-white border-black transition-all bg-black bg-opacity-80 group-hover:text-mainOrange">{reviewScore}</span>
+                            : null
+                        }
 
                     </div>
 
-                    : <div className="Game-NoThumbnail">
+                    : <div>
                         {game.name}
                     </div>
             }
