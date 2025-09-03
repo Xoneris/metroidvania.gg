@@ -8,7 +8,6 @@ export default function AdComponents({
         adWidth?:string, 
         adHeight?:string
 }) {
-    // const { dataAdSlot, adWidth, adHeight }:{dataAdSlot:string, isResponsive:boolean, adWidth?:string, adHeight?:string} = props;
 
     const adtexts = [
         "Support MV.GG by whitelisting this site in your Adblock. No intrusive ads I promise!",
@@ -51,7 +50,7 @@ export default function AdComponents({
                 className="absolute p-4 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center rounded-lg border border-black bg-[#ccc]" 
                 style={{width:adWidth, height:adHeight}}
             >
-                <p className="text-sm text-[#dd6b6b] text-center">
+                <p className="text-sm text-[#555] text-center">
                     {adtexts[Math.floor(Math.random() * adtexts.length)]}
                 </p>
             </div>
