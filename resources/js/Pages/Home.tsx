@@ -51,6 +51,14 @@ export default function Home(
 
                     <div className='max-w-[1920px] w-full m-auto'>
 
+                        {
+                            width > 1000
+                            ? <AdComponents dataAdSlot="1495713096" adWidth="970px" adHeight="90px"/>
+                            : width > 770
+                            ? <AdComponents dataAdSlot="9971178537" adWidth="728px" adHeight="90px"/>
+                            : <AdComponents dataAdSlot="2384332553" adWidth="320px" adHeight="100px"/>
+                        }
+
                         <HomePageSection 
                             title="Coming Soon"
                             games={upcomingGames}
@@ -64,9 +72,11 @@ export default function Home(
                         />
 
                         {
-                            width > 800
-                            ? <AdComponents dataAdSlot="9971178537" isResponsive={false} adWidth="728px" adHeight="90px"/>
-                            : <AdComponents dataAdSlot="2384332553" isResponsive={false} adWidth="320px" adHeight="90px"/>
+                            width > 1000
+                            ? <AdComponents dataAdSlot="1495713096" adWidth="970px" adHeight="90px"/>
+                            : width > 770
+                            ? <AdComponents dataAdSlot="9971178537" adWidth="728px" adHeight="90px"/>
+                            : <AdComponents dataAdSlot="2384332553" adWidth="320px" adHeight="100px"/>
                         }
 
                         <HomePageSection 
@@ -82,9 +92,11 @@ export default function Home(
                         />
 
                         {
-                            width > 800
-                            ? <AdComponents dataAdSlot="9971178537" isResponsive={false} adWidth="728px" adHeight="90px"/>
-                            : <AdComponents dataAdSlot="2384332553" isResponsive={false} adWidth="320px" adHeight="90px"/>
+                            width > 1000
+                            ? <AdComponents dataAdSlot="1495713096" adWidth="970px" adHeight="90px"/>
+                            : width > 770
+                            ? <AdComponents dataAdSlot="9971178537" adWidth="728px" adHeight="90px"/>
+                            : <AdComponents dataAdSlot="2384332553" adWidth="320px" adHeight="100px"/>
                         }
 
                         <HomePageSection 
@@ -99,9 +111,11 @@ export default function Home(
                         />
 
                         {
-                            width > 800
-                            ? <AdComponents dataAdSlot="9971178537" isResponsive={false} adWidth="728px" adHeight="90px"/>
-                            : <AdComponents dataAdSlot="2384332553" isResponsive={false} adWidth="320px" adHeight="90px"/>
+                            width > 1000
+                            ? <AdComponents dataAdSlot="1495713096" adWidth="970px" adHeight="90px"/>
+                            : width > 770
+                            ? <AdComponents dataAdSlot="9971178537" adWidth="728px" adHeight="90px"/>
+                            : <AdComponents dataAdSlot="2384332553" adWidth="320px" adHeight="100px"/>
                         }
 
                         <HomePageSection 
@@ -116,9 +130,11 @@ export default function Home(
                         />
 
                         {
-                            width > 800
-                            ? <AdComponents dataAdSlot="9971178537" isResponsive={false} adWidth="728px" adHeight="90px"/>
-                            : <AdComponents dataAdSlot="2384332553" isResponsive={false} adWidth="320px" adHeight="90px"/>
+                            width > 1000
+                            ? <AdComponents dataAdSlot="1495713096" adWidth="970px" adHeight="90px"/>
+                            : width > 770
+                            ? <AdComponents dataAdSlot="9971178537" adWidth="728px" adHeight="90px"/>
+                            : <AdComponents dataAdSlot="2384332553" adWidth="320px" adHeight="100px"/>
                         }
 
                         <HomePageSection 

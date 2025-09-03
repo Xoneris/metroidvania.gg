@@ -12,6 +12,9 @@ import SteamReview from "@/Components/SteamReviews";
 import { SocialIcon } from "react-social-icons";
 import { useState } from "react";
 import ReportDialogBox from "@/Layouts/Components/ReportDialogBox";
+import LayoutWithAdSidebars from "@/Layouts/LayoutWithAdSidebars";
+import AdComponents from "@/Components/AdComponent";
+import useWindowSize from "@/hooks/useWindowSize";
 
 // import Loading from "./Loading";
 // import NotFound from "./NotFound";
@@ -31,8 +34,8 @@ export default function GamePage ({singleGame, reviews, discounts}:{singleGame:G
 
     let currentDate = new Date().toJSON().slice(0, 10);
 
+    const { width, height } = useWindowSize()
     const [report, setReport] = useState<boolean>(false)
-
     const { props } = usePage()
     const { success }:any = props
 
@@ -85,7 +88,7 @@ export default function GamePage ({singleGame, reviews, discounts}:{singleGame:G
                 <meta property="og:url" content={"https://metroidvania.gg/Game/" + singleGame.slug} />
             </Head>
 
-            <Layout>
+            <LayoutWithAdSidebars noHeaderAd={true}>
 
                 {success && <div className="fixed right-0 top-14 p-2 rounded-l-lg bg-green-800 text-white w-[300px]">{success}</div>}
 
@@ -103,11 +106,11 @@ export default function GamePage ({singleGame, reviews, discounts}:{singleGame:G
 
                     </div>
 
-                    <div className="flex flex-col sm:flex-row gap-2">
+                    <div className="flex flex-col lg:flex-row gap-2">
 
-                        <div className="flex flex-col gap-2 w-full max-w-[460px]">
+                        <div className="flex flex-col gap-2 w-full lg:max-w-[460px]">
 
-                            <img src={'/storage/thumbnails/' + singleGame.slug + '.jpg'} alt={singleGame.name} className="rounded-xl border border-black"/>
+                            <img src={'/storage/thumbnails/' + singleGame.slug + '.jpg'} alt={singleGame.name} className="max-w-[460px] w-full mx-auto rounded-xl border border-black"/>
                             <h2 className="text-2xl">Details:</h2>
                             <ul className="pl-4">
                                 <li><b>Developer:</b> {singleGame.developer} </li>
@@ -223,6 +226,14 @@ export default function GamePage ({singleGame, reviews, discounts}:{singleGame:G
                                 </ul>
                         </div>
 
+                        {
+                            width > 967
+                            ? null
+                            : width > 807
+                                ? <AdComponents dataAdSlot="8604046928" adWidth="728px" adHeight="90px" />
+                                : <AdComponents dataAdSlot="6692199453" adWidth="320px" adHeight="100px" />
+                        }
+
                         <div className="w-full flex flex-col gap-2">
                             {
                                 singleGame.trailer !== "0"
@@ -305,7 +316,7 @@ export default function GamePage ({singleGame, reviews, discounts}:{singleGame:G
                     </form>
                     </div> */}
 
-            </Layout>
+            </LayoutWithAdSidebars>
         </>
     )
 }

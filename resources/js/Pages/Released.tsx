@@ -1,5 +1,8 @@
+import AdComponents from "@/Components/AdComponent";
 import GameThumbnail from "@/Components/GameThumbnails";
+import useWindowSize from "@/hooks/useWindowSize";
 import Layout from "@/Layouts/Layout";
+import LayoutWithAdSidebars from "@/Layouts/LayoutWithAdSidebars";
 import { GameData } from "@/types";
 import { Head } from "@inertiajs/react";
 import { useState } from "react";
@@ -7,10 +10,9 @@ import { useState } from "react";
 
 export default function Released ({games}:{games:GameData[]}) {
 
+    const { width, height } = useWindowSize()
     const [yearSelect, setYearSelect] = useState<string>("2025")
-
     const allPossibleYearsToSelect = [...new Set(games.filter(game => game.release_date !== "0000-00-00").map(game => game.release_date.split("-")[0]))]
-
     const months: string[] = []
     
     for(let i=1; i<13; i++) {
@@ -31,11 +33,11 @@ export default function Released ({games}:{games:GameData[]}) {
     }
 
     return (
-        <Layout>
+        <LayoutWithAdSidebars>
 
             <Head title="All Releases" />
 
-            <section className="max-w-[1920px] m-auto flex flex-col p-4 gap-2">
+            <section className="max-w-[1920px] w-full flex flex-col p-4 gap-2">
                 
                 <h1 className="text-2xl">All Releases</h1>
                 <hr className="bg-black w-full h-[2px]"/>
@@ -57,27 +59,43 @@ export default function Released ({games}:{games:GameData[]}) {
                 </ul>
 
                 {
-                    months.reverse().map((month) => (
+                    months.reverse().map((month,index) => (
 
-                        games.filter(game => game.release_date.split("-")[0] === yearSelect && game.release_date.split("-")[1] === month).length > 0
-                        ? <div className="flex flex-col gap-2">
+                        <>
+                            {
+                            games.filter(game => game.release_date.split("-")[0] === yearSelect && game.release_date.split("-")[1] === month).length > 0
+                            ? <div className="flex flex-col gap-2">
 
-                                <h2 className="font-bold">{getMonthName(month)}</h2>
-                                <hr className="bg-black w-full h-[2px]"/>
+                                    <h2 className="font-bold">{getMonthName(month)}</h2>
+                                    <hr className="bg-black w-full h-[2px]"/>
 
-                                <div className="flex flex-wrap justify-around">
-                                {
-                                    games.filter(game => game.release_date.split("-")[0] === yearSelect && game.release_date.split("-")[1] === month).map((game) => (
-                                        <GameThumbnail game={game} key={game.id}/>
-                                    ))
-                                }
-                                </div>
-                            
+                                    <div className="flex flex-wrap justify-around">
+                                    {
+                                        games.filter(game => game.release_date.split("-")[0] === yearSelect && game.release_date.split("-")[1] === month).map((game) => (
+                                            <GameThumbnail game={game} key={game.id}/>
+                                        ))
+                                    }
+                                    </div>
+                                
                             </div>
-                        : null
+                            : null
+                            }
+
+                            {/* Not putting ads here for now because there is an inconsistency on frequency based if certain months have games in it or not */}
+                            
+                            {/* {
+                                (index+1) % 3 === 0
+                                ? width > 967
+                                    ? null
+                                    : width > 807
+                                        ? <AdComponents dataAdSlot="8604046928" adWidth="728px" adHeight="90px" />
+                                        : <AdComponents dataAdSlot="6692199453" adWidth="320px" adHeight="100px" />
+                                : null
+                            } */}
+                        </>
                     ))
                 }
             </section>
-        </Layout>
+        </LayoutWithAdSidebars>
     )
 }

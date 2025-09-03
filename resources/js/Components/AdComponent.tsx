@@ -1,12 +1,11 @@
 import { useEffect } from "react";
 
 export default function AdComponents({ 
-        dataAdSlot, isResponsive, adWidth, adHeight 
+        dataAdSlot, adWidth, adHeight 
     }:{
         dataAdSlot:string, 
-        isResponsive:boolean, 
-        adWidth?:string, 
-        adHeight?:string
+        adWidth:string, 
+        adHeight:string
 }) {
 
     const adtexts = [
@@ -34,17 +33,7 @@ export default function AdComponents({
 
     return (
 
-        isResponsive 
-        ? <div className="w-full h-auto flex justify-center items-center p-4">
-            <ins className="adsbygoogle"
-                style={{display:"block"}}
-                data-ad-client="ca-pub-7981802089975633"
-                data-ad-slot={dataAdSlot}
-                data-ad-format="auto"
-                data-full-width-responsive="true"
-            ></ins>
-        </div>
-        :<div className="relative w-full p-4 flex justify-center items-center" style={{minHeight: adHeight}}>
+        <div className="relative w-full p-4 flex justify-center items-center" style={{minWidth: adWidth, minHeight: adHeight}}>
 
             <div 
                 className="absolute p-4 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center rounded-lg border border-black bg-[#ccc]" 
@@ -60,7 +49,7 @@ export default function AdComponents({
                 data-ad-client="ca-pub-7981802089975633"
                 data-ad-slot={dataAdSlot}
             ></ins>
+
         </div>
-        
     )
 }
