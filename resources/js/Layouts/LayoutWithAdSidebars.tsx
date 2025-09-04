@@ -28,8 +28,8 @@ export default function LayoutWithAdSidebars({children, noHeaderAd}: {children: 
                         {
                             noHeaderAd
                             ? null
-                            : width > 1210
-                            ? <AdComponents dataAdSlot="5552160565" adWidth="970px" adHeight="90px" />
+                            // : width > 1210
+                            // ? <AdComponents dataAdSlot="5552160565" adWidth="970px" adHeight="90px" />
                             : width > 807
                             ? <AdComponents dataAdSlot="8519452290" adWidth="728px" adHeight="90px" />
                             : <AdComponents dataAdSlot="9027822404" adWidth="320px" adHeight="100px" />

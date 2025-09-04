@@ -11,7 +11,7 @@ export default function AdComponents({
     const adtexts = [
         "Support MV.GG by whitelisting this site in your Adblock. No intrusive ads I promise!",
         "Running this site costs about ~20$ each month. Consider disabling your Adblock!",
-        "Silksong is releasing soon, can you believe it? It's actually happening! Holy.",
+        "Silksong actually released, can you believe it? It's actually real! Holy.",
         "Did you know: About ~33% of people using the Internet use Adblock.",
         "This is where I could promote your cool Metroidvania. Interested? metroidvaniagg@gmail.com.",
         "Funfact: Symphony of the Night initally underperformed in sales. It's popularity came later.",
@@ -33,7 +33,7 @@ export default function AdComponents({
 
     return (
 
-        <div className="relative w-full p-4 flex justify-center items-center" style={{minWidth: adWidth, minHeight: adHeight}}>
+        <div className="relative p-4 flex justify-center items-center" style={{minWidth: adWidth, minHeight: adHeight}}>
 
             <div 
                 className="absolute p-4 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center rounded-lg border border-black bg-[#ccc]" 
