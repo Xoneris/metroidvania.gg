@@ -71,26 +71,12 @@ export default function Home(
                             viewAll={"/Released"}
                         />
 
-                        {
-                            width > 1000
-                            ? <AdComponents dataAdSlot="1495713096" adWidth="970px" adHeight="90px"/>
-                            : width > 770
-                            ? <AdComponents dataAdSlot="9971178537" adWidth="728px" adHeight="90px"/>
-                            : <AdComponents dataAdSlot="2384332553" adWidth="320px" adHeight="100px"/>
-                        }
-
                         <HomePageSection 
                             title="Steam Games on Sale"
                             games={steamSale}
                             viewAll={"/steam-sale"}
                         />
 
-                        <HomePageSection 
-                            title="Games with Demos"
-                            games={gamesWithDemos}
-                            viewAll={"/Demos"}
-                        />
-
                         {
                             width > 1000
                             ? <AdComponents dataAdSlot="1495713096" adWidth="970px" adHeight="90px"/>
@@ -98,6 +84,12 @@ export default function Home(
                             ? <AdComponents dataAdSlot="9971178537" adWidth="728px" adHeight="90px"/>
                             : <AdComponents dataAdSlot="2384332553" adWidth="320px" adHeight="100px"/>
                         }
+
+                        <HomePageSection 
+                            title="Games with Demos"
+                            games={gamesWithDemos}
+                            viewAll={"/Demos"}
+                        />
 
                         <HomePageSection 
                             title="In Early Access"
@@ -129,14 +121,6 @@ export default function Home(
                             viewAll={"/2026"}
                         />
 
-                        {
-                            width > 1000
-                            ? <AdComponents dataAdSlot="1495713096" adWidth="970px" adHeight="90px"/>
-                            : width > 770
-                            ? <AdComponents dataAdSlot="9971178537" adWidth="728px" adHeight="90px"/>
-                            : <AdComponents dataAdSlot="2384332553" adWidth="320px" adHeight="100px"/>
-                        }
-
                         <HomePageSection 
                             title="Releasing in TBD"
                             games={releasingInTBD}
@@ -147,6 +131,14 @@ export default function Home(
                             games={lastAddedGames}
                             viewAll={""}
                         />
+
+                        {
+                            width > 1000
+                            ? <AdComponents dataAdSlot="1495713096" adWidth="970px" adHeight="90px"/>
+                            : width > 770
+                            ? <AdComponents dataAdSlot="9971178537" adWidth="728px" adHeight="90px"/>
+                            : <AdComponents dataAdSlot="2384332553" adWidth="320px" adHeight="100px"/>
+                        }
 
                     </div>
                 </div>
