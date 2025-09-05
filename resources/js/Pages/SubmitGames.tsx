@@ -45,7 +45,7 @@ export default function SubmitGame () {
         gog: '',
         playstation: '',
         xbox: '',
-        switch: '',
+        nintendo: '',
         twitter: '',
         facebook: '',
         instagram: '',
