@@ -13,11 +13,18 @@ export default function SinglePage({ games, title }:{games:GameData[], title:str
         <>
             <Head title={title} />
 
-            <LayoutWithAdSidebars>
+            <LayoutWithAdSidebars noHeaderAd={true}>
 
                 <section className="max-w-[1600px] w-full flex flex-col p-4 gap-2">
                     <h1 className="text-2xl">{title}</h1>
                     <hr className="bg-black w-full h-[2px]"/>
+
+                    {
+                        width > 807
+                        ? <AdComponents dataAdSlot="8519452290" adWidth="728px" adHeight="90px" />
+                        : <AdComponents dataAdSlot="9027822404" adWidth="320px" adHeight="100px" />
+                    }
+
                     <div className="w-full flex flex-wrap justify-around content-between">
                     {
                         games.map((game,index) => (
