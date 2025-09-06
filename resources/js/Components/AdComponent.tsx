@@ -4,16 +4,16 @@ export default function AdComponents({
         dataAdSlot, adWidth, adHeight 
     }:{
         dataAdSlot:string, 
-        adWidth:string, 
-        adHeight:string
-}) {
+        adWidth:"728px"|"320px"|"160px", 
+        adHeight:"100px"|"90px"|"600px"
+}){
 
     const adtexts = [
         "Support MV.GG by whitelisting this site in your Adblock. No intrusive ads I promise!",
         "Running this site costs about ~20$ each month. Consider disabling your Adblock!",
         "Silksong actually released, can you believe it? It's actually real! Holy.",
         "Did you know: About ~33% of people using the Internet use Adblock.",
-        "This is where I could promote your cool Metroidvania. Interested? metroidvaniagg@gmail.com.",
+        "This is where I could promote your cool Metroidvania. Interested? metroidvaniagg @gmail.com.",
         "Funfact: Symphony of the Night initally underperformed in sales. It's popularity came later.",
         "Funfact: The term Metroidvania was invented by Fans and not by developers!"
     ]
@@ -24,7 +24,6 @@ export default function AdComponents({
             // @ts-ignore
             (window.adsbygoogle || []).push({});
         }
-
         catch (e) {
             console.log("AdSense Error: ", e)
         }
@@ -33,7 +32,7 @@ export default function AdComponents({
 
     return (
 
-        <div className="relative p-4 flex justify-center items-center" style={{minWidth: adWidth, minHeight: adHeight}}>
+        <div className="relative m-4 flex justify-center items-center" style={{minWidth: adWidth, minHeight: adHeight}}>
 
             <div 
                 className="absolute p-4 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center rounded-lg border border-black bg-[#ccc]" 
