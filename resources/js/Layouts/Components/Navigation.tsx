@@ -66,7 +66,7 @@ export default function Navigation() {
                     currentUrl={url}
                     dropdownItems={[
                         {destination: "/steam-sale", name: "Steam"},
-                        {destination: "/gog-sale", name: "GoG"},
+                        // {destination: "/gog-sale", name: "GoG"},
                     ]}
                     name={"On Sale"}
                 />

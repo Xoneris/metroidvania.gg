@@ -141,11 +141,11 @@ export default function MobileNav() {
                             destination={"/steam-sale"}
                             name={"Steam"}
                         />
-                        <MobileNavLink 
+                        {/* <MobileNavLink 
                             currentUrl={url}
                             destination={"/gog-sale"}
                             name={"GoG"}
-                        />
+                        /> */}
                     </div>
 
                 </div>
