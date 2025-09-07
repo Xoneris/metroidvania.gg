@@ -39,11 +39,11 @@ createServer(async page =>
   createInertiaApp({
     page,
     render: ReactDOMServer.renderToString,
-    // resolve: name => {
-    //   const pages = import.meta.glob('./Pages/**/*.tsx', { eager: true })
-    //   return pages[`./Pages/${name}.tsx`]?.default
-    // },
-    resolve: resolvePage,
+    resolve: name => {
+      const pages = import.meta.glob('./Pages/**/*.tsx', { eager: true })
+      return pages[`./Pages/${name}.tsx`]?.default
+    },
+    // resolve: resolvePage,
     setup: ({ App, props }) => React.createElement(App, props),
   }),
 )
