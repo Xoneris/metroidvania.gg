@@ -35,15 +35,19 @@ async function resolvePage(name) {
 //     return module.default
 // }
 
-createServer(async page =>
-  createInertiaApp({
-    page,
-    render: ReactDOMServer.renderToString,
-    resolve: name => {
-      const pages = import.meta.glob('./Pages/**/*.tsx', { eager: true })
-      return pages[`./Pages/${name}.tsx`]?.default
-    },
-    // resolve: resolvePage,
-    setup: ({ App, props }) => React.createElement(App, props),
-  }),
-)
+try {
+  createServer(async page =>
+    createInertiaApp({
+      page,
+      render: ReactDOMServer.renderToString,
+      resolve: name => {
+        const pages = import.meta.glob('./Pages/**/*.tsx', { eager: true })
+        return pages[`./Pages/${name}.tsx`]?.default
+      },
+      // resolve: resolvePage,
+      setup: ({ App, props }) => React.createElement(App, props),
+    }),
+  )
+} catch (error) {
+  console.log("SSR failed:", error)
+}
