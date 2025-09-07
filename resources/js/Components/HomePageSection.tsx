@@ -1,9 +1,9 @@
-import { FrontPageSectionGame, GameData } from "@/types";
+import type { TGameThumbnail, GameData } from "@/types";
 import GameThumbnail from "./GameThumbnails";
 import { Link } from "@inertiajs/react";
 
 
-export default function HomePageSection({title,games,viewAll}:{title:string, games:FrontPageSectionGame[]|null, viewAll:string}) {
+export default function HomePageSection({title,games,viewAll}:{title:string, games:TGameThumbnail[]|null, viewAll:string}) {
 
     return (
         <div className="w-full p-3">
@@ -22,7 +22,7 @@ export default function HomePageSection({title,games,viewAll}:{title:string, gam
             <hr className="bg-black w-full h-[2px]"/>
             <div className="flex flex-wrap justify-around pt-3">
                 {
-                    games?.map((game:FrontPageSectionGame) => (
+                    games?.map((game:TGameThumbnail) => (
                         <GameThumbnail game={game} key={game.id}/>
                     ))
                 }
