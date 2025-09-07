@@ -35,6 +35,7 @@ export default function FullGameEdit({game, editGame, submittedGame}:{editGame: 
     })
     
     useEffect(() => {
+        // @ts-ignore
         if (submittedGame) {setData('submittedGame', true)}
     },[])
 
@@ -75,7 +76,8 @@ export default function FullGameEdit({game, editGame, submittedGame}:{editGame: 
                         type="text" 
                         className={`rounded-md ${errors.name ? "border border-red-600" : null}`}  
                         placeholder="Hollow Knight" 
-                        value={data.name} 
+                        value={data.name}
+                        // @ts-ignore 
                         onChange={(e) => setData('name', e.target.value)}
                         onBlur={(e) => e.target.value === "" ? setError('name', 'please fill this out') : setError('name','')}
                     />

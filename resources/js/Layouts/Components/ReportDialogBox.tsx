@@ -1,6 +1,11 @@
 import { useForm, usePage } from "@inertiajs/react"
 import { useState } from "react"
 
+interface FormData {
+    game_name: string,
+    report: string,
+}
+
 export default function ReportDialogBox({gameName, setReport}:{gameName:string, setReport:any}) {
 
     // const { props } = usePage()
@@ -8,7 +13,7 @@ export default function ReportDialogBox({gameName, setReport}:{gameName:string, 
 
     const [success, setSuccesss] = useState<string>("")
 
-    const {data, setData, post, errors, setError} = useForm<any>({
+    const {data, setData, post, errors, setError} = useForm<FormData>({
         game_name: gameName,
         report: ""
     })
@@ -24,7 +29,7 @@ export default function ReportDialogBox({gameName, setReport}:{gameName:string, 
         }
 
         post("/Report", {
-            data: data,
+            // data: data,
             onFinish: () => {
                 console.log("Finished!")
                 setSuccesss("Report sent! Thank you! We'll fix the issue as soon as we can!")

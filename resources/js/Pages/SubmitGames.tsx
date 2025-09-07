@@ -170,6 +170,7 @@ export default function SubmitGame () {
                 data.discord === "" &&
                 data.website == "" 
             ){
+                // @ts-ignore
                 setError(
                     "social_media",
                     "You have not entered the link to any Social Media platforms. While none of these are mandatory informations, consider again if you really don't have this information"
@@ -182,7 +183,7 @@ export default function SubmitGame () {
         }
 
         post('/SubmitGames', {
-            data: data,
+            // data: data,
             onFinish: () => {
                 setIsSubmitted(true)
             }
