@@ -6,8 +6,11 @@
 
         <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
-        {{-- <meta name="description" content="Learn how to develop a tone of voice for your brand and use our template to get started."> --}}
-        <meta name="description" content="The #1 Information hub for Metroidvania fans. Find the latest and greatest Metroidvanias!">
+        <meta name="keywords" content="metroid,castlevania,metroidvania,metroidvania.gg,hollow knight,silksong,ender lilies,ender magnolia,ori and the blind forest, ori and the will of the wisps,grime,aeterna noctis,prince of persia the lost crown">
+        <meta name="author" content="Metroidvania.GG">
+        <meta name="robots" content="index, follow">
+        
+        {{-- <meta name="description" content="The #1 Information hub for Metroidvania fans. Find the latest and greatest Metroidvanias!"> --}}
         <meta name="google-adsense-account" content="ca-pub-7981802089975633">
 
         <title inertia>{{ config('app.name', 'Metroidvania.GG') }}</title>
@@ -31,14 +34,12 @@
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-
             gtag('config', 'G-4F85GDK216');
         </script>
 
         <!-- Google Adsense -->
         <script 
             async 
-            {{-- data-adbreak-test="on"  Dev only --}}
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7981802089975633"
             crossorigin="anonymous"
         ></script>
