@@ -809,8 +809,8 @@ Route::get('/developer/{developer}', function ($developer) {
 
     return Inertia::render('SinglePage', [
         'games' => $games,
-        'pageTitle' => 'Games published by '. $developer .'.' ,
-        'pageDescription' => 'A list of Metroidvania games published by.'. $developer .'.',
+        'pageTitle' => 'Games developed by '. $developer .'.' ,
+        'pageDescription' => 'A list of Metroidvania games developed by.'. $developer .'.',
     ]);
 });
 
