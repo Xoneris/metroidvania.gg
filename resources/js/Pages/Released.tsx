@@ -1,14 +1,13 @@
 import AdComponents from "@/Components/AdComponent";
 import GameThumbnail from "@/Components/GameThumbnails";
 import useWindowSize from "@/hooks/useWindowSize";
-import Layout from "@/Layouts/Layout";
 import LayoutWithAdSidebars from "@/Layouts/LayoutWithAdSidebars";
-import { GameData } from "@/types";
+import { TGameThumbnail } from "@/types";
 import { Head } from "@inertiajs/react";
 import { useState } from "react";
 
 
-export default function Released ({games}:{games:GameData[]}) {
+export default function Released ({games}:{games:TGameThumbnail[]}) {
 
     const { width, height } = useWindowSize()
     const [yearSelect, setYearSelect] = useState<string>("2025")
@@ -35,7 +34,23 @@ export default function Released ({games}:{games:GameData[]}) {
     return (
         <LayoutWithAdSidebars>
 
-            <Head title="All Releases" />
+            <Head>
+                <title>{"All Releases"}</title>
+                <meta name="description" content={`A curated list of Metroidvania games which released between ${allPossibleYearsToSelect[0]} and ${allPossibleYearsToSelect[allPossibleYearsToSelect.length - 1]}`} />
+
+                <meta property="og:title" content={"All Releases"}/>
+                <meta property="og:description" content={`A curated list of Metroidvania games which released between ${allPossibleYearsToSelect[0]} and ${allPossibleYearsToSelect[allPossibleYearsToSelect.length - 1]}`} />
+                <meta property="og:type" content="website"/>
+                <meta property="og:url" content={"https://metroidvania.gg/Released"} />
+                <meta property="og:image" content={"https://metroidvania.gg/storage/thumbnails/" + games[(Math.floor(Math.random() * games.length))].slug + ".jpg"} />
+                <meta property="og:site_name" content="Metroidvania.GG"/>
+
+                <meta name="twitter:card" content="summary_large_image"/>
+                <meta name="twitter:title" content={"All Releases"}/>
+                <meta name="twitter:description" content={`A curated list of Metroidvania games which released between ${allPossibleYearsToSelect[0]} and ${allPossibleYearsToSelect[allPossibleYearsToSelect.length - 1]}`}/>
+                <meta name="twitter:image" content={"https://metroidvania.gg/storage/thumbnails/" + games[(Math.floor(Math.random() * games.length))].slug + ".jpg"}/>
+                <meta name="twitter:site" content="@metroidvania_gg"/>
+            </Head>
 
             <section className="max-w-[1920px] w-full flex flex-col p-4 gap-2">
                 

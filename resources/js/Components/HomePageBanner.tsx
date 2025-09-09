@@ -1,8 +1,9 @@
-import { GameData } from "@/types";
+import { THomeBannerSectionGames } from "@/types";
 import { Link } from "@inertiajs/react";
 import { useState } from "react";
+import BannerCarousel from "./BannerCarousel";
 
-export default function HomePageBanner({games}:{games:GameData[]}) {
+export default function HomePageBanner({games}:{games:THomeBannerSectionGames[]}) {
 
     const [heroTrailer, setHeroTrailer] = useState<string>(games[0]?.trailer)
     const [moreInfoBtn, setMoreInfoBtn] = useState<string>(games[0]?.slug)
@@ -73,6 +74,10 @@ export default function HomePageBanner({games}:{games:GameData[]}) {
                     }
                 </div>
             </div>
+
+            {/* <div className="flex sm:hidden">
+                <BannerCarousel games={games} />
+            </div> */}
         </div>
     )
 }

@@ -1,4 +1,4 @@
-import type { TGameThumbnail, GameData } from '@/types';
+import type { TGameThumbnail } from '@/types';
 import { replaceMonthWithName } from '@/Utils/replaceMonthWithName';
 import { Link, usePage } from "@inertiajs/react"
 import { useEffect, useState } from 'react';
@@ -8,7 +8,7 @@ export default function GameThumbnail ({
         noThumbnail = false, 
         reviewScore
     }:{
-        game:GameData|TGameThumbnail, 
+        game:TGameThumbnail, 
         noThumbnail?:boolean, 
         reviewScore?: string
     }) {

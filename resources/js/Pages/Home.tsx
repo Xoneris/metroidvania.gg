@@ -1,5 +1,5 @@
 import { Head } from '@inertiajs/react';
-import type { GameData, TGameThumbnail } from '@/types';
+import type { THomeBannerSectionGames,TGameThumbnail } from '@/types';
 import useWindowSize from '@/hooks/useWindowSize';
 import Layout from '@/Layouts/Layout';
 import HomePageBanner from '@/Components/HomePageBanner';
@@ -20,17 +20,17 @@ export default function Home(
         releasingInTBD,
         lastAddedGames,
     }:{ 
-        bannerSectionGames: GameData[],
+        bannerSectionGames: THomeBannerSectionGames[],
         upcomingGames: TGameThumbnail[],
-        recentlyReleased: GameData[],
-        steamSale: GameData[] 
-        gamesWithDemos: GameData[],
-        earlyAccessGames: GameData[],  
-        upcomingKickstarterGames: GameData[],
-        releasingIn2025: GameData[],
-        releasingIn2026: GameData[],
-        releasingInTBD: GameData[],
-        lastAddedGames: GameData[],
+        recentlyReleased: TGameThumbnail[],
+        steamSale: TGameThumbnail[] 
+        gamesWithDemos: TGameThumbnail[],
+        earlyAccessGames: TGameThumbnail[],  
+        upcomingKickstarterGames: TGameThumbnail[],
+        releasingIn2025: TGameThumbnail[],
+        releasingIn2026: TGameThumbnail[],
+        releasingInTBD: TGameThumbnail[],
+        lastAddedGames: TGameThumbnail[],
     }
 
 ) {
@@ -39,7 +39,23 @@ export default function Home(
 
     return (
         <>
-            <Head title="Home" />
+            <Head>
+                <title>{"Home"}</title>
+                <meta name="description" content={"The #1 Information hub for Metroidvania fans. Find the latest and greatest Metroidvanias!"} />
+
+                <meta property="og:title" content={"Metroidvania.GG - Home"}/>
+                <meta property="og:description" content={"The #1 Information hub for Metroidvania fans. Find the latest and greatest Metroidvanias!"} />
+                <meta property="og:type" content="website"/>
+                <meta property="og:url" content={"https://metroidvania.gg"} />
+                <meta property="og:image" content={"https://metroidvania.gg/storage/thumbnails/" + bannerSectionGames[0].slug + ".jpg"} />
+                <meta property="og:site_name" content="Metroidvania.GG"/>
+
+                <meta name="twitter:card" content="summary_large_image"/>
+                <meta name="twitter:title" content={"Metroidvania.GG - Home"}/>
+                <meta name="twitter:description" content={"The #1 Information hub for Metroidvania fans. Find the latest and greatest Metroidvanias!"}/>
+                <meta name="twitter:image" content={"https://metroidvania.gg/storage/thumbnails/" + bannerSectionGames[0].slug + ".jpg"}/>
+                <meta name="twitter:site" content="@metroidvania_gg"/>
+            </Head>
 
             <Layout>
 

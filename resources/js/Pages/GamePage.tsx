@@ -82,7 +82,7 @@ export default function GamePage ({singleGame, reviews, discounts}:{singleGame:G
                 <title>{singleGame.name}</title>
                 <meta name="description" content={singleGame.description} />
 
-                <meta property="og:title" content={"Metroidvania.GG -" + singleGame.name}/>
+                <meta property="og:title" content={"Metroidvania.GG - " + singleGame.name}/>
                 <meta property="og:description" content={singleGame.description} />
                 <meta property="og:type" content="website"/>
                 <meta property="og:url" content={"https://metroidvania.gg/Game/" + singleGame.slug} />
@@ -90,7 +90,7 @@ export default function GamePage ({singleGame, reviews, discounts}:{singleGame:G
                 <meta property="og:site_name" content="Metroidvania.GG"/>
 
                 <meta name="twitter:card" content="summary_large_image"/>
-                <meta name="twitter:title" content={"Metroidvania.GG -" + singleGame.name}/>
+                <meta name="twitter:title" content={"Metroidvania.GG - " + singleGame.name}/>
                 <meta name="twitter:description" content={singleGame.description}/>
                 <meta name="twitter:image" content={"https://metroidvania.gg/storage/thumbnails/" + singleGame.slug + ".jpg"}/>
                 <meta name="twitter:site" content="@metroidvania_gg"/>

@@ -56,27 +56,31 @@ Route::get('/', function (Request $request) {
     if (!empty($released)){
         $bannerSectionRecentRelease = $released[array_rand($released)];
     } else {
-        $bannerSectionRecentRelease = Games::where('release_date', '<', $today)
-        ->orderBy('release_date', 'DESC')
-        ->inRandomOrder()
-        ->first();
+        $bannerSectionRecentRelease = Games::select('id','name','slug','trailer')
+            ->where('release_date', '<', $today)
+            ->orderBy('release_date', 'DESC')
+            ->inRandomOrder()
+            ->first();
     }
 
     if (!empty($notReleased)){
         $bannerSectionComingSoon = $notReleased[array_rand($notReleased)];
     } else {
-        $bannerSectionComingSoon = Games::where('release_date', '>', $today)
-        ->orderBy('release_date', 'ASC')
-        ->inRandomOrder()
-        ->first();
+        $bannerSectionComingSoon = Games::select('id','name','slug','trailer')
+            ->where('release_date', '>', $today)
+            ->orderBy('release_date', 'ASC')
+            ->inRandomOrder()
+            ->first();
     }
 
 
-    $bannerSectionKickstarterLive = Games::where('kickstarter_status', 'Live')
+    $bannerSectionKickstarterLive = Games::select('id','name','slug','trailer')
+        ->where('kickstarter_status', 'Live')
         ->inRandomOrder()
         ->first();
 
-    $bannerSectionKickstarterUpcoming = Games::where('kickstarter_status', 'Upcoming')
+    $bannerSectionKickstarterUpcoming = Games::select('id','name','slug','trailer')
+        ->where('kickstarter_status', 'Upcoming')
         ->inRandomOrder()
         ->first();
 
@@ -118,7 +122,8 @@ Route::get('/', function (Request $request) {
     $upcomingGames = array_merge($gamesNotReleased,$upcomingGamesDB);
 
     #5 last released Games. 
-    $recentlyReleasedDB = Games::where('release_date', '<', $today)
+    $recentlyReleasedDB = Games::select('id','name','slug','release_date','release_window','early_access')
+        ->where('release_date', '<', $today)
         ->orderBy('release_date', 'DESC')
         ->skip(0)
         ->take(5-count($gamesIsReleased))
@@ -128,7 +133,8 @@ Route::get('/', function (Request $request) {
     $recentlyReleased = array_merge($gamesIsReleased,$recentlyReleasedDB);
 
     #5 random games on (steam) sale
-    $releasedGames = Games::where('release_date', '<=', $today)
+    $releasedGames = Games::select('id','name','slug','release_date','release_window','early_access')
+        ->where('release_date', '<=', $today)
         ->inRandomOrder() 
         ->get();
 
@@ -145,21 +151,24 @@ Route::get('/', function (Request $request) {
         ->values();
 
     #5 random Games with Demos.
-    $gamesWithDemos = Games::where('demo', 1)
+    $gamesWithDemos = Games::select('id','name','slug','release_date','release_window','early_access')
+        ->where('demo', 1)
         ->skip(0)
         ->take(5)
         ->inRandomOrder()   
         ->get();
 
     #5 random Games in Early Access
-    $earlyAccessGames = Games::where('early_access', 1)
+    $earlyAccessGames = Games::select('id','name','slug','release_date','release_window','early_access')
+        ->where('early_access', 1)
         ->skip(0)
         ->take(5)    
         ->inRandomOrder()
         ->get();
 
     #5 upcoming Kickstarters
-    $upcomingKickstarters = Games::where('kickstarter_status', 'Upcoming')
+    $upcomingKickstarters = Games::select('id','name','slug','release_date','release_window','early_access')
+        ->where('kickstarter_status', 'Upcoming')
         ->skip(0)
         ->take(5)    
         ->inRandomOrder()
@@ -167,7 +176,8 @@ Route::get('/', function (Request $request) {
 
     #5 random Games releasing in 2025.
     $tomorrow = date("Y-m-d",strtotime("tomorrow"));
-    $gamesReleasing2025 = Games::where('release_window', 'LIKE', '%2025%')
+    $gamesReleasing2025 = Games::select('id','name','slug','release_date','release_window','early_access')
+        ->where('release_window', 'LIKE', '%2025%')
         ->orWhereBetween('release_date', [$tomorrow,'2025-12-31'])
         ->skip(0)
         ->take(5)
@@ -175,7 +185,8 @@ Route::get('/', function (Request $request) {
         ->get();
 
     #5 random Games releasing in 2026.
-    $gamesReleasing2026 = Games::where('release_window', 'LIKE', '%2026%')
+    $gamesReleasing2026 = Games::select('id','name','slug','release_date','release_window','early_access')
+        ->where('release_window', 'LIKE', '%2026%')
         ->orWhereBetween('release_date', ['2026-01-01','2026-12-31'])
         ->skip(0)
         ->take(5)
@@ -183,14 +194,16 @@ Route::get('/', function (Request $request) {
         ->get();
 
     #5 random Games releasing in TBD.
-    $gamesReleasingTBD = Games::where('release_window', 'TBD')
+    $gamesReleasingTBD = Games::select('id','name','slug','release_date','release_window','early_access')
+        ->where('release_window', 'TBD')
         ->skip(0)
         ->take(5)
         ->inRandomOrder()
         ->get();
 
     #5 last added games. 
-    $lastAddedGames = Games::orderBy('id', 'DESC')    
+    $lastAddedGames = Games::select('id','name','slug','release_date','release_window','early_access')
+        ->orderBy('id', 'DESC')    
         ->skip(0)
         ->take(5)
         ->get();
@@ -209,7 +222,7 @@ Route::get('/', function (Request $request) {
         'releasingInTBD' => $gamesReleasingTBD,
         'lastAddedGames' => $lastAddedGames,
         'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
+        // 'canRegister' => Route::has('register'),
     ]);
 });
 
@@ -237,89 +250,103 @@ Route::get('/coming-soon', function () {
 
     return Inertia::render('SinglePage', [
         'games' => $upcomingGames,
-        'title' => 'Coming Soon',
+        'pageTitle' => 'Games Coming Soon',
+        'pageDescriptin' => 'A list of Metroidvania games with a fixed release dates and releasing moderatly soon.',
     ]);
 });
 
 Route::get('/2025', function () {
 
     $tomorrow = date("Y-m-d",strtotime("tomorrow"));
-    $gamesReleasing2025 = Games::where('release_window', 'LIKE', '%2025%')
+    $gamesReleasing2025 = Games::select('id','name','slug','release_date','release_window','early_access')
+        ->where('release_window', 'LIKE', '%2025%')
         ->orWhereBetween('release_date', [$tomorrow,'2025-12-31'])
         ->inRandomOrder() 
         ->get();
 
     return Inertia::render('SinglePage', [
         'games' => $gamesReleasing2025,
-        'title' => 'Releasing in 2025',
+        'pageTitle' => 'Releasing in 2025',
+        'pageDescription' => 'A list of Metroidvania games in development set to release somewhere in 2025.',
     ]);
 });
 
 Route::get('/2026', function () {
 
-    $gamesReleasing2026 = Games::where('release_window', 'LIKE', '%2026%')
+    $gamesReleasing2026 = Games::select('id','name','slug','release_date','release_window','early_access')
+        ->where('release_window', 'LIKE', '%2026%')
         ->orWhereBetween('release_date', ['2026-01-01','2026-12-31'])
         ->inRandomOrder() 
         ->get();
 
     return Inertia::render('SinglePage', [
         'games' => $gamesReleasing2026,
-        'title' => 'Releasing in 2026',
+        'pageTitle' => 'Releasing in 2026',
+        'pageDescription' => 'A list of Metroidvania games in development set to release somewhere in 2026.',
     ]);
 });
 
 Route::get('/TBD', function () {
 
-    $gamesReleasingTBD = Games::where('release_window', 'TBD')
+    $gamesReleasingTBD = Games::select('id','name','slug','release_date','release_window','early_access')
+        ->where('release_window', 'TBD')
         ->inRandomOrder()
         ->get();
 
     return Inertia::render('SinglePage', [
         'games' => $gamesReleasingTBD,
-        'title' => 'Releasing in TBD',
+        'pageTitle' => 'Releasing in TBD',
+        'pageDescriptin' => 'A list of Metroidvania games in development without any release dates yet.',
     ]);
 });
 
 Route::get('/EarlyAccess', function () {
 
-    $earlyAccessGames = Games::where('early_access', 1)
+    $earlyAccessGames = Games::select('id','name','slug','release_date','release_window','early_access')
+        ->where('early_access', 1)
         ->inRandomOrder()
         ->get();
 
     return Inertia::render('SinglePage', [
         'games' => $earlyAccessGames,
-        'title' => 'Games in Early Access',
+        'pageTitle' => 'Games in Early Access',
+        'pageDescriptin' => 'A list of Metroidvania games currently in Early Access.',
     ]);
 });
 
 Route::get('/UpcomingKickstarters', function () {
 
-    $upcomingKickstarters = Games::where('kickstarter_status', 'Upcoming')
+    $upcomingKickstarters = Games::select('id','name','slug','release_date','release_window','early_access')
+        ->where('kickstarter_status', 'Upcoming')
         ->inRandomOrder()
         ->get();
 
     return Inertia::render('SinglePage', [
         'games' => $upcomingKickstarters,
-        'title' => 'Upcoming Kickstarters',
+        'pageTitle' => 'Upcoming Kickstarters',
+        'pageDescriptin' => 'A list of Metroidvania games with a planned Kickstarter campaign coming up.',
     ]);
 });
 
 Route::get('/Demos', function () {
 
-    $gamesWithDemos = Games::where('demo', 1)
+    $gamesWithDemos = Games::select('id','name','slug','release_date','release_window','early_access')
+        ->where('demo', 1)
         ->inRandomOrder()
         ->get();
 
     return Inertia::render('SinglePage', [
         'games' => $gamesWithDemos,
-        'title' => 'Games with Demos',
+        'pageTitle' => 'Games with Demos',
+        'pageDescriptin' => 'A list of Metroidvania games that currently have a demo on their Steam page.',
     ]);
 });
 
 Route::get('/Released', function () {
     $today = date("Y-m-d");
 
-    $todayGames = Games::where('release_date', '=', $today)
+    $todayGames = Games::select('id','name','slug','release_date','release_window','early_access')
+        ->where('release_date', '=', $today)
         ->orderBy('release_date', 'DESC')
         ->get();
 
@@ -332,7 +359,8 @@ Route::get('/Released', function () {
         }
     }
 
-    $releasedGames = Games::where('release_date', '<', $today)
+    $releasedGames = Games::select('id','name','slug','release_date','release_window','early_access')
+        ->where('release_date', '<', $today)
         ->orderBy('release_date', 'DESC')
         ->get()
         ->toArray();
@@ -345,74 +373,87 @@ Route::get('/Released', function () {
 });
 
 Route::get('/Steam', function () {
-    $steamGames = Games::where('steam', '!=', '')
+    $steamGames = Games::select('id','name','slug','release_date','release_window','early_access')
+        ->where('steam', '!=', '')
         ->inRandomOrder() 
         ->get();
 
     return Inertia::render('SinglePage', [
         'games' => $steamGames,
-        'title' => 'Games on Steam',
+        'pageTitle' => 'Games on Steam',
+        'pageDescriptin' => 'A list of Metroidvania games currently available on Steam.',
     ]);
     
 });
 
 Route::get('/Epic', function () {
-    $epicGames = Games::where('epic', '!=', '')
+    $epicGames = Games::select('id','name','slug','release_date','release_window','early_access')
+        ->where('epic', '!=', '')
         ->inRandomOrder() 
         ->get();
 
     return Inertia::render('SinglePage', [
         'games' => $epicGames,
-        'title' => 'Games on Epic Games',
+        'pageTitle' => 'Games on Epic Games',
+        'pageDescriptin' => 'A list of Metroidvania games currently available on Epic Games.',
     ]);
 });
 
 Route::get('/GoG', function () {
-    $gogGames = Games::where('gog', '!=', '')
+    $gogGames = Games::select('id','name','slug','release_date','release_window','early_access')
+        ->where('gog', '!=', '')
         ->inRandomOrder() 
         ->get();
 
     return Inertia::render('SinglePage', [
         'games' => $gogGames,
-        'title' => 'Games on GoG',
+        'pageTitle' => 'Games on GoG',
+        'pageDescriptin' => 'A list of Metroidvania games currently available on Good old Games (GoG).',
     ]);
 });
 
 Route::get('/Playstation', function () {
-    $playstationGames = Games::where('playstation', '!=', '')
+    $playstationGames = Games::select('id','name','slug','release_date','release_window','early_access')
+        ->where('playstation', '!=', '')
         ->inRandomOrder() 
         ->get();
 
     return Inertia::render('SinglePage', [
         'games' => $playstationGames,
-        'title' => 'Games on Playstation',
+        'pageTitle' => 'Games on Playstation',
+        'pageDescriptin' => 'A list of Metroidvania games currently available on the Playstation store.',
     ]);
 });
 
 Route::get('/Xbox', function () {
-    $xboxGames = Games::where('xbox', '!=', '')
+    $xboxGames = Games::select('id','name','slug','release_date','release_window','early_access')
+        ->where('xbox', '!=', '')
         ->inRandomOrder() 
         ->get();
 
     return Inertia::render('SinglePage', [
         'games' => $xboxGames,
-        'title' => 'Games on Xbox',
+        'pagetitle' => 'Games on Xbox',
+        'pageDescriptin' => 'A list of Metroidvania games currently available on the Xbox store.',
     ]);
 });
 
 Route::get('/Nintendo', function () {
-    $nintendoGames = Games::where('nintendo', '!=', '')
+    $nintendoGames = Games::select('id','name','slug','release_date','release_window','early_access')
+        ->where('nintendo', '!=', '')
         ->inRandomOrder() 
         ->get();
 
     return Inertia::render('SinglePage', [
         'games' => $nintendoGames,
-        'title' => 'Games on Nintendo Switch',
+        'pageTitle' => 'Games on Nintendo Switch',
+        'pageDescriptin' => 'A list of Metroidvania games currently available on the Nintendo eShop.',
     ]);
 });
 
 Route::get('/AllGames', function () {
-    $allGames = Games::all();
+    $allGames = Games::select('id','name','slug','release_date','release_window','early_access')
+        ->all();
 
     return Inertia::render('AllGames', [
         'games' => $allGames
@@ -422,7 +463,8 @@ Route::get('/AllGames', function () {
 Route::get('/steam-reviews', function () {
     
     $today = date("Y-m-d");
-    $releasedGames = Games::where('release_date', '<=', $today)
+    $releasedGames = Games::select('id','name','slug','release_date','release_window','early_access')
+        ->where('release_date', '<=', $today)
         ->orderBy('release_date', 'DESC')
         ->get();
 
@@ -446,7 +488,8 @@ Route::get('/SubmitGame', function () {
 Route::get('/steam-sale', function () {
 
         $today = date("Y-m-d");
-        $releasedGames = Games::where('release_date', '<=', $today)
+        $releasedGames = Games::select('id','name','slug','release_date','release_window','early_access')
+            ->where('release_date', '<=', $today)
             ->orderBy('release_date', 'DESC')
             ->get();
 
@@ -461,14 +504,16 @@ Route::get('/steam-sale', function () {
     
     return Inertia::render('SteamSale', [
         'games' => $discountedGames,
-        'title' => 'Steam games on Sale',
+        'pageTitle' => 'Steam games on Sale',
+        'pageDescriptin' => 'A list of Metroidvania games currently on sale on Steam.',
     ]);
 });
 
 Route::get('/gog-sale', function () {
 
         $today = date("Y-m-d");
-        $releasedGoGGames = Games::where('release_date', '<=', $today)
+        $releasedGoGGames = Games::select('id','name','slug','release_date','release_window','early_access')
+            ->where('release_date', '<=', $today)
             ->where('gog','!=','')
             ->orderBy('release_date', 'DESC')
             ->get();
@@ -486,6 +531,10 @@ Route::get('/gog-sale', function () {
         'games' => $discountedGames,
         'title' => 'GoG games on Sale',
     ]);
+});
+
+Route::get('/adtest', function () {
+    return Inertia::render('AdTesting', []);
 });
 
 Route::get('/Login', function () {
@@ -542,7 +591,6 @@ Route::middleware(['auth'])->prefix('Dashboard')->group(function () {
     Route::get('/Reports', [ReportController::class , "index"]);
 
     Route::get('/tracker', function () {
-
 
         return Inertia::render('Dashboard/Tracker');
     });
@@ -715,7 +763,7 @@ Route::middleware(['auth'])->post('/Game/New', function (Request $request) {
     Http::post('https://discord.com/api/webhooks/'. $discord_webhook_id .'/'.$discord_webhook_token.'', [
         'embeds' => [[
             'title' => 'New Game added to MetroidVania.GG!',
-            'description' => "**Name:** " . $request['name'] . "\n\n**Description:** " . $request['description'] . "\n\n[Find out more!](https://www.metroidvania.gg/Game/" . $request['slug']. ")",
+            'description' => "**Name:** " . $request['name'] . "\n\n **Release Date:** ". $request['release_date'] ? $request['release_date'] : $request['release_window']." \n\n**Description:** " . $request['description'] . "\n\n[Find out more!](https://www.metroidvania.gg/Game/" . $request['slug']. ")",
             'image' => [
                 'url' => 'https://www.metroidvania.gg/storage/thumbnails/' . $request['slug'] . '.jpg'
             ],
@@ -738,7 +786,6 @@ Route::get('/Game/{slug}', function ($slug) {
         'steam_discount' => Cache::get("{$slug}-steam-discount", 0),
         'gog_discount' => Cache::get("{$slug}-gog-discount", 0)
     ];
-
 
     return Inertia::render('GamePage', [
         'singleGame' => $singleGame,

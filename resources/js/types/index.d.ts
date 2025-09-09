@@ -11,6 +11,13 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     };
 };
 
+export interface THomePageBannerGames {
+    id: number,
+    name: string,
+    slug: string,
+    trailer: string,
+}
+
 export interface TGameThumbnail {
     id: number,
     name: string,
