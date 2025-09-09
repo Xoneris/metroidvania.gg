@@ -1,4 +1,5 @@
 import AdComponents from "@/Components/AdComponent";
+import ClientOnly from "@/Components/ClientOnly";
 import GameThumbnail from "@/Components/GameThumbnails";
 import useWindowSize from "@/hooks/useWindowSize";
 import LayoutWithAdSidebars from "@/Layouts/LayoutWithAdSidebars";
@@ -112,15 +113,17 @@ export default function ({games}:{games:TGameThumbnail[]}) {
                                 ))
                             }
                         </div>
-                        {
-                            (index+1) % 3 === 0
-                            ? width > 967
-                                ? null
-                                : width > 807
-                                    ? <AdComponents dataAdSlot="8604046928" adWidth="728px" adHeight="90px" />
-                                    : <AdComponents dataAdSlot="6692199453" adWidth="320px" adHeight="100px" />
-                            : null
-                        }
+                        <ClientOnly>
+                            {
+                                (index+1) % 3 === 0
+                                ? width > 967
+                                    ? null
+                                    : width > 807
+                                        ? <AdComponents dataAdSlot="8604046928" adWidth="728px" adHeight="90px" />
+                                        : <AdComponents dataAdSlot="6692199453" adWidth="320px" adHeight="100px" />
+                                : null
+                            }
+                        </ClientOnly>
                     </>    
                 )}
 

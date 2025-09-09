@@ -5,6 +5,7 @@ import Layout from '@/Layouts/Layout';
 import HomePageBanner from '@/Components/HomePageBanner';
 import HomePageSection from '@/Components/HomePageSection';
 import AdComponents from '@/Components/AdComponent';
+import ClientOnly from '@/Components/ClientOnly';
 
 export default function Home(
     { 
@@ -67,14 +68,16 @@ export default function Home(
 
                     <div className='max-w-[1920px] w-full m-auto'>
 
-                        {
-                            // width > 1000
-                            // ? <AdComponents dataAdSlot="1495713096" adWidth="970px" adHeight="90px"/>
-                            // : 
-                            width > 770
-                            ? <AdComponents dataAdSlot="9971178537" adWidth="728px" adHeight="90px"/>
-                            : <AdComponents dataAdSlot="2384332553" adWidth="320px" adHeight="100px"/>
-                        }
+                        <ClientOnly>
+                            {
+                                // width > 1000
+                                // ? <AdComponents dataAdSlot="1495713096" adWidth="970px" adHeight="90px"/>
+                                // : 
+                                width > 770
+                                ? <AdComponents dataAdSlot="9971178537" adWidth="728px" adHeight="90px"/>
+                                : <AdComponents dataAdSlot="2384332553" adWidth="320px" adHeight="100px"/>
+                            }
+                        </ClientOnly>
 
                         <HomePageSection 
                             title="Coming Soon"
@@ -94,14 +97,16 @@ export default function Home(
                             viewAll={"/steam-sale"}
                         />
 
-                        {
-                            // width > 1000
-                            // ? <AdComponents dataAdSlot="1495713096" adWidth="970px" adHeight="90px"/>
-                            // : 
-                            width > 770
-                            ? <AdComponents dataAdSlot="9971178537" adWidth="728px" adHeight="90px"/>
-                            : <AdComponents dataAdSlot="2384332553" adWidth="320px" adHeight="100px"/>
-                        }
+                        <ClientOnly>
+                            {
+                                // width > 1000
+                                // ? <AdComponents dataAdSlot="1495713096" adWidth="970px" adHeight="90px"/>
+                                // : 
+                                width > 770
+                                ? <AdComponents dataAdSlot="9971178537" adWidth="728px" adHeight="90px"/>
+                                : <AdComponents dataAdSlot="2384332553" adWidth="320px" adHeight="100px"/>
+                            }
+                        </ClientOnly>
 
                         <HomePageSection 
                             title="Games with Demos"
@@ -151,14 +156,16 @@ export default function Home(
                             viewAll={""}
                         />
 
-                        {
-                            // width > 1000
-                            // ? <AdComponents dataAdSlot="1495713096" adWidth="970px" adHeight="90px"/>
-                            // : 
-                            width > 770
-                            ? <AdComponents dataAdSlot="9971178537" adWidth="728px" adHeight="90px"/>
-                            : <AdComponents dataAdSlot="2384332553" adWidth="320px" adHeight="100px"/>
-                        }
+                        <ClientOnly>
+                            {
+                                // width > 1000
+                                // ? <AdComponents dataAdSlot="1495713096" adWidth="970px" adHeight="90px"/>
+                                // : 
+                                width > 770
+                                ? <AdComponents dataAdSlot="9971178537" adWidth="728px" adHeight="90px"/>
+                                : <AdComponents dataAdSlot="2384332553" adWidth="320px" adHeight="100px"/>
+                            }
+                        </ClientOnly>
 
                     </div>
                 </div>

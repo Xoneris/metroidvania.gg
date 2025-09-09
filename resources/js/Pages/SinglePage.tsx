@@ -4,6 +4,7 @@ import LayoutWithAdSidebars from '@/Layouts/LayoutWithAdSidebars';
 import GameThumbnail from '@/Components/GameThumbnails';
 import AdComponents from '@/Components/AdComponent';
 import useWindowSize from '@/hooks/useWindowSize';
+import ClientOnly from '@/Components/ClientOnly';
 
 export default function SinglePage({ 
         games,
@@ -43,27 +44,30 @@ export default function SinglePage({
                     <h1 className="text-2xl">{pageTitle}</h1>
                     <hr className="bg-black w-full h-[2px]"/>
 
-                    {
-                        width > 807
-                        ? <AdComponents dataAdSlot="8519452290" adWidth="728px" adHeight="90px" />
-                        : <AdComponents dataAdSlot="9027822404" adWidth="320px" adHeight="100px" />
-                    }
+                    <ClientOnly>
+                        {
+                            width > 807
+                            ? <AdComponents dataAdSlot="8519452290" adWidth="728px" adHeight="90px" />
+                            : <AdComponents dataAdSlot="9027822404" adWidth="320px" adHeight="100px" />
+                        }
+                    </ClientOnly>
 
                     <div className="w-full flex flex-wrap justify-around content-between">
                     {
                         games.map((game,index) => (
                             <>
                                 <GameThumbnail game={game} key={game.id}/>
-                                {
-                                    (index+1) % 10 === 0
-                                    ? width > 967
-                                        ? null
-                                        : width > 807
-                                            ? <AdComponents dataAdSlot="8604046928" adWidth="728px" adHeight="90px" />
-                                            : <AdComponents dataAdSlot="6692199453" adWidth="320px" adHeight="100px" />
-                                    : null
-                                }
-                                
+                                <ClientOnly>
+                                    {
+                                        (index+1) % 10 === 0
+                                        ? width > 967
+                                            ? null
+                                            : width > 807
+                                                ? <AdComponents dataAdSlot="8604046928" adWidth="728px" adHeight="90px" />
+                                                : <AdComponents dataAdSlot="6692199453" adWidth="320px" adHeight="100px" />
+                                        : null
+                                    }
+                                </ClientOnly>
                             </>
                         ))
                     }
