@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function AdComponents({ 
         dataAdSlot, adWidth, adHeight 
@@ -7,6 +7,8 @@ export default function AdComponents({
         adWidth:"728px"|"320px"|"160px", 
         adHeight:"100px"|"90px"|"600px"
 }){
+
+    const [mounted, setMounted] = useState(false)
 
     const adtexts = [
         "Support MV.GG by whitelisting this site in your Adblock. No intrusive ads I promise!",
@@ -19,6 +21,8 @@ export default function AdComponents({
     ]
 
     useEffect(() => {
+
+        setMounted(true)
 
         try {
             // @ts-ignore
@@ -43,11 +47,16 @@ export default function AdComponents({
                 </p>
             </div>
 
-            <ins className="adsbygoogle"
-                style={{display:"inline-block", width:adWidth, height:adHeight}}
-                data-ad-client="ca-pub-7981802089975633"
-                data-ad-slot={dataAdSlot}
-            ></ins>
+            {
+                mounted
+                ? <ins className="adsbygoogle"
+                    style={{display:"inline-block", width:adWidth, height:adHeight}}
+                    data-ad-client="ca-pub-7981802089975633"
+                    data-ad-slot={dataAdSlot}
+                ></ins>
+                : null
+            }
+            
 
         </div>
     )
