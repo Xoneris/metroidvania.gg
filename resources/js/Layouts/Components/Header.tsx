@@ -1,29 +1,18 @@
 import { Link } from "@inertiajs/react"
 import Logo from "../../../assets/Logo.png"
 import Navigation from "./Navigation"
+import HeaderDateDisplay from "./HeaderDateDisplay"
+import ClientOnly from "@/Components/ClientOnly"
 
 export default function Header () {
-
-    const date = new Date()
-
-    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
-    const currentDay = days[date.getDay()]
-    const currentMonth = months[date.getMonth()]
-    const currentHour = date.getHours()
-    const currentMinute = date.getMinutes() < 10 ? "0"+date.getMinutes() : date.getMinutes()
 
     return (
         <header className="bg-mainDark border-b border-mainOrange text-white">
 
             <div className="max-w-[1920px] flex justify-between bg-[#111111] p-2 text-sm text-[#999999]">
-                <p className="hidden sm:flex gap-1">
-                    <span>{currentDay}</span>-
-                    <span>{currentMonth}</span>
-                    <span>{date.getDate()}</span>-
-                    <span>{currentHour + ":" + currentMinute}</span>
-                </p>
+                <ClientOnly>
+                    <HeaderDateDisplay />
+                </ClientOnly>
                 <p className="flex sm:hidden"></p>
 
                 <div className="flex gap-1">
