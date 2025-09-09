@@ -1,7 +1,7 @@
 import { THomeBannerSectionGames } from "@/types";
 import { Link } from "@inertiajs/react";
 import { useState } from "react";
-import BannerCarousel from "./BannerCarousel";
+// import BannerCarousel from "./BannerCarousel";
 
 export default function HomePageBanner({games}:{games:THomeBannerSectionGames[]}) {
 

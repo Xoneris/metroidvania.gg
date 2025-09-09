@@ -1,9 +1,17 @@
-import type { TGameThumbnail, GameData } from "@/types";
+import type { TGameThumbnail } from "@/types";
 import GameThumbnail from "./GameThumbnails";
 import { Link } from "@inertiajs/react";
 
 
-export default function HomePageSection({title,games,viewAll}:{title:string, games:TGameThumbnail[]|null, viewAll:string}) {
+export default function HomePageSection({
+        title,
+        games,
+        viewAll
+    }:{
+        title:string, 
+        games:TGameThumbnail[]|null, 
+        viewAll:string
+}) {
 
     return (
         <div className="w-full p-3">
