@@ -776,6 +776,12 @@ Route::get('/Game/{slug}', function ($slug) {
     
     $singleGame = Games::where('slug', $slug)->first();
 
+    $similarGames = Games::select('id','name','slug','release_date','release_window','early_access')
+        ->skip(0)
+        ->take(4)
+        ->inRandomOrder() 
+        ->get();
+
     # Get Steam reviews if game is released
 
     $reviews = [
@@ -791,6 +797,33 @@ Route::get('/Game/{slug}', function ($slug) {
         'singleGame' => $singleGame,
         'reviews' => $reviews,
         'discounts' => $discounts,
+        'similarGames' => $similarGames,
+    ]);
+});
+
+Route::get('/developer/{developer}', function ($developer) {
+    
+    $games = Games::select('id','name','slug','release_date','release_window','early_access')
+        ->where('developer', $developer)
+        ->get();
+
+    return Inertia::render('SinglePage', [
+        'games' => $games,
+        'pageTitle' => 'Games published by '. $developer .'.' ,
+        'pageDescription' => 'A list of Metroidvania games published by.'. $developer .'.',
+    ]);
+});
+
+Route::get('/publisher/{publisher}', function ($publisher) {
+    
+    $games = Games::select('id','name','slug','release_date','release_window','early_access')
+        ->where('publisher', $publisher)
+        ->get();
+
+    return Inertia::render('SinglePage', [
+        'games' => $games,
+        'pageTitle' => 'Games published by '. $publisher .'.' ,
+        'pageDescription' => 'A list of Metroidvania games published by.'. $publisher .'.',
     ]);
 });
 

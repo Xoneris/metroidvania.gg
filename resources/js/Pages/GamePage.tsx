@@ -4,9 +4,8 @@
 // import { replaceMonthWithName } from "./functions";
 // import { apiUrlContext } from "../Homepage";
 
-import { Discounts, GameData } from "@/types";
+import { Discounts, GameData, TGameThumbnail } from "@/types";
 import { replaceMonthWithName } from "@/Utils/replaceMonthWithName";
-import Layout from "@/Layouts/Layout";
 import { Head, usePage } from "@inertiajs/react";
 import SteamReview from "@/Components/SteamReviews";
 import { SocialIcon } from "react-social-icons";
@@ -15,12 +14,23 @@ import ReportDialogBox from "@/Layouts/Components/ReportDialogBox";
 import LayoutWithAdSidebars from "@/Layouts/LayoutWithAdSidebars";
 import AdComponents from "@/Components/AdComponent";
 import useWindowSize from "@/hooks/useWindowSize";
+import GameThumbnail from "@/Components/GameThumbnails";
 
 // import Loading from "./Loading";
 // import NotFound from "./NotFound";
 // import SteamReview from "./SteamReview";
 
-export default function GamePage ({singleGame, reviews, discounts}:{singleGame:GameData, reviews:any, discounts:Discounts}) {
+export default function GamePage ({
+        singleGame, 
+        reviews, 
+        discounts,
+        similarGames,
+    }:{
+        singleGame:GameData, 
+        reviews:any, 
+        discounts:Discounts
+        similarGames:TGameThumbnail[]
+}) {
 
     // const { gameSlug } = useParams();
     // const [gamesData, setGamesData] = useState([]);
@@ -121,8 +131,18 @@ export default function GamePage ({singleGame, reviews, discounts}:{singleGame:G
                             <img src={'/storage/thumbnails/' + singleGame.slug + '.jpg'} alt={singleGame.name} className="max-w-[460px] w-full mx-auto rounded-xl border border-black"/>
                             <h2 className="text-2xl">Details:</h2>
                             <ul className="pl-4">
-                                <li><b>Developer:</b> {singleGame.developer} </li>
-                                <li><b>Publisher:</b> {singleGame.publisher}</li>
+                                <li>
+                                    <b>Developer: </b> 
+                                    <a href={`/developer/${singleGame.developer}`} className="text-mainOrange font-bold hover:underline">
+                                        {singleGame.developer}
+                                    </a>
+                                </li>
+                                <li>
+                                    <b>Publisher: </b> 
+                                    <a href={`/publisher/${singleGame.publisher}`} className="text-mainOrange font-bold hover:underline">
+                                        {singleGame.publisher}
+                                    </a>
+                                </li>
                                 <li><b>Release: </b> 
                                     {
                                         singleGame.release_date !== "0000-00-00" && singleGame.release_date !== "" && singleGame.release_date !== null
@@ -264,47 +284,78 @@ export default function GamePage ({singleGame, reviews, discounts}:{singleGame:G
                             <ul className="pl-4 flex gap-8 items-center">
                                 { singleGame.steam && (
                                     <li>
-                                        <a href={singleGame.steam} 
-                                            target="_blank"><img src='/assets/icons/steam.png' 
-                                            className="w-8 transition-all hover:scale-125" 
-                                            alt="Steam Logo" /></a>
+                                        <a href={singleGame.steam} target="_blank">
+                                            <img 
+                                                src='/assets/icons/steam.png' 
+                                                className="w-8 transition-all hover:scale-125" 
+                                                alt="Steam Logo" 
+                                            />
+                                        </a>
                                     </li>) }
                                 { singleGame.epic && (
                                     <li>
-                                        <a href={singleGame.epic} 
-                                            target="_blank"><img src="/assets/icons/epic.png" 
-                                            className="w-8 transition-all hover:scale-125" 
-                                            alt="GoG Logo" /></a>
+                                        <a href={singleGame.epic} target="_blank">
+                                            <img 
+                                                src="/assets/icons/epic.png" 
+                                                className="w-8 transition-all hover:scale-125" 
+                                                alt="GoG Logo" 
+                                            />
+                                        </a>
                                     </li>) }
                                 { singleGame.gog && (
                                     <li>
-                                        <a href={singleGame.gog} 
-                                            target="_blank"><img src="/assets/icons/gog.png" 
-                                            className="w-8 transition-all hover:scale-125" 
-                                            alt="Epic Games Logo" /></a>
+                                        <a href={singleGame.gog} target="_blank">
+                                            <img 
+                                                src="/assets/icons/gog.png" 
+                                                className="w-8 transition-all hover:scale-125" 
+                                                alt="Epic Games Logo" 
+                                            />
+                                        </a>
                                     </li>) }
                                 { singleGame.playstation && (
                                     <li>
-                                        <a href={singleGame.playstation} 
-                                            target="_blank"><img src="/assets/icons/playstation.png" 
-                                            className="w-8 transition-all hover:scale-125" 
-                                            alt="Playstation Logo" /></a>
+                                        <a href={singleGame.playstation} target="_blank">
+                                            <img 
+                                                src="/assets/icons/playstation.png" 
+                                                className="w-8 transition-all hover:scale-125" 
+                                                alt="Playstation Logo" 
+                                            />
+                                        </a>
                                     </li>) }
                                 { singleGame.xbox && (
                                     <li>
-                                        <a href={singleGame.xbox} 
-                                            target="_blank"><img src="/assets/icons/xbox.png" 
-                                            className="w-8 transition-all hover:scale-125" 
-                                            alt="Xbox Logo" /></a>
+                                        <a href={singleGame.xbox} target="_blank">
+                                            <img 
+                                                src="/assets/icons/xbox.png" 
+                                                className="w-8 transition-all hover:scale-125" 
+                                                alt="Xbox Logo" 
+                                            />
+                                        </a>
                                     </li>) }
                                 { singleGame.nintendo && (
                                     <li>
-                                        <a href={singleGame.nintendo} 
-                                            target="_blank"><img src="/assets/icons/nintendo-switch.png" 
-                                            className="w-8 transition-all hover:scale-125" 
-                                            alt="Nintendo Switch Logo" /></a>
+                                        <a href={singleGame.nintendo} target="_blank">
+                                            <img 
+                                                src="/assets/icons/nintendo-switch.png" 
+                                                className="w-8 transition-all hover:scale-125" 
+                                                alt="Nintendo Switch Logo" 
+                                            />
+                                        </a>
                                     </li>) }
                             </ul>
+                        </div>
+                    </div>
+
+                    <div className="w-full">
+                        <h2 className="text-2xl">Games you might also like</h2>
+                        <hr className="bg-black w-full h-1"/>
+                        <div className="flex flex-wrap p-4 justify-around">
+
+                        {
+                            similarGames.map((game) => (
+                                <GameThumbnail game={game} />
+                            ))
+                        }
                         </div>
                     </div>
 
