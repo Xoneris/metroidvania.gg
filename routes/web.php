@@ -251,7 +251,7 @@ Route::get('/coming-soon', function () {
     return Inertia::render('SinglePage', [
         'games' => $upcomingGames,
         'pageTitle' => 'Games Coming Soon',
-        'pageDescriptin' => 'A list of Metroidvania games with a fixed release dates and releasing moderatly soon.',
+        'pageDescription' => 'A list of Metroidvania games with a fixed release dates and releasing moderatly soon.',
     ]);
 });
 
@@ -296,7 +296,7 @@ Route::get('/TBD', function () {
     return Inertia::render('SinglePage', [
         'games' => $gamesReleasingTBD,
         'pageTitle' => 'Releasing in TBD',
-        'pageDescriptin' => 'A list of Metroidvania games in development without any release dates yet.',
+        'pageDescription' => 'A list of Metroidvania games in development without any release dates yet.',
     ]);
 });
 
@@ -310,7 +310,7 @@ Route::get('/EarlyAccess', function () {
     return Inertia::render('SinglePage', [
         'games' => $earlyAccessGames,
         'pageTitle' => 'Games in Early Access',
-        'pageDescriptin' => 'A list of Metroidvania games currently in Early Access.',
+        'pageDescription' => 'A list of Metroidvania games currently in Early Access.',
     ]);
 });
 
@@ -324,7 +324,7 @@ Route::get('/UpcomingKickstarters', function () {
     return Inertia::render('SinglePage', [
         'games' => $upcomingKickstarters,
         'pageTitle' => 'Upcoming Kickstarters',
-        'pageDescriptin' => 'A list of Metroidvania games with a planned Kickstarter campaign coming up.',
+        'pageDescription' => 'A list of Metroidvania games with a planned Kickstarter campaign coming up.',
     ]);
 });
 
@@ -338,7 +338,7 @@ Route::get('/Demos', function () {
     return Inertia::render('SinglePage', [
         'games' => $gamesWithDemos,
         'pageTitle' => 'Games with Demos',
-        'pageDescriptin' => 'A list of Metroidvania games that currently have a demo on their Steam page.',
+        'pageDescription' => 'A list of Metroidvania games that currently have a demo on their Steam page.',
     ]);
 });
 
@@ -381,7 +381,7 @@ Route::get('/Steam', function () {
     return Inertia::render('SinglePage', [
         'games' => $steamGames,
         'pageTitle' => 'Games on Steam',
-        'pageDescriptin' => 'A list of Metroidvania games currently available on Steam.',
+        'pageDescription' => 'A list of Metroidvania games currently available on Steam.',
     ]);
     
 });
@@ -395,7 +395,7 @@ Route::get('/Epic', function () {
     return Inertia::render('SinglePage', [
         'games' => $epicGames,
         'pageTitle' => 'Games on Epic Games',
-        'pageDescriptin' => 'A list of Metroidvania games currently available on Epic Games.',
+        'pageDescription' => 'A list of Metroidvania games currently available on Epic Games.',
     ]);
 });
 
@@ -408,7 +408,7 @@ Route::get('/GoG', function () {
     return Inertia::render('SinglePage', [
         'games' => $gogGames,
         'pageTitle' => 'Games on GoG',
-        'pageDescriptin' => 'A list of Metroidvania games currently available on Good old Games (GoG).',
+        'pageDescription' => 'A list of Metroidvania games currently available on Good old Games (GoG).',
     ]);
 });
 
@@ -421,7 +421,7 @@ Route::get('/Playstation', function () {
     return Inertia::render('SinglePage', [
         'games' => $playstationGames,
         'pageTitle' => 'Games on Playstation',
-        'pageDescriptin' => 'A list of Metroidvania games currently available on the Playstation store.',
+        'pageDescription' => 'A list of Metroidvania games currently available on the Playstation store.',
     ]);
 });
 
@@ -434,7 +434,7 @@ Route::get('/Xbox', function () {
     return Inertia::render('SinglePage', [
         'games' => $xboxGames,
         'pagetitle' => 'Games on Xbox',
-        'pageDescriptin' => 'A list of Metroidvania games currently available on the Xbox store.',
+        'pageDescription' => 'A list of Metroidvania games currently available on the Xbox store.',
     ]);
 });
 
@@ -447,13 +447,13 @@ Route::get('/Nintendo', function () {
     return Inertia::render('SinglePage', [
         'games' => $nintendoGames,
         'pageTitle' => 'Games on Nintendo Switch',
-        'pageDescriptin' => 'A list of Metroidvania games currently available on the Nintendo eShop.',
+        'pageDescription' => 'A list of Metroidvania games currently available on the Nintendo eShop.',
     ]);
 });
 
 Route::get('/AllGames', function () {
     $allGames = Games::select('id','name','slug','release_date','release_window','early_access')
-        ->all();
+        ->get();
 
     return Inertia::render('AllGames', [
         'games' => $allGames
@@ -505,7 +505,7 @@ Route::get('/steam-sale', function () {
     return Inertia::render('SteamSale', [
         'games' => $discountedGames,
         'pageTitle' => 'Steam games on Sale',
-        'pageDescriptin' => 'A list of Metroidvania games currently on sale on Steam.',
+        'pageDescription' => 'A list of Metroidvania games currently on sale on Steam.',
     ]);
 });
 
