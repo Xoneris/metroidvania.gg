@@ -1,9 +1,3 @@
-// import { useParams } from "react-router-dom";
-// import { useState, useEffect, useContext} from 'react';
-// import { SocialIcon } from 'react-social-icons'
-// import { replaceMonthWithName } from "./functions";
-// import { apiUrlContext } from "../Homepage";
-
 import { Discounts, GameData, TGameThumbnail } from "@/types";
 import { replaceMonthWithName } from "@/Utils/replaceMonthWithName";
 import { Head, usePage } from "@inertiajs/react";
@@ -15,10 +9,7 @@ import LayoutWithAdSidebars from "@/Layouts/LayoutWithAdSidebars";
 import AdComponents from "@/Components/AdComponent";
 import useWindowSize from "@/hooks/useWindowSize";
 import GameThumbnail from "@/Components/GameThumbnails";
-
-// import Loading from "./Loading";
-// import NotFound from "./NotFound";
-// import SteamReview from "./SteamReview";
+import ClientOnly from "@/Components/ClientOnly";
 
 export default function GamePage ({
         singleGame, 
@@ -32,59 +23,12 @@ export default function GamePage ({
         similarGames:TGameThumbnail[]
 }) {
 
-    // const { gameSlug } = useParams();
-    // const [gamesData, setGamesData] = useState([]);
-    // const [showReportField, setShowReportField] = useState(false)
-    // const [response, setResponse] = useState();
-    // const apiBaseUrl = useContext(apiUrlContext);
-    // const fetchUrl = apiBaseUrl + "/api/games/" + gameSlug;
-
-    // const [loading, setLoading] = useState(false)
-    // const [fetchFail, setFetchFail] = useState();
-
     let currentDate = new Date().toJSON().slice(0, 10);
 
     const { width, height } = useWindowSize()
     const [report, setReport] = useState<boolean>(false)
     const { props } = usePage()
     const { success }:any = props
-
-    // const singleGame:GameData = Game.original
-    // console.log(singleGame)
-
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-
-    //     const reportMessage = e.target.elements["gameReport"].value;
-
-    //     const reportData = {
-    //         game: gamesData.name,
-    //         report: reportMessage,
-    //         status: "open",
-    //     }
-
-    //     try {
-    //         const res = await fetch( apiBaseUrl + "/api/report", {
-    //           method: 'POST',
-    //           headers: {
-    //             'Content-Type': 'application/json',
-    //           },
-    //           body: JSON.stringify(reportData),
-    //         })
-    //         const result = await res.json();
-    //         setResponse(result);
-    //       } catch (error) {
-    //         console.error('Error making POST request:', error);
-    //       }
-    // }
-
-    // if (loading) {
-    //     return <Loading/>
-    // }
-
-    // if (fetchFail) {
-    //     return <NotFound/>
-    // }
 
     return (
         <>
@@ -109,8 +53,6 @@ export default function GamePage ({
             <LayoutWithAdSidebars noHeaderAd={true}>
 
                 {success && <div className="fixed right-0 top-14 p-2 rounded-l-lg bg-green-800 text-white w-[300px]">{success}</div>}
-
-                {/* <div className="fixed right-0 top-14 p-2 rounded-l-lg bg-green-800 text-white w-[300px]">Test</div> */}
 
                 <section className="flex flex-col gap-1 w-full max-w-[1600px] m-auto p-4">
 
@@ -254,13 +196,15 @@ export default function GamePage ({
                                 </ul>
                         </div>
 
-                        {
-                            width > 967
-                            ? null
-                            : width > 807
+                        <ClientOnly>
+                            {
+                                width > 967
+                                ? null
+                                : width > 807
                                 ? <AdComponents dataAdSlot="8604046928" adWidth="728px" adHeight="90px" />
                                 : <AdComponents dataAdSlot="6692199453" adWidth="320px" adHeight="100px" />
-                        }
+                            }
+                        </ClientOnly>
 
                         <div className="w-full flex flex-col gap-2">
                             {
@@ -360,20 +304,6 @@ export default function GamePage ({
                     </div>
 
                 </section>
-
-                {/* <div className="ReportButton" onClick={() => {setShowReportField(!showReportField)}}>
-                    <b>!</b>
-                    </div>
-                    <div className="ReportContainer" id={showReportField ? "show" : "hide"} >
-                    <form onSubmit={handleSubmit}>
-                    <h2>Report Issue</h2>
-                    <p>Is any information on this page wrong, outdated or missing? Please report the issue below and hopefully it will be fixed soon! Thank you for your help!</p>
-                    <textarea name="gameReport" placeholder="Please describe the wrong, outdated or missing information and provide the correct one if possible."></textarea>
-                    <br/>
-                    <button type="submit">Submit Report</button>
-                    {response ? <p>{response}</p> : null}
-                    </form>
-                    </div> */}
 
             </LayoutWithAdSidebars>
         </>
