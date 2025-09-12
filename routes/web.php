@@ -590,6 +590,11 @@ Route::middleware(['auth'])->prefix('Dashboard')->group(function () {
     Route::get('/SubmitGames', [SubmitGamesController::class, "index"]);
     Route::get('/Reports', [ReportController::class , "index"]);
 
+    Route::get('/ad-manager', function () {
+
+        return Inertia::render('Dashboard/AdManager');
+    });
+
     Route::get('/tracker', function () {
 
         return Inertia::render('Dashboard/Tracker');
@@ -760,10 +765,12 @@ Route::middleware(['auth'])->post('/Game/New', function (Request $request) {
     $discord_webhook_id = config('discord.webhook.addedToSite.id');
     $discord_webhook_token = config('discord.webhook.addedToSite.token');
 
+    $release_date = $request['release_date'] ? $request['release_date'] : $request['release_window'];
+
     Http::post('https://discord.com/api/webhooks/'. $discord_webhook_id .'/'.$discord_webhook_token.'', [
         'embeds' => [[
             'title' => 'New Game added to MetroidVania.GG!',
-            'description' => "**Name:** " . $request['name'] . "\n\n **Release Date:** ". $request['release_date'] ? $request['release_date'] : $request['release_window']." \n\n**Description:** " . $request['description'] . "\n\n[Find out more!](https://www.metroidvania.gg/Game/" . $request['slug']. ")",
+            'description' => "**Name:** " . $request['name'] . "\n\n **Release Date:** " . $release_date ." \n\n**Description:** " . $request['description'] . "\n\n[Find out more!](https://www.metroidvania.gg/Game/" . $request['slug']. ")",
             'image' => [
                 'url' => 'https://www.metroidvania.gg/storage/thumbnails/' . $request['slug'] . '.jpg'
             ],
