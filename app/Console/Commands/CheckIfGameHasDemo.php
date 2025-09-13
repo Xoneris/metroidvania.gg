@@ -74,7 +74,7 @@ class CheckIfGameHasDemo extends Command
                         if ($game->demo != 1) {
                             $game->demo = 1;
                             $game->save();
-                            Log::channel('demo_check')->info("Updated: ". $game->name ." has a demo now!");
+                            Log::channel('demo_check')->info("Updated: ". $game->name ." has a demo now!✅");
                             Http::post('https://discord.com/api/webhooks/'. $discord_webhook_id .'/'.$discord_webhook_token.'', [
                                 'embeds' => [[
                                     'title' => $game->name .' has a demo now!',
@@ -85,7 +85,7 @@ class CheckIfGameHasDemo extends Command
                     } else if ($game->demo != 0) {
                         $game->demo = 0;
                         $game->save();
-                        Log::channel('demo_check')->info("Updated: ". $game->name ." no longer has a demo!");
+                        Log::channel('demo_check')->info("Updated: ". $game->name ." no longer has a demo!❌");
                         Http::post('https://discord.com/api/webhooks/'. $discord_webhook_id .'/'.$discord_webhook_token.'', [
                             'embeds' => [[
                                 'title' => $game->name .' no longer has a demo!',
