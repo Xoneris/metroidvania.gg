@@ -42,7 +42,8 @@ export default function GameThumbnail ({
                         <img 
                             src={"/storage/thumbnails/" + game.slug + ext} 
                             alt={game.name} 
-                            className="rounded-2xl"
+                            loading="lazy"
+                            className="rounded-2xl w-full h-full bg-[#ccc]"
                         />
 
                         <div className="absolute bottom-1 left-1 p-1 border rounded-md text-white border-black bg-black bg-opacity-80 transition-all group-hover:text-mainOrange flex flex-col">
