@@ -1,8 +1,27 @@
 import { Link, usePage } from "@inertiajs/react"
+import { useEffect, useState } from "react"
 
 export default function DashboardNavigation() {
 
     const { url } = usePage()
+    const [isData, setIsData] = useState({
+        reports: 0,
+        submits: 0,
+    })
+    const BASE_API_URL = "http://localhost:8000" 
+
+    useEffect(() => {
+
+        async function fetchData () {
+            const res = await fetch(BASE_API_URL + '/api/dashboard/notifications')
+            const data = await res.json()
+
+            setIsData(data)
+        }
+
+        fetchData()
+
+    },[])
 
     return (
         <nav className="w-[300px] min-h-full bg-[#111111] text-[#999999] p-2 flex flex-col items-center">
@@ -43,22 +62,50 @@ export default function DashboardNavigation() {
                 </Link>
                 <Link href="/Dashboard/SubmitGames">
                     <p className={`
-                        border-b text-lg transition-all 
+                        border-b text-lg transition-all flex justify-between
                         ${url === "/Dashboard/SubmitGames" 
                             ? "text-mainOrange border-mainOrange pl-2" 
                             : "border-[#999999] hover:text-mainOrange hover:border-mainOrange hover:pl-2"} 
                     `}>
-                        Submitted Games
+                        <span>
+                            Submitted Games
+                        </span>
+                        {
+                            isData?.submits > 0
+                            ? <span className="min-w-7 text-sm rounded-full bg-mainOrange text-black flex justify-center items-center">
+                                {isData?.submits}
+                            </span>
+                            : null
+                        }
                     </p>
                 </Link>
                 <Link href="/Dashboard/Reports">
                     <p className={`
-                        border-b text-lg transition-all
+                        border-b text-lg transition-all flex justify-between
                         ${url === "/Dashboard/Reports" 
                             ? "text-mainOrange border-mainOrange pl-2" 
                             : "border-[#999999] hover:text-mainOrange hover:border-mainOrange hover:pl-2"} 
                     `}>
-                        Reports
+                        <span>
+                            Reports
+                        </span>
+                        {
+                            isData?.reports > 0
+                            ? <span className="min-w-7 text-sm rounded-full bg-mainOrange text-black flex justify-center items-center">
+                                {isData?.reports}
+                            </span>
+                            : null
+                        }
+                    </p>
+                </Link>
+                <Link href="/Dashboard/ad-manager">
+                    <p className={`
+                        border-b text-lg transition-all 
+                        ${url === "/Dashboard/ad-manager" 
+                            ? "text-mainOrange border-mainOrange pl-2" 
+                            : "border-[#999999] hover:text-mainOrange hover:border-mainOrange hover:pl-2"} 
+                    `}>
+                        Ad Manager
                     </p>
                 </Link>
                 <Link href="/Dashboard/Contact">

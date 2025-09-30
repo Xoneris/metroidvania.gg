@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\Games;
+use App\Models\Reports;
+use App\Models\SubmitGames;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
@@ -262,4 +264,19 @@ Route::get('/games/steamID/{steamappid}', function ($steamAppId){
     } else {
         return response()->json(['error' => 'failed to fetch from steam api'], $steamReviews->status());
     }
+});
+
+
+Route::get('/dashboard/notifications', function () {
+
+    $reports = Reports::where('status', 'open')->count();
+    $submitted_games = SubmitGames::where('isAdded',false)->count();
+
+    $notifs = [
+        'reports' => $reports,
+        'submits' => $submitted_games
+    ];
+
+    return response()->json($notifs);
+
 });
