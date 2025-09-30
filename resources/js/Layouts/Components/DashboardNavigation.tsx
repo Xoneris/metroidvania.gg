@@ -8,8 +8,8 @@ export default function DashboardNavigation() {
         reports: 0,
         submits: 0,
     })
-    // const BASE_API_URL = "http://localhost:8000" 
-    const BASE_API_URL = "http://metroidvania.gg" 
+    // const BASE_API_URL = "https://localhost:8000" 
+    const BASE_API_URL = "https://metroidvania.gg" 
 
     useEffect(() => {
 
