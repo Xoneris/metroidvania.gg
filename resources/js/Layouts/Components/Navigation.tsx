@@ -37,9 +37,18 @@ export default function Navigation() {
                     name={"Demos"}
                 />
 
-                <NavigationItem 
+                {/* <NavigationItem 
                     currentUrl={url}
                     destination={"/Released"}
+                    name={"Released"}
+                /> */}
+
+                <NavigationDropdownMenu 
+                    currentUrl={url}
+                    dropdownItems={[
+                        {destination: "/Released", name: "By Year"},
+                        {destination: "/steam-reviews", name: "By Reviews"},
+                    ]}
                     name={"Released"}
                 />
 

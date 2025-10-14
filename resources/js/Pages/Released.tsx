@@ -1,6 +1,4 @@
-import AdComponents from "@/Components/AdComponent";
 import GameThumbnail from "@/Components/GameThumbnails";
-import useWindowSize from "@/hooks/useWindowSize";
 import LayoutWithAdSidebars from "@/Layouts/LayoutWithAdSidebars";
 import { TGameThumbnail } from "@/types";
 import { Head } from "@inertiajs/react";
@@ -9,12 +7,11 @@ import { useState } from "react";
 
 export default function Released ({games}:{games:TGameThumbnail[]}) {
 
-    const { width, height } = useWindowSize()
     const [yearSelect, setYearSelect] = useState<string>("2025")
-    const allPossibleYearsToSelect = [...new Set(games.filter(game => game.release_date !== "0000-00-00").map(game => game.release_date.split("-")[0]))]
+    const allPossibleYearsToSelect = [...new Set(games.filter((game) => game.release_date !== "").map(game => game.release_date.split("-")[0]))]
     const months: string[] = []
-    
-    for(let i=1; i<13; i++) {
+
+    for(let i=1 ; i<13 ; i++) {
         if (i < 10) {
             months.push("0" + i)
         } else {
@@ -35,10 +32,10 @@ export default function Released ({games}:{games:TGameThumbnail[]}) {
         <LayoutWithAdSidebars>
 
             <Head>
-                <title>{"All Releases"}</title>
+                <title>{"All Releases by year"}</title>
                 <meta name="description" content={`A curated list of Metroidvania games which released between ${allPossibleYearsToSelect[0]} and ${allPossibleYearsToSelect[allPossibleYearsToSelect.length - 1]}`} />
 
-                <meta property="og:title" content={"All Releases"}/>
+                <meta property="og:title" content={"All Releases by year"}/>
                 <meta property="og:description" content={`A curated list of Metroidvania games which released between ${allPossibleYearsToSelect[0]} and ${allPossibleYearsToSelect[allPossibleYearsToSelect.length - 1]}`} />
                 <meta property="og:type" content="website"/>
                 <meta property="og:url" content={"https://metroidvania.gg/Released"} />
@@ -46,7 +43,7 @@ export default function Released ({games}:{games:TGameThumbnail[]}) {
                 <meta property="og:site_name" content="Metroidvania.GG"/>
 
                 <meta name="twitter:card" content="summary_large_image"/>
-                <meta name="twitter:title" content={"All Releases"}/>
+                <meta name="twitter:title" content={"All Releases by year"}/>
                 <meta name="twitter:description" content={`A curated list of Metroidvania games which released between ${allPossibleYearsToSelect[0]} and ${allPossibleYearsToSelect[allPossibleYearsToSelect.length - 1]}`}/>
                 <meta name="twitter:image" content={"https://metroidvania.gg/storage/thumbnails/" + games[(Math.floor(Math.random() * games.length))].slug + ".jpg"}/>
                 <meta name="twitter:site" content="@metroidvania_gg"/>
@@ -54,46 +51,46 @@ export default function Released ({games}:{games:TGameThumbnail[]}) {
 
             <section className="max-w-[1920px] w-full flex flex-col p-4 gap-2">
                 
-                <h1 className="text-2xl">All Releases</h1>
-                <hr className="bg-black w-full h-[2px]"/>
+                <div className="flex justify-between items-center">
+                    <h1 className="text-2xl">All Releases</h1>
+                    <select
+                        className="rounded-lg bg-[#ccc]"
+                        onChange={(e) => setYearSelect(e.target.value)}
+                    >
+                        {
+                            allPossibleYearsToSelect.map((year,index) => (
+                                <option
+                                    value={year}
+                                    key={index}
+                                >
+                                    {year}
+                                </option>
+                            ))
+                        }
+                    </select>
+                </div>
 
-                <ul className="w-full flex justify-center items-center gap-2">
-                    
                 {
-                    allPossibleYearsToSelect.map((year) => (
-                        <li className={`
-                            transition-all hover:cursor-pointer
-                            ${yearSelect === year ? "text-2xl font-bold" : "text-1xl hover:underline"}
-                            `}
-                            onClick={() => setYearSelect(year)}
-                        >
-                            {year}
-                        </li>
-                    ))
-                }
-                </ul>
-
-                {
-                    months.reverse().map((month,index) => (
+                    months.reverse().map((month) => (
 
                         <>
                             {
-                            games.filter(game => game.release_date.split("-")[0] === yearSelect && game.release_date.split("-")[1] === month).length > 0
-                            ? <div className="flex flex-col gap-2">
+                                games.filter(game => game.release_date.split("-")[0] === yearSelect && game.release_date.split("-")[1] === month).length > 0
+                                ? <div className="flex flex-col gap-2">
 
-                                    <h2 className="font-bold">{getMonthName(month)}</h2>
-                                    <hr className="bg-black w-full h-[2px]"/>
+                                        <h2 className="font-bold">{getMonthName(month)}</h2>
+                                        <hr className="bg-black w-full h-[2px]"/>
 
-                                    <div className="flex flex-wrap justify-around">
-                                    {
-                                        games.filter(game => game.release_date.split("-")[0] === yearSelect && game.release_date.split("-")[1] === month).map((game) => (
-                                            <GameThumbnail game={game} key={game.id}/>
-                                        ))
-                                    }
-                                    </div>
-                                
-                            </div>
-                            : null
+                                        <div className="flex flex-wrap justify-around">
+                                        {
+                                            games.filter(game => game.release_date.split("-")[0] === yearSelect && game.release_date.split("-")[1] === month).map((game) => (
+                                                <GameThumbnail game={game} key={game.id}/>
+                                            ))
+                                        }
+                                        </div>
+                                    
+                                </div>
+                                : null
                             }
 
                             {/* Not putting ads here for now because there is an inconsistency on frequency based if certain months have games in it or not */}

@@ -13,6 +13,7 @@ export default function Home(
         upcomingGames,
         recentlyReleased,
         steamSale, 
+        highlyRatedGames,
         gamesWithDemos,
         earlyAccessGames,
         upcomingKickstarterGames,
@@ -24,7 +25,8 @@ export default function Home(
         bannerSectionGames: THomeBannerSectionGames[],
         upcomingGames: TGameThumbnail[],
         recentlyReleased: TGameThumbnail[],
-        steamSale: TGameThumbnail[] 
+        steamSale: TGameThumbnail[],
+        highlyRatedGames: TGameThumbnail[], 
         gamesWithDemos: TGameThumbnail[],
         earlyAccessGames: TGameThumbnail[],  
         upcomingKickstarterGames: TGameThumbnail[],
@@ -109,6 +111,12 @@ export default function Home(
                         </ClientOnly>
 
                         <HomePageSection 
+                            title="Highly Rated Games"
+                            games={highlyRatedGames}
+                            viewAll={"/steam-reviews"}
+                        />
+
+                        <HomePageSection 
                             title="Games with Demos"
                             games={gamesWithDemos}
                             viewAll={"/Demos"}
@@ -118,11 +126,6 @@ export default function Home(
                             title="In Early Access"
                             games={earlyAccessGames}
                             viewAll={"/EarlyAccess"}
-                        />
-                        <HomePageSection 
-                            title="Upcoming Kickstarters"
-                            games={upcomingKickstarterGames}
-                            viewAll={"/UpcomingKickstarters"}
                         />
 
                         {
@@ -135,25 +138,21 @@ export default function Home(
                         }
 
                         <HomePageSection 
+                            title="Upcoming Kickstarters"
+                            games={upcomingKickstarterGames}
+                            viewAll={"/UpcomingKickstarters"}
+                        />
+
+                        <HomePageSection 
                             title="Releasing in 2025"
                             games={releasingIn2025}
                             viewAll={"/2025"}
                         />
+
                         <HomePageSection 
                             title="Releasing in 2026"
                             games={releasingIn2026}
                             viewAll={"/2026"}
-                        />
-
-                        <HomePageSection 
-                            title="Releasing in TBD"
-                            games={releasingInTBD}
-                            viewAll={"/TBD"}
-                        />
-                        <HomePageSection 
-                            title="Recently Added"
-                            games={lastAddedGames}
-                            viewAll={""}
                         />
 
                         <ClientOnly>
@@ -166,6 +165,18 @@ export default function Home(
                                 : <AdComponents dataAdSlot="2384332553" adWidth="320px" adHeight="100px"/>
                             }
                         </ClientOnly>
+
+                        <HomePageSection 
+                            title="Releasing in TBD"
+                            games={releasingInTBD}
+                            viewAll={"/TBD"}
+                        />
+
+                        <HomePageSection 
+                            title="Recently Added"
+                            games={lastAddedGames}
+                            viewAll={""}
+                        />
 
                     </div>
                 </div>

@@ -150,6 +150,28 @@ Route::get('/', function (Request $request) {
         ->take(5)
         ->values();
 
+    #5 random Games with high review scores
+    $highlyRatedGames = [];
+    $gamesToCheckReviewScore = Games::select('id','name','slug','release_date','release_window','early_access')
+        ->where('release_date', '<=', $today)
+        ->inRandomOrder()
+        ->get();
+
+    foreach ($gamesToCheckReviewScore as $game) {
+        $cachedReviews = Cache::get("{$game->slug}-steam-review", 0);
+
+        if ($cachedReviews) {
+
+            if ($cachedReviews['review_score_desc'] === "Overwhelmingly Positive") {
+                $highlyRatedGames[] = $game; 
+            }
+            
+            if (count($highlyRatedGames) == 5){
+                break;
+            }
+        }
+    }
+
     #5 random Games with Demos.
     $gamesWithDemos = Games::select('id','name','slug','release_date','release_window','early_access')
         ->where('demo', 1)
@@ -214,6 +236,7 @@ Route::get('/', function (Request $request) {
         'upcomingGames' => $upcomingGames,
         'recentlyReleased' => $recentlyReleased,
         'steamSale' => $discountedGames,
+        'highlyRatedGames' => $highlyRatedGames,
         'gamesWithDemos' => $gamesWithDemos,
         'earlyAccessGames' => $earlyAccessGames,
         'upcomingKickstarterGames' => $upcomingKickstarters,
@@ -776,7 +799,7 @@ Route::middleware(['auth'])->post('/Game/New', function (Request $request) {
             ],
             'color' => hexdec('dd8500'),
         ]]
-    ]);
+    ]); 
 });
 
 Route::get('/Game/{slug}', function ($slug) {
