@@ -16,11 +16,19 @@ return [
         ],
         'sale' => [
             'id' => env('DISCORD_SALE_WEBHOOK_ID'),
-            'token' => env('DISCORD_SALE_WEBHOOK_ID'),
+            'token' => env('DISCORD_SALE_WEBHOOK_TOKEN'),
         ],
         'releaseChange' => [
             'id' => env('DISCORD_RELEASE_CHANGE_WEBHOOK_ID'),
-            'token' => env('DISCORD_RELEASE_CHANGE_WEBHOOK_ID'),
-        ]
+            'token' => env('DISCORD_RELEASE_CHANGE_WEBHOOK_TOKEN'),
+        ],
+        'submittedReports' => [
+            'id' => env('DISCORD_RELEASE_SUBMITTED_REPORTS_ID'),
+            'token' => env('DISCORD_RELEASE_SUBMITTED_REPORTS_TOKEN'),
+        ],
+        'submittedGames' => [
+            'id' => env('DISCORD_RELEASE_SUBMITTED_GAMES_ID'),
+            'token' => env('DISCORD_RELEASE_SUBMITTED_GAMES_TOKEN'),
+        ],
     ],
 ];

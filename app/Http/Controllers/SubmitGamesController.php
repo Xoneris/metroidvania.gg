@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Games;
 use App\Models\SubmitGames;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Inertia\Inertia;
 
 class SubmitGamesController extends Controller
@@ -31,10 +32,9 @@ class SubmitGamesController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request) {
+
         $fileName = $request->input('slug') . '.' . $request->file('thumbnail')->getClientOriginalExtension();
         $path = $request->file('thumbnail')->storeAs('thumbnails', $fileName, 'public');
-
-        // dd($request->all());
 
         # Put new game into the DB
         SubmitGames::create([
@@ -65,6 +65,21 @@ class SubmitGamesController extends Controller
             'kickstarter_status' => $request['kickstarter_status'],
             'isAdded' => false,
             // '' => $request[''],
+        ]);
+
+        # Discord Webhook
+        $discord_webhook_id = config('discord.webhook.submittedGames.id');
+        $discord_webhook_token = config('discord.webhook.submittedGames.token');
+
+        Http::post('https://discord.com/api/webhooks/'. $discord_webhook_id .'/'.$discord_webhook_token.'', [
+            'embeds' => [[
+                'title' => 'New Game submitted!',
+                'description' => "**Game:** " . $request['name'],
+                'image' => [
+                    'url' => 'https://www.metroidvania.gg/storage/thumbnails/' . $fileName
+                ],
+                'color' => hexdec('dd8500'),
+            ]]
         ]);
     }
 

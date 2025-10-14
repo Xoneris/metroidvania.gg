@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Games;
 use App\Models\Reports;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
@@ -44,6 +45,18 @@ class ReportController extends Controller
             'game_name' => $request['game_name'],
             'report' => $request['report'],
             'status' => 'open',
+        ]);
+
+        # Discord Webhook
+        $discord_webhook_id = config('discord.webhook.submittedReports.id');
+        $discord_webhook_token = config('discord.webhook.submittedReports.token');
+
+        Http::post('https://discord.com/api/webhooks/'. $discord_webhook_id .'/'.$discord_webhook_token.'', [
+            'embeds' => [[
+                'title' => 'New Report submitted!',
+                'description' => "**Game:** " . $request['game_name'] ."\n**Report:** " . $request['report'],
+                'color' => hexdec('dd8500'),
+            ]]
         ]);
 
         return redirect()->back()->with('success','Report submitted successfully!');
