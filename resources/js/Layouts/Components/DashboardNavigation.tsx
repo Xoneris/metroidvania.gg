@@ -25,7 +25,7 @@ export default function DashboardNavigation() {
     },[])
 
     return (
-        <nav className="w-[300px] min-h-full bg-[#111111] text-[#999999] p-2 flex flex-col items-center">
+        <nav className="min-w-[300px] min-h-full bg-[#111111] text-[#999999] p-2 flex flex-col items-center">
 
             <h1 className="text-2xl">Dashboard</h1>
 
