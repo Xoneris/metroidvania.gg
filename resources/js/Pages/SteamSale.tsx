@@ -23,13 +23,13 @@ export default function SteamSale({
                 <meta property="og:description" content={pageDescription} />
                 <meta property="og:type" content="website"/>
                 <meta property="og:url" content={"https://metroidvania.gg"} />
-                <meta property="og:image" content={"https://metroidvania.gg/storage/thumbnails/" + games[0].slug + ".jpg"} />
+                <meta property="og:image" content={"https://metroidvania.gg/storage/thumbnails/" + games[0]?.slug + ".jpg"} />
                 <meta property="og:site_name" content="Metroidvania.GG"/>
 
                 <meta name="twitter:card" content="summary_large_image"/>
                 <meta name="twitter:title" content={pageTitle}/>
                 <meta name="twitter:description" content={pageDescription}/>
-                <meta name="twitter:image" content={"https://metroidvania.gg/storage/thumbnails/" + games[0].slug + ".jpg"}/>
+                <meta name="twitter:image" content={"https://metroidvania.gg/storage/thumbnails/" + games[0]?.slug + ".jpg"}/>
                 <meta name="twitter:site" content="@metroidvania_gg"/>
             </Head>
 
@@ -44,8 +44,8 @@ export default function SteamSale({
 
                     <div className="w-full flex flex-wrap justify-around content-between">
                         {
-                            games.sort((a,b) => (b.steam_discount ?? 0) - (a.steam_discount ?? 0)).map((game) => (
-                                <GameThumbnail game={game} key={game.id}/>
+                            games?.sort((a,b) => (b?.steam_discount ?? 0) - (a?.steam_discount ?? 0)).map((game) => (
+                                <GameThumbnail game={game} key={game?.id}/>
                             ))
                         }
                     </div>
