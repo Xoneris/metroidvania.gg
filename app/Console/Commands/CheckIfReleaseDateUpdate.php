@@ -110,8 +110,13 @@ class CheckIfReleaseDateUpdate extends Command
 
                             $newRelease = $derp[2] . "-" . convert_month_to_number($derp[0]) . "-" . rtrim($derp[1], ",");
 
-                            $this->info(">>> converted {$game_release_date} into {$newRelease}");
+                            // $this->info(">>> converted {$game_release_date} into {$newRelease}");
                             
+                            if ($newRelease !== $game->release_date) {
+
+                                $this->info("{$game->name} - Current: {$game->release_date} New: {$newRelease}");
+                            }
+
                             // Http::post('https://discord.com/api/webhooks/'. $discord_webhook_id .'/'.$discord_webhook_token.'', [
                             //     'embeds' => [[
                             //         'title' => 'Release Date change - ' . $game["name"],
