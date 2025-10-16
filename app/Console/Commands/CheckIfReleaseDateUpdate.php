@@ -108,7 +108,8 @@ class CheckIfReleaseDateUpdate extends Command
                         if (preg_match('/^[A-Z][a-z]{2} \d{1,2}, \d{4}$/', $game_release_date)) {
                             $derp = explode(' ', $game_release_date);
 
-                            $newRelease = $derp[2] . "-" . convert_month_to_number($derp[0]) . "-" . rtrim($derp[1], ",");
+                            $additonalZeroForSingleDigitDays = strlen($derp[1]) === 2 ? "0" : "";
+                            $newRelease = $derp[2] . "-" . convert_month_to_number($derp[0]) . "-" . $additonalZeroForSingleDigitDays . rtrim($derp[1], ",");
 
                             // $this->info(">>> converted {$game_release_date} into {$newRelease}");
                             
