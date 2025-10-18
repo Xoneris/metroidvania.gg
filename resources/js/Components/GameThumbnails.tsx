@@ -59,7 +59,7 @@ export default function GameThumbnail ({
                         </div>
                         {
                             game.early_access === true || game.early_access === 1 
-                                ? <span className="absolute top-1 right-1 p-1 border rounded-md text-white border-black transition-all bg-black bg-opacity-80 group-hover:text-mainOrange">Early Access</span> 
+                                ? <span className="absolute top-1 right-1 p-1 border rounded-md text-white border-black transition-all bg-black bg-opacity-80 group-hover:text-mainOrange">In Early Access</span> 
                                 : null
                         }
                         {/* <div className="hidden absolute top-0 bg-black bg-opacity-70 text-mainOrange text-sm rounded-2xl w-full h-full justify-center items-center group-hover:flex">
