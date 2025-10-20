@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Games;
+use App\Models\ManagedAds;
 use App\Models\Reports;
 use App\Models\SubmitGames;
 use Illuminate\Http\Request;
@@ -278,5 +279,33 @@ Route::get('/dashboard/notifications', function () {
     ];
 
     return response()->json($notifs);
+
+});
+
+Route::get('/managed-content/{size}', function ($size) {
+
+    $response = [];
+    
+    $ad = ManagedAds::select('id','media','size','priority','link')
+        ->where('size', $size)
+        ->where('status', 'active')
+        ->get();
+
+    if ($ad->count() > 1) {
+
+        $random = rand(0, ($ad->count() - 1));
+
+        $response['id'] = $ad[$random]->id;
+        $response['media'] = $ad[$random]->media;
+        $response['link'] = $ad[$random]->link;
+
+    } else {
+
+        $response['id'] = $ad[0]->id;
+        $response['media'] = $ad[0]->media;
+        $response['link'] = $ad[0]->link;
+    }
+
+    return response()->json($response);
 
 });

@@ -77,3 +77,16 @@ export interface Discounts {
     steam_discount: number,
     gog_discount: number,
 }
+
+export interface TAd {
+
+    id:number,
+    timestamps:string,
+    name:string,
+    media:string,
+    size:"728x90px|320x100px|160x600px",
+    status:"active|inactive",
+    priority:"normal|high|very high",
+    link:string,
+    clickedAmount:number,
+}

@@ -4,7 +4,9 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SubmitGamesController;
+use App\Http\Controllers\ManagedAdsController;
 use App\Models\Games;
+use App\Models\ManagedAds;
 use App\Models\Reports;
 use App\Models\SubmitGames;
 use App\Models\User;
@@ -613,10 +615,15 @@ Route::middleware(['auth'])->prefix('Dashboard')->group(function () {
     Route::get('/SubmitGames', [SubmitGamesController::class, "index"]);
     Route::get('/Reports', [ReportController::class , "index"]);
 
-    Route::get('/ad-manager', function () {
+    // Route::get('/ad-manager', function () {
 
-        return Inertia::render('Dashboard/AdManager');
-    });
+    //     return Inertia::render('Dashboard/AdManager');
+    // });
+
+    Route::get('/ad-manager', [ManagedAdsController::class, "index"]);
+    Route::post('/ad-manager', [ManagedAdsController::class, "store"]);
+    Route::put('/ad-manager/{id}', [ManagedAdsController::class, "update"]);
+    Route::delete('/ad-manager/{id}', [ManagedAdsController::class, "delete"]);
 
     Route::get('/tracker', function () {
 
@@ -704,18 +711,19 @@ Route::middleware(['auth'])->put('/Game/{slug}/Edit', function (Request $request
     $discord_webhook_id = config('discord.webhook.releaseChange.id');
     $discord_webhook_token = config('discord.webhook.releaseChange.token');
 
-    $oldRelease = $game["release_date"] ? $game["release_date"] : $game["release_window"];
-    $newRelease = $request["release_date"] ? $request["release_date"] : $request["release_window"];
+    if ($game["release_date"] !== $request["release_date"] || $game["release_window"] !== $request["release_window"]) {
 
-    Http::post('https://discord.com/api/webhooks/'. $discord_webhook_id .'/'.$discord_webhook_token.'', [
-        'embeds' => [[
-            'title' => 'Release Date change - ' . $game["name"],
-            'description' => "**Old:** " . $oldRelease . "\n**New:** " . $newRelease,
-            'color' => hexdec('dd8500'),
-        ]]
-    ]);
-
-    
+        $oldRelease = $game["release_date"] ? $game["release_date"] : $game["release_window"];
+        $newRelease = $request["release_date"] ? $request["release_date"] : $request["release_window"];
+        
+        Http::post('https://discord.com/api/webhooks/'. $discord_webhook_id .'/'.$discord_webhook_token.'', [
+            'embeds' => [[
+                'title' => 'Release Date change - ' . $game["name"],
+                'description' => "**Old:** " . $oldRelease . "\n**New:** " . $newRelease,
+                'color' => hexdec('dd8500'),
+            ]]
+        ]);
+    }
 
     $game->update($request->all());
 
@@ -855,6 +863,18 @@ Route::get('/publisher/{publisher}', function ($publisher) {
         'pageTitle' => 'Games published by '. $publisher .'.' ,
         'pageDescription' => 'A list of Metroidvania games published by.'. $publisher .'.',
     ]);
+});
+
+Route::get('/managed-content/{ad_id}', function ($ad_id) {
+
+    $ad = ManagedAds::find($ad_id);
+    if (!$ad) {
+        abort(404);
+    }
+
+    $ad->increment('clickedAmount');
+    return redirect()->away($ad->link);
+
 });
 
 require __DIR__.'/auth.php';

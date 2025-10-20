@@ -1,11 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function AdComponents({ 
-        dataAdSlot, adWidth, adHeight 
+        dataAdSlot, adWidth, adHeight, isManagedAdSlot = false
     }:{
         dataAdSlot:string, 
         adWidth:"728px"|"320px"|"160px", 
-        adHeight:"100px"|"90px"|"600px"
+        adHeight:"100px"|"90px"|"600px",
+        isManagedAdSlot?: boolean,
 }){
 
     const adtexts = [
@@ -18,7 +19,26 @@ export default function AdComponents({
         "Funfact: The term Metroidvania was invented by Fans and not by developers!"
     ]
 
+    const [managedContent, setManagedContent] = useState()
+
     useEffect(() => {
+
+        if (isManagedAdSlot) {
+
+            // const BASE_API_URL = "http://localhost:8000/api" 
+            const BASE_API_URL = "https://metroidvania.gg/api"
+            
+            const getManagedContent = async () => {
+                
+                const size = (adWidth.slice(0, -2) + "x" + adHeight).toString()
+                const res = await fetch(BASE_API_URL + `/managed-content/${size}`)
+                const data = await res.json()
+                setManagedContent(data)
+                
+            }
+            
+            getManagedContent()
+        }
 
         try {
             // @ts-ignore
@@ -34,14 +54,28 @@ export default function AdComponents({
 
         <div className="relative m-4 flex justify-center items-center" style={{minWidth: adWidth, minHeight: adHeight}}>
 
-            <div 
-                className="absolute p-4 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center rounded-lg border border-black bg-[#ccc]" 
-                style={{width:adWidth, height:adHeight}}
-            >
-                <p className="text-sm text-[#555] text-center">
-                    {adtexts[Math.floor(Math.random() * adtexts.length)]}
-                </p>
-            </div>
+            {
+                isManagedAdSlot
+                ? <a href={`/managed-content/${managedContent?.id}`} target="_blank">
+                    <div 
+                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center rounded-lg border hover:cursor-pointer" 
+                        style={{
+                            minWidth:adWidth, 
+                            minHeight:adHeight,
+                            backgroundImage: `url('/storage/managed-images/${managedContent?.media}')`
+                        }}
+                    >
+                    </div>
+                </a>
+                : <div 
+                    className="absolute p-4 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center rounded-lg border border-black bg-[#ccc]" 
+                    style={{width:adWidth, height:adHeight}}
+                >
+                    <p className="text-sm text-[#555] text-center">
+                        {adtexts[Math.floor(Math.random() * adtexts.length)]}
+                    </p>
+                </div>
+            }
 
             <ins className="adsbygoogle"
                 style={{display:"inline-block", width:adWidth, height:adHeight}}
