@@ -43,6 +43,7 @@ export default function AddEditAdForm ({ad}:{ad?:TAd}) {
                         className={`rounded-md`}  
                         placeholder="Ad Name" 
                         value={data.name}
+                        // @ts-ignore
                         onChange={(e) => setData('name', e.target.value)}
                     />
                 </div>
