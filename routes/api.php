@@ -297,13 +297,11 @@ Route::get('/managed-content/{size}', function ($size) {
 
         $response['id'] = $ad[$random]->id;
         $response['media'] = $ad[$random]->media;
-        $response['link'] = $ad[$random]->link;
 
     } else {
 
         $response['id'] = $ad[0]->id;
         $response['media'] = $ad[0]->media;
-        $response['link'] = $ad[0]->link;
     }
 
     return response()->json($response);

@@ -19,7 +19,10 @@ export default function AdComponents({
         "Funfact: The term Metroidvania was invented by Fans and not by developers!"
     ]
 
-    const [managedContent, setManagedContent] = useState()
+    const [managedContent, setManagedContent] = useState({
+        id: 0,
+        media: "",
+    })
 
     useEffect(() => {
 
