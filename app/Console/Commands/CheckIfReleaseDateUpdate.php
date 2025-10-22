@@ -72,14 +72,14 @@ class CheckIfReleaseDateUpdate extends Command
         }
 
         $today = date("Y-m-d");
-        $allGames = Games::select('name','release_date','release_window','steam')
+        $allGames = Games::select('id','name','release_date','release_window','steam')
             ->where('release_date', '>', $today)
             ->orWhere('release_window', '!=', '')
             ->get();
 
         # Discord Webhook
-        // $discord_webhook_id = config('discord.webhook.releaseChange.id');
-        // $discord_webhook_token = config('discord.webhook.releaseChange.token');
+        $discord_webhook_id = config('discord.webhook.releaseChange.id');
+        $discord_webhook_token = config('discord.webhook.releaseChange.token');
 
         foreach ($allGames as $game) {
 
@@ -105,38 +105,48 @@ class CheckIfReleaseDateUpdate extends Command
 
                     if ($game_is_coming_soon === true) {
 
+                        $current_release = $game->release_date ? $game->release_date : $game->release_window;
+
                         if (preg_match('/^[A-Z][a-z]{2} \d{1,2}, \d{4}$/', $game_release_date)) {
                             $derp = explode(' ', $game_release_date);
 
                             $additonalZeroForSingleDigitDays = strlen($derp[1]) === 2 ? "0" : "";
                             $newRelease = $derp[2] . "-" . convert_month_to_number($derp[0]) . "-" . $additonalZeroForSingleDigitDays . rtrim($derp[1], ",");
-
-                            // $this->info(">>> converted {$game_release_date} into {$newRelease}");
                             
                             if ($newRelease !== $game->release_date) {
 
-                                $this->info("{$game->name} - Current: {$game->release_date} New: {$newRelease}");
-                            }
+                                
+                                $game->release_date = $newRelease;
+                                $game->release_window = "";
+                                $game->save();
 
-                            // Http::post('https://discord.com/api/webhooks/'. $discord_webhook_id .'/'.$discord_webhook_token.'', [
-                            //     'embeds' => [[
-                            //         'title' => 'Release Date change - ' . $game["name"],
-                            //         'description' => "**Old:** " . $game->release_window . "\n**New:** " . $newRelease,
-                            //         'color' => hexdec('dd8500'),
-                            //     ]]
-                            // ]); 
+                                $this->info("{$game->name} - Current: {$current_release} New: {$newRelease}  - {$game->wasChanged()}");
+                                
+                                Http::post('https://discord.com/api/webhooks/'. $discord_webhook_id .'/'.$discord_webhook_token.'', [
+                                    'embeds' => [[
+                                        'title' => 'Release Date change - ' . $game["name"],
+                                        'description' => "**Old:** " . $current_release . "\n**New:** " . $newRelease,
+                                        'color' => hexdec('dd8500'),
+                                    ]]
+                                ]); 
+                            }
 
                         } else if ($game_release_date !== $game->release_window) {
 
-                            $this->info("{$game->name} - Current: {$game->release_window} New: {$game_release_date}");
 
-                            // Http::post('https://discord.com/api/webhooks/'. $discord_webhook_id .'/'.$discord_webhook_token.'', [
-                            //     'embeds' => [[
-                            //         'title' => 'Release Date change - ' . $game["name"],
-                            //         'description' => "**Old:** " . $game->release_window . "\n**New:** " . $game_release_date,
-                            //         'color' => hexdec('dd8500'),
-                            //     ]]
-                            // ]);
+                            $game->release_date = "";
+                            $game->release_window = $game_release_date;
+                            $game->save();
+                            
+                            $this->info("{$game->name} - Current: {$current_release} New: {$game_release_date} - {$game->wasChanged()}");
+
+                            Http::post('https://discord.com/api/webhooks/'. $discord_webhook_id .'/'.$discord_webhook_token.'', [
+                                'embeds' => [[
+                                    'title' => 'Release Date change - ' . $game["name"],
+                                    'description' => "**Old:** " . $current_release . "\n**New:** " . $game_release_date,
+                                    'color' => hexdec('dd8500'),
+                                ]]
+                            ]);
 
                         } 
                     }

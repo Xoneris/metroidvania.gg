@@ -15,9 +15,10 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         $schedule->command('app:refresh-steam-sale-data')->everyFourHours();
         // $schedule->command('app:refresh-gog-sale-data')->everyFourHours();
-        $schedule->command('app:check-if-game-has-demo')->daily();
+        $schedule->command('app:check-if-game-has-demo')->dailyAt('00:30');
         $schedule->command('app:check-steam-reviews')->everyFourHours();
         $schedule->command('app:check-release-today')->everyTenMinutes();
+        $schedule->command('app:check-if-release-date-update')->dailyAt('01:00');
     }
 
     /**
