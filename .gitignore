@@ -18,6 +18,12 @@ yarn-error.log
 /.idea
 /.vscode
 
+#storage
+/storage/*
+!/storage/app/public
+!/storage/framework
+!/storage/logs
+
 #db insert
 insert.sql
 mvgg.sql
