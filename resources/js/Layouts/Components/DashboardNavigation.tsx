@@ -8,13 +8,13 @@ export default function DashboardNavigation() {
         reports: 0,
         submits: 0,
     })
-    // const BASE_API_URL = "https://localhost:8000" 
-    const BASE_API_URL = "https://metroidvania.gg" 
+    // const BASE_API_URL = "https://localhost:8000/api" 
+    const BASE_API_URL = "https://metroidvania.gg/api" 
 
     useEffect(() => {
 
         async function fetchData () {
-            const res = await fetch(BASE_API_URL + '/api/dashboard/notifications')
+            const res = await fetch(BASE_API_URL + '/dashboard/notifications')
             const data = await res.json()
 
             setIsData(data)
