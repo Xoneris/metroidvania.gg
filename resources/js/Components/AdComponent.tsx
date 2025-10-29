@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 export default function AdComponents({ 
-        dataAdSlot, adWidth, adHeight, isManagedAdSlot = false
+        dataAdSlot, adWidth, adHeight, isManagedAdSlot = true
     }:{
         dataAdSlot:string, 
         adWidth:"728px"|"320px"|"160px", 
