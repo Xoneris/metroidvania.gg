@@ -89,7 +89,7 @@ export default function AdManager ({ads}:{ads:TAd[]}) {
                                     <td>{ad.priority}</td>
                                     <td>{ad.link}</td>
                                     <td>{ad.clickedAmount}</td>
-                                    <td>
+                                    <td className="flex gap-2">
                                         <button
                                             className="w-28 p-2 rounded-md bg-white text-black font-bold border border-[#666666] hover:text-mainOrange"
                                             onClick={() => {

@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -615,14 +616,10 @@ Route::middleware(['auth'])->prefix('Dashboard')->group(function () {
     Route::get('/SubmitGames', [SubmitGamesController::class, "index"]);
     Route::get('/Reports', [ReportController::class , "index"]);
 
-    // Route::get('/ad-manager', function () {
-
-    //     return Inertia::render('Dashboard/AdManager');
-    // });
 
     Route::get('/ad-manager', [ManagedAdsController::class, "index"]);
     Route::post('/ad-manager', [ManagedAdsController::class, "store"]);
-    Route::put('/ad-manager/{id}', [ManagedAdsController::class, "update"]);
+    Route::post('/ad-manager/{id}', [ManagedAdsController::class, "update"]);
     Route::delete('/ad-manager/{id}', [ManagedAdsController::class, "delete"]);
 
     Route::get('/tracker', function () {
@@ -705,8 +702,14 @@ Route::middleware(['auth'])->put('/Game/{slug}/Edit', function (Request $request
     # Replace thumbnail
     # ...at some point
     # Should really do this, I could've used this a few times by now.
-    
 
+    // if ($request->file('thumbnail') !== null) {
+
+    //     $fileName = $request->input('slug') . '.' . $request->file('thumbnail')->getClientOriginalExtension();
+    //     $path = $request->file('thumbnail')->storeAs('thumbnails', $fileName, 'public');
+    // }
+
+    
     # Discord Webhook
     $discord_webhook_id = config('discord.webhook.releaseChange.id');
     $discord_webhook_token = config('discord.webhook.releaseChange.token');
@@ -727,7 +730,7 @@ Route::middleware(['auth'])->put('/Game/{slug}/Edit', function (Request $request
 
     $game->update($request->all());
 
-    // return to_route('Dashboard');
+    // return to_route('Dashboard/EditGame');
 });
 
 Route::middleware(['auth'])->post('/Game/New', function (Request $request) {
@@ -821,11 +824,11 @@ Route::get('/Game/{slug}', function ($slug) {
         ->get();
 
     # Get Steam reviews if game is released
-
     $reviews = [
         'steam_reviews' => Cache::get("{$slug}-steam-review", 0)
     ];
 
+    # Get discounts if game is released
     $discounts = [
         'steam_discount' => Cache::get("{$slug}-steam-discount", 0),
         'gog_discount' => Cache::get("{$slug}-gog-discount", 0)
@@ -847,8 +850,8 @@ Route::get('/developer/{developer}', function ($developer) {
 
     return Inertia::render('SinglePage', [
         'games' => $games,
-        'pageTitle' => 'Games developed by '. $developer .'.' ,
-        'pageDescription' => 'A list of Metroidvania games developed by.'. $developer .'.',
+        'pageTitle' => 'Games developed by '. $developer,
+        'pageDescription' => 'A list of Metroidvania games developed by.'. $developer,
     ]);
 });
 
@@ -860,8 +863,8 @@ Route::get('/publisher/{publisher}', function ($publisher) {
 
     return Inertia::render('SinglePage', [
         'games' => $games,
-        'pageTitle' => 'Games published by '. $publisher .'.' ,
-        'pageDescription' => 'A list of Metroidvania games published by.'. $publisher .'.',
+        'pageTitle' => 'Games published by '. $publisher,
+        'pageDescription' => 'A list of Metroidvania games published by.'. $publisher,
     ]);
 });
 

@@ -84,6 +84,7 @@ export interface TAd {
     timestamps:string,
     name:string,
     media:string,
+    mediaFile:File|undefined,
     size:"728x90px|320x100px|160x600px",
     status:"active|inactive",
     priority:"normal|high|very high",

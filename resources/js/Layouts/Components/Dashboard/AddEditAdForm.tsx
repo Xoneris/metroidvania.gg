@@ -4,13 +4,16 @@ import { useForm } from "@inertiajs/react"
 
 export default function AddEditAdForm ({ad}:{ad?:TAd}) {
 
-    const { data, setData, post, put } = useForm<any>(ad || {
-            name: '',
-            media: '',
-            size: '',
-            status: '',
-            priority: '',
-            link: '',
+    console.log(ad)
+
+    const { data, setData, post, put } = useForm<any>({
+            name: ad?.name || '',
+            // media: ad?.media,
+            mediaFile: null,
+            size: ad?.size || '',
+            status: ad?.status || '',
+            priority: ad?.priority || '',
+            link: ad?.link || '',
         })
 
     const handleSubmit = (e:any) => {
@@ -19,17 +22,18 @@ export default function AddEditAdForm ({ad}:{ad?:TAd}) {
 
         if (ad) {
 
-            put(`/Dashboard/ad-manager/${ad.id}`,data)
+            // console.log(data)
+            post(`/Dashboard/ad-manager/${ad.id}`, data)
 
         } else {
 
+            // console.log(data)
             post('/Dashboard/ad-manager', data)
-            console.log(data)
         }
 
     }
 
-    console.log(data)
+    // console.log(data)
 
     return (
         <form className="flex flex-col gap-2 w-full" onSubmit={handleSubmit}>
@@ -66,9 +70,9 @@ export default function AddEditAdForm ({ad}:{ad?:TAd}) {
                     <label>Media:</label>
                     <input 
                         type="file" 
-                        name="media" 
+                        name="mediaFile" 
                         max={1} 
-                        onChange={(e) => setData('media', e.target.files?.[0])} 
+                        onChange={(e) => {setData('mediaFile', e.target.files?.[0])}} 
                     />
                 </div>
 
@@ -107,7 +111,7 @@ export default function AddEditAdForm ({ad}:{ad?:TAd}) {
             </div>
 
             <img 
-                src={"/storage/managed-images/"+data.media}
+                src={"/storage/managed-images/"+ad?.media}
                 className="w-1/4"
             />
             

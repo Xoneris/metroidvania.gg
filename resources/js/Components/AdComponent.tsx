@@ -6,7 +6,7 @@ export default function AdComponents({
         dataAdSlot:string, 
         adWidth:"728px"|"320px"|"160px", 
         adHeight:"100px"|"90px"|"600px",
-        isManagedAdSlot?: boolean,
+        isManagedAdSlot?: boolean
 }){
 
     const adtexts = [
@@ -22,7 +22,15 @@ export default function AdComponents({
     const [managedContent, setManagedContent] = useState({
         id: 0,
         media: "",
+        link: "",
     })
+
+    const openInNewTab = (href:string) => {
+        const a = document.createElement('a')
+        a.href = href
+        a.target = "_blank"
+        a.click()
+    }
 
     useEffect(() => {
 
@@ -37,11 +45,11 @@ export default function AdComponents({
                 const res = await fetch(BASE_API_URL + `/managed-content/${size}`)
                 const data = await res.json()
                 setManagedContent(data)
-                
             }
             
             getManagedContent()
-        }
+        }        
+        
 
         try {
             // @ts-ignore
@@ -58,8 +66,15 @@ export default function AdComponents({
         <div className="relative m-4 flex justify-center items-center" style={{minWidth: adWidth, minHeight: adHeight}}>
 
             {
+                // managedContent.media !== ""
                 isManagedAdSlot
-                ? <a href={`/managed-content/${managedContent?.id}`} target="_blank">
+                ? <a 
+                    href={managedContent?.link}
+                    onClick={(e) => {
+                        e.preventDefault()
+                        openInNewTab(`/managed-content/${managedContent?.id}`)
+                    }}
+                >
                     <div 
                         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center rounded-lg border hover:cursor-pointer" 
                         style={{
