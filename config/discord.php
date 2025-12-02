@@ -30,5 +30,9 @@ return [
             'id' => env('DISCORD_RELEASE_SUBMITTED_GAMES_ID'),
             'token' => env('DISCORD_RELEASE_SUBMITTED_GAMES_TOKEN'),
         ],
+        'thumbnailChange' => [
+            'id' => env('DISCORD_THUMBNAIL_CHANGE_ID'),
+            'token' => env('DISCORD_THUMBNAIL_CHANGE_TOKEN'),
+        ],
     ],
 ];
