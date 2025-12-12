@@ -30,8 +30,8 @@ class CheckIfNewThumbnail extends Command
     {
         $today = date("Y-m-d");
         $allGames = Games::select('id','name','slug','release_date','release_window','steam')
-            ->where('release_date', '>', $today)
-            ->orWhere('release_window', '!=', '')
+            // ->where('release_date', '>', $today)
+            // ->orWhere('release_window', '!=', '')
             ->get();
 
         # Discord Webhook
@@ -78,7 +78,7 @@ class CheckIfNewThumbnail extends Command
                                     'embeds' => [[
                                         'title' => $game["name"] . ' has a new thumbnail!',
                                         'image' => [
-                                            'url' => 'https://www.metroidvania.gg/storage/thumbnails/' . $game->slug . '.jpg'
+                                            'url' => "https://www.metroidvania.gg/storage/thumbnails/{$filename}?v={$newHash}"
                                         ],
                                         'color' => hexdec('dd8500'),
                                     ]]
@@ -86,54 +86,6 @@ class CheckIfNewThumbnail extends Command
                             }
                         }
                     }
-
-                    // if ($game_is_coming_soon === true) {
-
-                    //     $current_release = $game->release_date ? $game->release_date : $game->release_window;
-
-                    //     if (preg_match('/^[A-Z][a-z]{2} \d{1,2}, \d{4}$/', $game_release_date)) {
-                    //         $derp = explode(' ', $game_release_date);
-
-                    //         $additonalZeroForSingleDigitDays = strlen($derp[1]) === 2 ? "0" : "";
-                    //         $newRelease = $derp[2] . "-" . convert_month_to_number($derp[0]) . "-" . $additonalZeroForSingleDigitDays . rtrim($derp[1], ",");
-                            
-                    //         if ($newRelease !== $game->release_date) {
-
-                                
-                    //             $game->release_date = $newRelease;
-                    //             $game->release_window = "";
-                    //             $game->save();
-
-                    //             $this->info("{$game->name} - Current: {$current_release} New: {$newRelease}  - {$game->wasChanged()}");
-                                
-                    //             Http::post('https://discord.com/api/webhooks/'. $discord_webhook_id .'/'.$discord_webhook_token.'', [
-                    //                 'embeds' => [[
-                    //                     'title' => 'Release Date change - ' . $game["name"],
-                    //                     'description' => "**Old:** " . $current_release . "\n**New:** " . $newRelease,
-                    //                     'color' => hexdec('dd8500'),
-                    //                 ]]
-                    //             ]); 
-                    //         }
-
-                    //     } else if ($game_release_date !== $game->release_window) {
-
-
-                    //         $game->release_date = "";
-                    //         $game->release_window = $game_release_date;
-                    //         $game->save();
-                            
-                    //         $this->info("{$game->name} - Current: {$current_release} New: {$game_release_date} - {$game->wasChanged()}");
-
-                    //         Http::post('https://discord.com/api/webhooks/'. $discord_webhook_id .'/'.$discord_webhook_token.'', [
-                    //             'embeds' => [[
-                    //                 'title' => 'Release Date change - ' . $game["name"],
-                    //                 'description' => "**Old:** " . $current_release . "\n**New:** " . $game_release_date,
-                    //                 'color' => hexdec('dd8500'),
-                    //             ]]
-                    //         ]);
-
-                    //     } 
-                    // }
                 }
             }
         }
