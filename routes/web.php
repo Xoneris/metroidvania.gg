@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use App\Services\NewsFeedService;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,7 +33,7 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function (Request $request) {
+Route::get('/', function (Request $request, NewsFeedService $news) {
 
     #In case people come to this site from a different website
     $otherWebsiteRef = $request->query('ref');
@@ -87,6 +88,7 @@ Route::get('/', function (Request $request) {
         ->inRandomOrder()
         ->first();
 
+    $newsfeed = $news->getAll();
         
     $bannerSectionGames = [
         $bannerSectionRecentRelease,
@@ -236,6 +238,7 @@ Route::get('/', function (Request $request) {
     return Inertia::render('Home', [
 
         'bannerSectionGames' => $bannerSectionGames,
+        'newsFeed' => $newsfeed,
         'upcomingGames' => $upcomingGames,
         'recentlyReleased' => $recentlyReleased,
         'steamSale' => $discountedGames,
@@ -616,7 +619,6 @@ Route::middleware(['auth'])->prefix('Dashboard')->group(function () {
     Route::get('/SubmitGames', [SubmitGamesController::class, "index"]);
     Route::get('/Reports', [ReportController::class , "index"]);
 
-
     Route::get('/ad-manager', [ManagedAdsController::class, "index"]);
     Route::post('/ad-manager', [ManagedAdsController::class, "store"]);
     Route::post('/ad-manager/{id}', [ManagedAdsController::class, "update"]);
@@ -711,29 +713,29 @@ Route::middleware(['auth'])->put('/Game/{slug}/Edit', function (Request $request
 
     
     # Discord Webhook
-    $discord_webhook_id = config('discord.webhook.releaseChange.id');
-    $discord_webhook_token = config('discord.webhook.releaseChange.token');
+    // $discord_webhook_id = config('discord.webhook.releaseChange.id');
+    // $discord_webhook_token = config('discord.webhook.releaseChange.token');
 
-    if ($game["release_date"] !== $request["release_date"] || $game["release_window"] !== $request["release_window"]) {
+    // if ($game["release_date"] !== $request["release_date"] || $game["release_window"] !== $request["release_window"]) {
 
-        $oldRelease = $game["release_date"] ? $game["release_date"] : $game["release_window"];
-        $newRelease = $request["release_date"] ? $request["release_date"] : $request["release_window"];
+    //     $oldRelease = $game["release_date"] ? $game["release_date"] : $game["release_window"];
+    //     $newRelease = $request["release_date"] ? $request["release_date"] : $request["release_window"];
         
-        Http::post('https://discord.com/api/webhooks/'. $discord_webhook_id .'/'.$discord_webhook_token.'', [
-            'embeds' => [[
-                'title' => 'Release Date change - ' . $game["name"],
-                'description' => "**Old:** " . $oldRelease . "\n**New:** " . $newRelease,
-                'color' => hexdec('dd8500'),
-            ]]
-        ]);
-    }
+    //     Http::post('https://discord.com/api/webhooks/'. $discord_webhook_id .'/'.$discord_webhook_token.'', [
+    //         'embeds' => [[
+    //             'title' => 'Release Date change - ' . $game["name"],
+    //             'description' => "**Old:** " . $oldRelease . "\n**New:** " . $newRelease,
+    //             'color' => hexdec('dd8500'),
+    //         ]]
+    //     ]);
+    // }
 
     $game->update($request->all());
 
     // return to_route('Dashboard/EditGame');
 });
 
-Route::middleware(['auth'])->post('/Game/New', function (Request $request) {
+Route::middleware(['auth'])->post('/Game/New', function (Request $request, NewsFeedService $news) {
 
     if ($request['name'] !== "Test") {
 
@@ -800,6 +802,12 @@ Route::middleware(['auth'])->post('/Game/New', function (Request $request) {
     $discord_webhook_token = config('discord.webhook.addedToSite.token');
 
     $release_date = $request['release_date'] ? $request['release_date'] : $request['release_window'];
+
+    $news->add([
+        'game' => $request->name, 
+        'slug' => $request->slug,
+        'type' => 'just_added',
+    ]);
 
     Http::post('https://discord.com/api/webhooks/'. $discord_webhook_id .'/'.$discord_webhook_token.'', [
         'embeds' => [[
