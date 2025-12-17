@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Games;
+use App\Services\NewsFeedService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
@@ -26,12 +27,9 @@ class CheckIfNewThumbnail extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(NewsFeedService $news)
     {
-        $today = date("Y-m-d");
         $allGames = Games::select('id','name','slug','release_date','release_window','steam')
-            // ->where('release_date', '>', $today)
-            // ->orWhere('release_window', '!=', '')
             ->get();
 
         # Discord Webhook
@@ -67,13 +65,19 @@ class CheckIfNewThumbnail extends Command
                             $newThumbnailFile = Http::get($newThumbnail);
 
                             if ($newThumbnailFile->failed()) {
-                                // return back()->withErrors(['file_url' => 'Unable to download file.']);
                                 $this->info("{$game->name} unable to download file.");
                             } else {
 
                                 $filename = $game->slug . ".jpg";
                                 Storage::put("public/thumbnails/{$filename}", $newThumbnailFile->body());
                                 $this->info("{$game->name} successfuly replaced");
+
+                                $news->add([
+                                    'game' => $game->name, 
+                                    'slug' => $game->slug,
+                                    'type' => 'new_thumbnail',
+                                ]);
+
                                 Http::post('https://discord.com/api/webhooks/'. $discord_webhook_id .'/'.$discord_webhook_token.'', [
                                     'embeds' => [[
                                         'title' => $game["name"] . ' has a new thumbnail!',

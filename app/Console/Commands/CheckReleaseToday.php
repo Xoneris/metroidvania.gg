@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Games;
+use App\Services\NewsFeedService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
@@ -26,7 +27,7 @@ class CheckReleaseToday extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(NewsFeedService $news)
     {
         $today = date("Y-m-d");
         $releasingToday = Games::where('release_date', '=', $today)
@@ -60,6 +61,12 @@ class CheckReleaseToday extends Command
                             $discord_webhook_id = config('discord.webhook.isReleased.id');
                             $discord_webhook_token = config('discord.webhook.isReleased.token');
                             
+                            $news->add([
+                                'game' => $game->name, 
+                                'slug' => $game->slug,
+                                'type' => 'new_release',
+                            ]);
+
                             Http::post('https://discord.com/api/webhooks/'. $discord_webhook_id .'/'.$discord_webhook_token.'', [
                                 'embeds' => [[
                                     'title' => 'New Game just released!',

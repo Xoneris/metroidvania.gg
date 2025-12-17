@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Games;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
+use App\Services\NewsFeedService;
 
 class CheckIfReleaseDateUpdate extends Command
 {
@@ -25,7 +26,7 @@ class CheckIfReleaseDateUpdate extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(NewsFeedService $news)
     {
         function convert_month_to_number($month_name) {
 
@@ -72,7 +73,7 @@ class CheckIfReleaseDateUpdate extends Command
         }
 
         $today = date("Y-m-d");
-        $allGames = Games::select('id','name','release_date','release_window','steam')
+        $allGames = Games::select('id','name','slug','release_date','release_window','steam')
             ->where('release_date', '>', $today)
             ->orWhere('release_window', '!=', '')
             ->get();
@@ -111,21 +112,28 @@ class CheckIfReleaseDateUpdate extends Command
                             $derp = explode(' ', $game_release_date);
 
                             $additonalZeroForSingleDigitDays = strlen($derp[1]) === 2 ? "0" : "";
-                            $newRelease = $derp[2] . "-" . convert_month_to_number($derp[0]) . "-" . $additonalZeroForSingleDigitDays . rtrim($derp[1], ",");
+                            $new_release = $derp[2] . "-" . convert_month_to_number($derp[0]) . "-" . $additonalZeroForSingleDigitDays . rtrim($derp[1], ",");
                             
-                            if ($newRelease !== $game->release_date) {
+                            if ($new_release !== $game->release_date) {
 
-                                
-                                $game->release_date = $newRelease;
+                                $game->release_date = $new_release;
                                 $game->release_window = "";
                                 $game->save();
 
-                                $this->info("{$game->name} - Current: {$current_release} New: {$newRelease}  - {$game->wasChanged()}");
+                                $news->add([
+                                    'game' => $game->name, 
+                                    'slug' => $game->slug,
+                                    'type' => 'release_change',
+                                    'release_old' => $current_release,
+                                    'release_new' => $new_release,
+                                ]);
+
+                                $this->info("{$game->name} - Current: {$current_release} New: {$new_release}  - {$game->wasChanged()}");
                                 
                                 Http::post('https://discord.com/api/webhooks/'. $discord_webhook_id .'/'.$discord_webhook_token.'', [
                                     'embeds' => [[
                                         'title' => 'Release Date change - ' . $game["name"],
-                                        'description' => "**Old:** " . $current_release . "\n**New:** " . $newRelease,
+                                        'description' => "**Old:** " . $current_release . "\n**New:** " . $new_release,
                                         'color' => hexdec('dd8500'),
                                     ]]
                                 ]); 
@@ -139,6 +147,14 @@ class CheckIfReleaseDateUpdate extends Command
                             $game->save();
                             
                             $this->info("{$game->name} - Current: {$current_release} New: {$game_release_date} - {$game->wasChanged()}");
+
+                            $news->add([
+                                'game' => $game->name, 
+                                'slug' => $game->slug,
+                                'type' => 'release_change',
+                                'release_old' => $current_release,
+                                'release_new' => $game_release_date,
+                            ]);
 
                             Http::post('https://discord.com/api/webhooks/'. $discord_webhook_id .'/'.$discord_webhook_token.'', [
                                 'embeds' => [[

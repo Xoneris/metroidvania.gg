@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Games;
+use App\Services\NewsFeedService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -26,7 +27,7 @@ class CheckIfGameHasDemo extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(NewsFeedService $news)
     {
         // $test = true;
 
@@ -71,10 +72,21 @@ class CheckIfGameHasDemo extends Command
                     $game_has_demo = $data[$steamAppId]['data']['demos'][0]['appid'] ?? 0;
 
                     if ($game_has_demo > 0 ) {
+
                         if ($game->demo != 1) {
+
                             $game->demo = 1;
                             $game->save();
+
                             Log::channel('demo_check')->info("Updated: ". $game->name ." has a demo now!");
+
+                            $news->add([
+                                'game' => $game->name, 
+                                'slug' => $game->slug,
+                                'type' => 'demo_check',
+                                'has_demo' => true,
+                            ]);
+
                             Http::post('https://discord.com/api/webhooks/'. $discord_webhook_id .'/'.$discord_webhook_token.'', [
                                 'embeds' => [[
                                     'title' => $game->name .' has a demo now! ✅',
@@ -82,10 +94,21 @@ class CheckIfGameHasDemo extends Command
                                 ]]
                             ]);
                         }
+
                     } else if ($game->demo != 0) {
+
                         $game->demo = 0;
                         $game->save();
+
                         Log::channel('demo_check')->info("Updated: ". $game->name ." no longer has a demo!");
+
+                        $news->add([
+                            'game' => $game->name, 
+                            'slug' => $game->slug,
+                            'type' => 'demo_check',
+                            'has_demo' => false,
+                        ]);
+
                         Http::post('https://discord.com/api/webhooks/'. $discord_webhook_id .'/'.$discord_webhook_token.'', [
                             'embeds' => [[
                                 'title' => $game->name .' no longer has a demo! ❌',
