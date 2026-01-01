@@ -56,17 +56,22 @@ export default function MobileNav() {
                             name={"Coming Soon"}
                         />
                         
-                        <MobileNavLink 
+                        {/* <MobileNavLink 
                             currentUrl={url}
                             destination={"/2025"}
                             name={"2025"}
-                        />
+                        /> */}
 
                         <MobileNavLink 
                             currentUrl={url}
                             destination={"/2026"}
                             name={"2026"}
-                            />
+                        />
+                        <MobileNavLink 
+                            currentUrl={url}
+                            destination={"/2027"}
+                            name={"2027"}
+                        />
                         <MobileNavLink 
                             currentUrl={url}
                             destination={"/TBD"}

@@ -255,20 +255,6 @@ Route::get('/', function (Request $request, NewsFeedService $news) {
     ]);
 });
 
-// Route::get('/2024', function () {
-
-//     $tomorrow = date("Y-m-d",strtotime("tomorrow"));
-//     $gamesReleasing2024 = Games::where('release_window', 'LIKE', '%2024%')
-//         ->orWhereBetween('release_date', [$tomorrow,'2024-12-31'])
-//         ->inRandomOrder() 
-//         ->get();
-
-//     return Inertia::render('SinglePage', [
-//         'games' => $gamesReleasing2024,
-//         'title' => 'Releasing in 2024',
-//     ]);
-// });
-
 Route::get('/coming-soon', function () {
 
     $today = date("Y-m-d");
@@ -284,21 +270,35 @@ Route::get('/coming-soon', function () {
     ]);
 });
 
-Route::get('/2025', function () {
+// Route::get('/2024', function () {
 
-    $tomorrow = date("Y-m-d",strtotime("tomorrow"));
-    $gamesReleasing2025 = Games::select('id','name','slug','release_date','release_window','early_access')
-        ->where('release_window', 'LIKE', '%2025%')
-        ->orWhereBetween('release_date', [$tomorrow,'2025-12-31'])
-        ->inRandomOrder() 
-        ->get();
+//     $tomorrow = date("Y-m-d",strtotime("tomorrow"));
+//     $gamesReleasing2024 = Games::where('release_window', 'LIKE', '%2024%')
+//         ->orWhereBetween('release_date', [$tomorrow,'2024-12-31'])
+//         ->inRandomOrder() 
+//         ->get();
 
-    return Inertia::render('SinglePage', [
-        'games' => $gamesReleasing2025,
-        'pageTitle' => 'Releasing in 2025',
-        'pageDescription' => 'A list of Metroidvania games in development set to release somewhere in 2025.',
-    ]);
-});
+//     return Inertia::render('SinglePage', [
+//         'games' => $gamesReleasing2024,
+//         'title' => 'Releasing in 2024',
+//     ]);
+// });
+
+// Route::get('/2025', function () {
+
+//     $tomorrow = date("Y-m-d",strtotime("tomorrow"));
+//     $gamesReleasing2025 = Games::select('id','name','slug','release_date','release_window','early_access')
+//         ->where('release_window', 'LIKE', '%2025%')
+//         ->orWhereBetween('release_date', [$tomorrow,'2025-12-31'])
+//         ->inRandomOrder() 
+//         ->get();
+
+//     return Inertia::render('SinglePage', [
+//         'games' => $gamesReleasing2025,
+//         'pageTitle' => 'Releasing in 2025',
+//         'pageDescription' => 'A list of Metroidvania games in development set to release somewhere in 2025.',
+//     ]);
+// });
 
 Route::get('/2026', function () {
 
@@ -312,6 +312,21 @@ Route::get('/2026', function () {
         'games' => $gamesReleasing2026,
         'pageTitle' => 'Releasing in 2026',
         'pageDescription' => 'A list of Metroidvania games in development set to release somewhere in 2026.',
+    ]);
+});
+
+Route::get('/2027', function () {
+
+    $gamesReleasing2027 = Games::select('id','name','slug','release_date','release_window','early_access')
+        ->where('release_window', 'LIKE', '%2027%')
+        ->orWhereBetween('release_date', ['2027-01-01','2027-12-31'])
+        ->inRandomOrder() 
+        ->get();
+
+    return Inertia::render('SinglePage', [
+        'games' => $gamesReleasing2027,
+        'pageTitle' => 'Releasing in 2027',
+        'pageDescription' => 'A list of Metroidvania games in development set to release somewhere in 2027.',
     ]);
 });
 

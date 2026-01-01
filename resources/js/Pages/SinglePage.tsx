@@ -18,6 +18,8 @@ export default function SinglePage({
 
     const { width, height } = useWindowSize()
 
+    console.log(games)
+
     return (
         <>
             <Head>
@@ -28,13 +30,13 @@ export default function SinglePage({
                 <meta property="og:description" content={pageDescription} />
                 <meta property="og:type" content="website"/>
                 <meta property="og:url" content={"https://metroidvania.gg"} />
-                <meta property="og:image" content={"https://metroidvania.gg/storage/thumbnails/" + games[0].slug + ".jpg"} />
+                <meta property="og:image" content={"https://metroidvania.gg/storage/thumbnails/" + games[0]?.slug + ".jpg"} />
                 <meta property="og:site_name" content="Metroidvania.GG"/>
 
                 <meta name="twitter:card" content="summary_large_image"/>
                 <meta name="twitter:title" content={pageTitle}/>
                 <meta name="twitter:description" content={pageDescription}/>
-                <meta name="twitter:image" content={"https://metroidvania.gg/storage/thumbnails/" + games[0].slug + ".jpg"}/>
+                <meta name="twitter:image" content={"https://metroidvania.gg/storage/thumbnails/" + games[0]?.slug + ".jpg"}/>
                 <meta name="twitter:site" content="@metroidvania_gg"/>
             </Head>
 
@@ -54,7 +56,8 @@ export default function SinglePage({
 
                     <div className="w-full flex flex-wrap justify-around content-between">
                     {
-                        games.map((game,index) => (
+                        games?.length > 0 
+                        ? games.map((game,index) => (
                             <>
                                 <GameThumbnail game={game} key={game.id}/>
                                 <ClientOnly>
@@ -70,6 +73,7 @@ export default function SinglePage({
                                 </ClientOnly>
                             </>
                         ))
+                        : <h3 className="text-xl">Nothing here just yet</h3>
                     }
                     </div>
                 </section>
