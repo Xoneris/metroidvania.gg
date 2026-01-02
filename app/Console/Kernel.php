@@ -19,6 +19,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('app:check-steam-reviews')->everyFourHours();
         $schedule->command('app:check-release-today')->everyTenMinutes();
         $schedule->command('app:check-if-release-date-update')->dailyAt('01:00');
+        $schedule->command('app:check-if-new-thumbnail')->dailyAt('01:30');
     }
 
     /**
