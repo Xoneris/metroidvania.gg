@@ -79,7 +79,6 @@ export interface Discounts {
 }
 
 export interface TAd {
-
     id:number,
     timestamps:string,
     name:string,
@@ -90,4 +89,14 @@ export interface TAd {
     priority:"normal|high|very high",
     link:string,
     clickedAmount:number,
+}
+
+export interface TNews {
+    game:string,
+    slug:string,
+    type:"release_change"|"new_thumbnail"|"demo_check",
+    release_old:string,
+    release_new:string,
+    has_demo:""|boolean,
+    created_at:string,
 }

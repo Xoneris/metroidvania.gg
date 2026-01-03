@@ -10,6 +10,7 @@ import ClientOnly from '@/Components/ClientOnly';
 export default function Home(
     { 
         bannerSectionGames,
+        newsFeed,
         upcomingGames,
         recentlyReleased,
         steamSale, 
@@ -23,6 +24,7 @@ export default function Home(
         lastAddedGames,
     }:{ 
         bannerSectionGames: THomeBannerSectionGames[],
+        newsFeed: any,
         upcomingGames: TGameThumbnail[],
         recentlyReleased: TGameThumbnail[],
         steamSale: TGameThumbnail[],
@@ -66,6 +68,7 @@ export default function Home(
 
                     <HomePageBanner 
                         games={bannerSectionGames}
+                        newsfeed={newsFeed}
                     />
 
                     <div className='max-w-[1920px] w-full m-auto'>

@@ -88,7 +88,7 @@ Route::get('/', function (Request $request, NewsFeedService $news) {
         ->inRandomOrder()
         ->first();
 
-    $newsfeed = $news->getAll();
+    $newsfeed = array_reverse($news->getAll());
         
     $bannerSectionGames = [
         $bannerSectionRecentRelease,
@@ -96,7 +96,6 @@ Route::get('/', function (Request $request, NewsFeedService $news) {
         $bannerSectionKickstarterLive,
         $bannerSectionKickstarterUpcoming,
     ];
-    // dd($bannerSectionGames);
         
     # Games releasing Today
     $todayGames = Games::where('release_date', '=', $today)
