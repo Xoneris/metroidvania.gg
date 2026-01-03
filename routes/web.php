@@ -200,20 +200,20 @@ Route::get('/', function (Request $request, NewsFeedService $news) {
         ->inRandomOrder()
         ->get();
 
-    #5 random Games releasing in 2025.
+    #5 random Games releasing in 2026.
     $tomorrow = date("Y-m-d",strtotime("tomorrow"));
-    $gamesReleasing2025 = Games::select('id','name','slug','release_date','release_window','early_access')
-        ->where('release_window', 'LIKE', '%2025%')
-        ->orWhereBetween('release_date', [$tomorrow,'2025-12-31'])
+    $gamesReleasing2026 = Games::select('id','name','slug','release_date','release_window','early_access')
+        ->where('release_window', 'LIKE', '%2026%')
+        ->orWhereBetween('release_date', [$tomorrow,'2026-12-31'])
         ->skip(0)
         ->take(5)
         ->inRandomOrder() 
         ->get();
 
-    #5 random Games releasing in 2026.
-    $gamesReleasing2026 = Games::select('id','name','slug','release_date','release_window','early_access')
-        ->where('release_window', 'LIKE', '%2026%')
-        ->orWhereBetween('release_date', ['2026-01-01','2026-12-31'])
+    #5 random Games releasing in 2027.
+    $gamesReleasing2027 = Games::select('id','name','slug','release_date','release_window','early_access')
+        ->where('release_window', 'LIKE', '%2027%')
+        ->orWhereBetween('release_date', ['2027-01-01','2027-12-31'])
         ->skip(0)
         ->take(5)
         ->inRandomOrder() 
@@ -245,8 +245,8 @@ Route::get('/', function (Request $request, NewsFeedService $news) {
         'gamesWithDemos' => $gamesWithDemos,
         'earlyAccessGames' => $earlyAccessGames,
         'upcomingKickstarterGames' => $upcomingKickstarters,
-        'releasingIn2025' => $gamesReleasing2025,
         'releasingIn2026' => $gamesReleasing2026,
+        'releasingIn2027' => $gamesReleasing2027,
         'releasingInTBD' => $gamesReleasingTBD,
         'lastAddedGames' => $lastAddedGames,
         'canLogin' => Route::has('login'),

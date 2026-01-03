@@ -18,8 +18,8 @@ export default function Home(
         gamesWithDemos,
         earlyAccessGames,
         upcomingKickstarterGames,
-        releasingIn2025,
         releasingIn2026,
+        releasingIn2027,
         releasingInTBD,
         lastAddedGames,
     }:{ 
@@ -32,8 +32,8 @@ export default function Home(
         gamesWithDemos: TGameThumbnail[],
         earlyAccessGames: TGameThumbnail[],  
         upcomingKickstarterGames: TGameThumbnail[],
-        releasingIn2025: TGameThumbnail[],
         releasingIn2026: TGameThumbnail[],
+        releasingIn2027: TGameThumbnail[],
         releasingInTBD: TGameThumbnail[],
         lastAddedGames: TGameThumbnail[],
     }
@@ -147,16 +147,16 @@ export default function Home(
                         />
 
                         <HomePageSection 
-                            title="Releasing in 2025"
-                            games={releasingIn2025}
-                            viewAll={"/2025"}
-                        />
-
-                        <HomePageSection 
                             title="Releasing in 2026"
                             games={releasingIn2026}
                             viewAll={"/2026"}
                         />
+
+                        {/* <HomePageSection 
+                            title="Releasing in 2027"
+                            games={releasingIn2027}
+                            viewAll={"/2027"}
+                        /> */}
 
                         <ClientOnly>
                             {
