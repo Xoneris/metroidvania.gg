@@ -72,11 +72,11 @@ class CheckIfNewThumbnail extends Command
                                 Storage::put("public/thumbnails/{$filename}", $newThumbnailFile->body());
                                 $this->info("{$game->name} successfuly replaced");
 
-                                $news->add([
-                                    'game' => $game->name, 
-                                    'slug' => $game->slug,
-                                    'type' => 'new_thumbnail',
-                                ]);
+                                // $news->add([
+                                //     'game' => $game->name, 
+                                //     'slug' => $game->slug,
+                                //     'type' => 'new_thumbnail',
+                                // ]);
 
                                 Http::post('https://discord.com/api/webhooks/'. $discord_webhook_id .'/'.$discord_webhook_token.'', [
                                     'embeds' => [[
