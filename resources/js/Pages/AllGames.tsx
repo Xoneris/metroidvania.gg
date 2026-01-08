@@ -5,7 +5,7 @@ import useWindowSize from "@/hooks/useWindowSize";
 import LayoutWithAdSidebars from "@/Layouts/LayoutWithAdSidebars";
 import { TGameThumbnail } from "@/types";
 import { Head } from "@inertiajs/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 export default function ({games}:{games:TGameThumbnail[]}) {
@@ -20,6 +20,10 @@ export default function ({games}:{games:TGameThumbnail[]}) {
 
     const [noThumbnail, setNoThumbnail] = useState<boolean>(false)
     const { width, height } = useWindowSize()
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     return(
         <LayoutWithAdSidebars>

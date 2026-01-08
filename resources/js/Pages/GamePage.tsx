@@ -3,7 +3,7 @@ import { replaceMonthWithName } from "@/Utils/replaceMonthWithName";
 import { Head, usePage } from "@inertiajs/react";
 import SteamReview from "@/Components/SteamReviews";
 import { SocialIcon } from "react-social-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReportDialogBox from "@/Layouts/Components/ReportDialogBox";
 import LayoutWithAdSidebars from "@/Layouts/LayoutWithAdSidebars";
 import AdComponents from "@/Components/AdComponent";
@@ -29,6 +29,10 @@ export default function GamePage ({
     const [report, setReport] = useState<boolean>(false)
     const { props } = usePage()
     const { success }:any = props
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     return (
         <>

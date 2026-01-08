@@ -5,6 +5,7 @@ import GameThumbnail from '@/Components/GameThumbnails';
 import AdComponents from '@/Components/AdComponent';
 import useWindowSize from '@/hooks/useWindowSize';
 import ClientOnly from '@/Components/ClientOnly';
+import { useEffect } from 'react';
 
 export default function SinglePage({ 
         games,
@@ -18,7 +19,9 @@ export default function SinglePage({
 
     const { width, height } = useWindowSize()
 
-    console.log(games)
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     return (
         <>

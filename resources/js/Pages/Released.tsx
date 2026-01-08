@@ -2,7 +2,7 @@ import GameThumbnail from "@/Components/GameThumbnails";
 import LayoutWithAdSidebars from "@/Layouts/LayoutWithAdSidebars";
 import { TGameThumbnail } from "@/types";
 import { Head } from "@inertiajs/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 export default function Released ({games}:{games:TGameThumbnail[]}) {
@@ -10,6 +10,10 @@ export default function Released ({games}:{games:TGameThumbnail[]}) {
     const [yearSelect, setYearSelect] = useState<string>("2025")
     const allPossibleYearsToSelect = [...new Set(games.filter((game) => game.release_date !== "").map(game => game.release_date.split("-")[0]))]
     const months: string[] = []
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     for(let i=1 ; i<13 ; i++) {
         if (i < 10) {
