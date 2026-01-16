@@ -6,7 +6,7 @@ import { useState } from "react";
 export default function Reports ({reports}:{reports:Report[]}) {
 
     const [$reports, setReports] = useState<Report[]>(reports)
-    const [reportStatus, setReportStatus] = useState<"open"|"closed"|"ignored">("open")
+    const [reportStatus, setReportStatus] = useState<"open"|"fixed"|"ignored">("open")
     const {data, setData, put} = useForm<any>({
         status: ""
     })
@@ -41,8 +41,8 @@ export default function Reports ({reports}:{reports:Report[]}) {
                     Open Reports
                 </div>
                 <div 
-                    className={`${reportStatus === "closed" ? "border-b-[#EEEEEE]" : "bg-white hover:cursor-pointer" } p-2 -mb-[1px] border border-black rounded-t-md z-10`} 
-                    onClick={() => {setReportStatus("closed")}}
+                    className={`${reportStatus === "fixed" ? "border-b-[#EEEEEE]" : "bg-white hover:cursor-pointer" } p-2 -mb-[1px] border border-black rounded-t-md z-10`} 
+                    onClick={() => {setReportStatus("fixed")}}
                 >
                     Fixed Reports
                 </div>
