@@ -113,7 +113,6 @@ export default function FullGameEdit({
                 </div>
                 <div className="flex flex-col w-1/2 p-2">
                     <label>Publisher:</label>
-                    // @ts-ignore 
                     <input name="publisher" type="text" className="rounded-md" placeholder="Team Cherry" value={data.publisher} onChange={(e) => setData('publisher', e.target.value)} />
                 </div>
             </div>
@@ -173,7 +172,6 @@ export default function FullGameEdit({
 
                 <div className="flex flex-col gap-2 w-1/2 p-2">
                     <label>Thumbnail:</label>
-                    // @ts-ignore 
                     <input type="file" name="thumbnail" accept=".png, .jpg, .jpeg" max={1} onChange={(e) => setData('thumbnail', e.target.files?.[0])} />
                     <input type="text" name="thumbnail_url" value={data.thumbnail_url} className="rounded-md" onChange={(e) => setData('thumbnail_url', e.target.value)}/>
                     {
@@ -219,7 +217,7 @@ export default function FullGameEdit({
                     <label>Xbox:</label>
                     <input name="xbox" type="text" className="rounded-md" value={data.xbox} onChange={(e) => setData('xbox', e.target.value)} />
                     <label>Nintendo Switch:</label>
-                    <input name="nintendo" type="text" className="rounded-md" value={data.switch} onChange={(e) => setData('nintendo', e.target.value)} />
+                    <input name="nintendo" type="text" className="rounded-md" value={data.nintendo} onChange={(e) => setData('nintendo', e.target.value)} />
                 </div>
 
                 <div className="w-1/2 flex flex-col gap-1 p-2">
