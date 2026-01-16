@@ -91,7 +91,9 @@ export default function HomePageBanner({games, newsfeed}:{games:THomeBannerSecti
                                                     ? "Has a demo on steam now!"
                                                     : "No longer has a demo on steam!"
                                             : news?.type === "new_thumbnail"
-                                            ? "Has a new thumbnail now!"
+                                            ? "Has a new thumbnail!"
+                                            : news?.type === "new_release"
+                                            ? "Has just released!"
                                             : null
                                         }
                                     </p>
