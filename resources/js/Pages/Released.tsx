@@ -7,7 +7,17 @@ import { useEffect, useState } from "react";
 
 export default function Released ({games}:{games:TGameThumbnail[]}) {
 
-    const [yearSelect, setYearSelect] = useState<string>("2025")
+    
+    const currentYear = new Date().getFullYear().toString()
+    const lastYear = (new Date().getFullYear() - 1).toString()
+    const hasNewGameReleasedThisYear = games.filter((game) => game.release_date.includes(currentYear))
+
+    const [yearSelect, setYearSelect] = useState<string>(
+        hasNewGameReleasedThisYear.length > 0 
+        ? currentYear
+        : lastYear
+    )
+
     const allPossibleYearsToSelect = [...new Set(games.filter((game) => game.release_date !== "").map(game => game.release_date.split("-")[0]))]
     const months: string[] = []
 
