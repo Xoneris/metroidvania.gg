@@ -576,6 +576,34 @@ Route::get('/gog-sale', function () {
     ]);
 });
 
+Route::get('/most-wanted', function () {
+
+    $today = date("Y-m-d");
+
+    $games = [];
+
+    $allGames = Games::select('id','name','slug','developer','demo','release_date','release_window','steam')
+        ->where('release_date', '>', $today)
+        ->orWhere('release_window', '!=', '')
+        ->get();
+
+    foreach ($allGames as $game) {
+
+        $followers = Cache::get("{$game->slug}-follower-count", 0);
+
+        if ($followers > 0) {
+            
+            $game->followers = $followers;
+            $games[] = $game;
+            
+        }
+    }   
+
+    return Inertia::render('MostWanted', [
+        'games' => $games,
+    ]);
+});
+
 Route::get('/adtest', function () {
     return Inertia::render('AdTesting', []);
 });

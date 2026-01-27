@@ -59,6 +59,7 @@ export interface GameData {
     steam_discount?: number,
     gog_discount?: number,
     thumbnail_url?: string,
+    followers?: number,
 }
 
 export interface SendReport {
