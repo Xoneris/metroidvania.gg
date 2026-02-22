@@ -604,6 +604,16 @@ Route::get('/most-wanted', function () {
     ]);
 });
 
+Route::get('/news', function (NewsFeedService $news) {
+
+    $newsfeed = array_reverse($news->getAll());
+
+    return Inertia::render('News',[
+        'newsfeed' => $newsfeed
+    ]);
+
+});
+
 Route::get('/adtest', function () {
     return Inertia::render('AdTesting', []);
 });
