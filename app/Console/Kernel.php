@@ -20,6 +20,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('app:check-release-today')->everyTenMinutes();
         $schedule->command('app:check-if-release-date-update')->dailyAt('01:00');
         $schedule->command('app:check-if-new-thumbnail')->dailyAt('01:30');
+        $schedule->command('app:get-follower-numbers-of-games')->dailyAt('02:00');
     }
 
     /**
