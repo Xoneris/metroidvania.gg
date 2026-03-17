@@ -855,11 +855,11 @@ Route::middleware(['auth'])->post('/Game/New', function (Request $request, NewsF
 
     $release_date = $request['release_date'] ? $request['release_date'] : $request['release_window'];
 
-    $news->add([
-        'game' => $request->name, 
-        'slug' => $request->slug,
-        'type' => 'just_added',
-    ]);
+    // $news->add([
+    //     'game' => $request->name, 
+    //     'slug' => $request->slug,
+    //     'type' => 'just_added',
+    // ]);
 
     Http::post('https://discord.com/api/webhooks/'. $discord_webhook_id .'/'.$discord_webhook_token.'', [
         'embeds' => [[
