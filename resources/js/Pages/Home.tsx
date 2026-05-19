@@ -1,5 +1,5 @@
 import { Head } from '@inertiajs/react';
-import type { THomeBannerSectionGames,TGameThumbnail } from '@/types';
+import type { THomeBannerSectionGames,TGameThumbnail, TNews } from '@/types';
 import useWindowSize from '@/hooks/useWindowSize';
 import Layout from '@/Layouts/Layout';
 import HomePageBanner from '@/Components/HomePageBanner';
@@ -24,7 +24,7 @@ export default function Home(
         lastAddedGames,
     }:{ 
         bannerSectionGames: THomeBannerSectionGames[],
-        newsFeed: any,
+        newsFeed: TNews[],
         upcomingGames: TGameThumbnail[],
         recentlyReleased: TGameThumbnail[],
         steamSale: TGameThumbnail[],
@@ -131,14 +131,16 @@ export default function Home(
                             viewAll={"/EarlyAccess"}
                         />
 
-                        {
-                            // width > 1000
-                            // ? <AdComponents dataAdSlot="1495713096" adWidth="970px" adHeight="90px"/>
-                            // : 
-                            width > 770
-                            ? <AdComponents dataAdSlot="9971178537" adWidth="728px" adHeight="90px"/>
-                            : <AdComponents dataAdSlot="2384332553" adWidth="320px" adHeight="100px"/>
-                        }
+                        <ClientOnly>
+                            {
+                                // width > 1000
+                                // ? <AdComponents dataAdSlot="1495713096" adWidth="970px" adHeight="90px"/>
+                                // : 
+                                width > 770
+                                ? <AdComponents dataAdSlot="9971178537" adWidth="728px" adHeight="90px"/>
+                                : <AdComponents dataAdSlot="2384332553" adWidth="320px" adHeight="100px"/>
+                            }
+                        </ClientOnly>
 
                         <HomePageSection 
                             title="Upcoming Kickstarters"

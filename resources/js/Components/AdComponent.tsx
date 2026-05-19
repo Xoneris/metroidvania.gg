@@ -9,6 +9,8 @@ export default function AdComponents({
         isManagedAdSlot?: boolean
 }){
 
+    const isDevEnv = import.meta.env.DEV
+
     const adtexts = [
         "Support MV.GG by whitelisting this site in your Adblock. No intrusive ads I promise!",
         "Running this site costs about ~20$ each month. Consider disabling your Adblock!",
@@ -36,8 +38,13 @@ export default function AdComponents({
 
         if (isManagedAdSlot) {
 
-            // const BASE_API_URL = "http://localhost:8000/api" 
-            const BASE_API_URL = "https://metroidvania.gg/api"
+            let BASE_API_URL = ""
+
+            if(isDevEnv){
+                BASE_API_URL = "http://localhost:8000/api" 
+            } else {
+                BASE_API_URL = "https://metroidvania.gg/api"
+            }
             
             const getManagedContent = async () => {
                 
